@@ -291,7 +291,7 @@ bool get_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
             if (!QS_auto_shift_no_auto_shift_special) return true;
             break;
     }
-    return false;
+    return get_custom_auto_shifted_key(keycode, record);
 }
 
 bool get_auto_shift_repeat(uint16_t keycode, keyrecord_t *record) {
