@@ -31,6 +31,9 @@
 #define _CHIBIOS_RT_CONF_
 #define _CHIBIOS_RT_CONF_VER_7_0_
 
+#define CH_CFG_HARDENING_LEVEL 0
+#define CH_CFG_USE_MEMCHECKS TRUE
+
 /*===========================================================================*/
 /**
  * @name System settings
