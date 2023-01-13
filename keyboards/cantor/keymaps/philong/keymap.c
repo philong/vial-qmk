@@ -12,6 +12,7 @@
 #include "features/select_word.h"
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
+#include "features/autocorrection.h"
 
 // Left-hand home row mods
 #define MT_A LGUI_T(KC_A)
@@ -336,6 +337,14 @@ bool sentence_case_check_ending(const uint16_t* buffer) {
   }
 #endif  // SENTENCE_CASE_BUFFER_SIZE >= 5
   return true;  // Real sentence ending; capitalize next letter.
+}
+
+bool autocorrection_is_letter(uint16_t keycode) {
+    return (KC_A <= keycode && keycode <= KC_Z && keycode != KC_P) || keycode == KC_SCOLON;
+}
+
+bool autocorrection_is_boundary(uint16_t keycode) {
+    return (KC_1 <= keycode && keycode <= KC_SLSH && keycode != KC_SCOLON) || keycode == KC_P;
 }
 
 // Colemak
@@ -779,6 +788,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_joinln(keycode, record, U_JOIN_LN)) { return false; }
     if (!process_sentence_case(keycode, record)) { return false; }
     if (!process_macros_user(keycode, record)) { return false; }
+    if (!process_autocorrection(keycode, record)) { return false; }
 
     return true;
 }

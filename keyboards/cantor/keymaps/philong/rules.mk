@@ -13,3 +13,4 @@ SRC += features/layer_lock.c
 SRC += features/select_word.c
 SRC += features/sentence_case.c
 SRC += features/repeat_key.c
+SRC += features/autocorrection.c
