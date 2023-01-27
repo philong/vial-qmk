@@ -124,77 +124,6 @@ enum user_keycode {
     U_OS_RGUI,
 };
 
-const uint16_t rev_repeat_key_pairs[][2] PROGMEM = {
-  {S(KC_9), S(KC_0)},               // ()
-  {KC_LBRACKET, KC_RBRACKET},       // []
-  {S(KC_LBRACKET), S(KC_RBRACKET)}, // {}
-  {S(KC_COMMA), S(KC_DOT)},         // <>
-  {KC_MINUS, S(KC_EQUAL)},          // -+
-  {KC_SLASH, S(KC_8)},              // /*
-  {KC_SPACE, KC_BSPACE},            // Space / Backspace
-  {KC_ENTER, KC_ESCAPE},            // Enter / Escape
-  {KC_MPLY, KC_MSTP},               // Play / Stop
-  {KC_0, KC_1},                     // 0 / 1
-
-  {LT(2, KC_TAB), S(LT(2, KC_TAB))},
-  {LT(1, KC_SPACE), LT(4, KC_BSPACE)},
-  {LT(3, KC_ESCAPE), LT(5, KC_ENTER)},
-
-  {C(KC_Z), C(S(KC_Z))},          // Ctrl + Z / Ctrl + Shift + Z.
-  {C(KC_C), C(KC_V)},             // Ctrl + C / Ctrl + V.
-  {C(S(KC_C)), C(S(KC_V))},       // Ctrl + Shift + C / Ctrl + Shift + V.
-  {A(KC_LEFT), A(KC_RGHT)},       // Alt + Left / Right Arrow.
-
-  {KC_LEFT, KC_RGHT},             // Left / Right Arrow.
-  {KC_UP  , KC_DOWN},             // Up / Down Arrow.
-  {S(KC_LEFT), S(KC_RGHT)},       // Shift + Left / Right Arrow.
-  {S(KC_UP), S(KC_DOWN)},         // Shift + Up / Down Arrow.
-  {C(KC_LEFT), C(KC_RGHT)},       // Ctrl + Left / Right Arrow.
-  {C(S(KC_LEFT)), C(S(KC_RGHT))}, // Ctrl + Shift + Left / Right Arrow.
-  {KC_HOME, KC_END },             // Home / End.
-  {KC_PGUP, KC_PGDN},             // Page Up / Page Down.
-  {C(KC_PGUP), C(KC_PGDN)},       // Ctrl + Page Up / Page Down.
-  {KC_TAB , S(KC_TAB)},           // Tab / Shift + Tab.
-  {KC_WBAK, KC_WFWD},             // Browser Back / Forward.
-  {KC_MNXT, KC_MPRV},             // Next / Previous Media Track.
-  {KC_MFFD, KC_MRWD},             // Fast Forward / Rewind Media.
-  {KC_VOLU, KC_VOLD},             // Volume Up / Down.
-  {KC_BRIU, KC_BRID},             // Brightness Up / Down.
-
-  // Navigation hotkeys in Vim, Emacs, and other programs.
-  {KC_H   , KC_L   },             // Left / Right.
-  {KC_J   , KC_K   },             // Down / Up.
-  {KC_W   , KC_B   },             // Forward / Backward by word.
-  {C(KC_N), C(KC_P)},             // Next / Previous.
-  {C(KC_D), C(KC_U)},             // Down / Up.
-  {C(KC_F), C(KC_B)},             // Forward / Backward.
-  {A(KC_F), A(KC_B)},             // Forward / Backward by word.
-
-  // Mouse keys (if enabled).
-#ifdef MOUSEKEY_ENABLE
-  {KC_MS_L, KC_MS_R},             // Mouse Cursor Left / Right.
-  {KC_MS_U, KC_MS_D},             // Mouse Cursor Up / Down.
-  {KC_WH_L, KC_WH_R},             // Mouse Wheel Left / Right.
-  {KC_WH_U, KC_WH_D},             // Mouse Wheel Up / Down.
-  {S(KC_WH_U), S(KC_WH_D)},       // Shift + Mouse Wheel Up / Down.
-  {C(KC_WH_U), C(KC_WH_D)},       // Ctrl + Mouse Wheel Up / Down.
-#endif  // MOUSEKEY_ENABLE
-
-  // Lighting keys (if enabled).
-#ifdef BACKLIGHT_ENABLE
-  {BL_UP  , BL_DOWN},             // Increase / decrease backlight.
-#endif  // BACKLIGHT_ENABLE
-#if defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-  {RGB_MOD, RGB_RMOD},            // Effect mode forward / backward.
-  {RGB_HUI, RGB_HUD},             // Increase / decrease hue.
-  {RGB_SAI, RGB_SAD},             // Increase / decrease saturation.
-  {RGB_VAI, RGB_VAD},             // Increase / decrease value.
-  {RGB_SPI, RGB_SPD},             // Increase / decrease effect speed.
-#endif  // defined(RGBLIGHT_ENABLE) || defined(RGB_MATRIX_ENABLE)
-};
-const uint16_t NUM_REV_REPEAT_KEY_PAIRS =
-  sizeof(rev_repeat_key_pairs) / sizeof(*rev_repeat_key_pairs);
-
 enum oneshot_states {
     ONESHOT_INITIAL,
     ONESHOT_CONSUMED,
@@ -577,7 +506,100 @@ bool process_joinln(uint16_t keycode, keyrecord_t* record, uint16_t joinln_keyco
     return true;
 }
 
-bool repeat_key_press_user(uint16_t keycode, keyrecord_t* record) {
+// Convert 8-bit mods to the 5-bit format used in keycodes. This is lossy: if
+// left and right handed mods were mixed, they all become right handed.
+uint8_t get_keycode_mods(uint8_t mods) {
+    return ((mods & 0xf0) ? /* set right hand bit */ 0x10 : 0)
+            // Combine right and left hand mods.
+            | (((mods >> 4) | mods) & 0xf);
+}
+
+// Combine basic keycode with mods.
+uint16_t combine_keycode(uint16_t keycode, uint8_t mods) {
+    return (get_keycode_mods(mods) << 8) | keycode;
+}
+
+uint16_t get_rev_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
+    uint16_t tap_keycode = keycode;
+
+    if (IS_LT(keycode)) {
+        tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_MT(keycode)) {
+        tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    }
+
+    const bool shifted = mods & MOD_MASK_SHIFT;
+    const bool controlled = mods & MOD_MASK_CTRL;
+    const bool alted = mods & MOD_MASK_ALT;
+    const bool guied = mods & MOD_MASK_GUI;
+
+    // Colemak
+    if (controlled || alted || guied) {
+        switch (tap_keycode) {
+            // F B
+            case KC_E: return combine_keycode(KC_B, mods);
+            case KC_B: return combine_keycode(KC_E, mods);
+            // D U
+            case KC_G: return combine_keycode(KC_I, mods);
+            case KC_I: return combine_keycode(KC_G, mods);
+            // N P
+            case KC_J: return combine_keycode(KC_R, mods);
+            case KC_R: return combine_keycode(KC_J, mods);
+            // A E
+            case KC_A: return combine_keycode(KC_K, mods);
+            case KC_K: return combine_keycode(KC_A, mods);
+            // J K
+            case KC_Y: return combine_keycode(KC_N, mods);
+            case KC_N: return combine_keycode(KC_Y, mods);
+            // H L
+            case KC_H: return combine_keycode(KC_U, mods);
+            case KC_U: return combine_keycode(KC_H, mods);
+        }
+    } else {
+        switch (tap_keycode) {
+            // J K
+            case KC_Y: return combine_keycode(KC_N, mods);
+            case KC_N: return combine_keycode(KC_Y, mods);
+            // H L
+            case KC_H: return combine_keycode(KC_U, mods);
+            case KC_U: return combine_keycode(KC_H, mods);
+        }
+    }
+
+    if (shifted) {
+        if (controlled) {
+            // Ctrl + Shift
+            switch (tap_keycode) {
+                case KC_C: return C(S(KC_V));   // Ctrl + Shift + C / Ctrl + Shift + V
+                case KC_V: return C(S(KC_C));   // Ctrl + Shift + C / Ctrl + Shift + V
+                case KC_Z: return C(KC_Z);      // Ctrl + Z / Ctrl + Shift + Z
+            }
+        } else {
+            // Shift
+            switch (tap_keycode) {
+                case KC_TAB: return KC_TAB; // Tab / Shift + Tab
+            }
+        }
+    } else if (controlled) {
+        // Ctrl
+        switch (tap_keycode) {
+            case KC_C: return C(KC_V);      // Ctrl + C / Ctrl + V
+            case KC_V: return C(KC_C);      // Ctrl + C / Ctrl + V
+            case KC_Z: return C(S(KC_Z));   // Ctrl + Z / Ctrl + Shift + Z
+            case KC_Y: return C(KC_Z);      // Ctrl + Y reverses to Ctrl + Z.
+        }
+    } else {
+        // No mods
+        switch (tap_keycode) {
+            case KC_TAB: return S(KC_TAB);    // Tab / Shift + Tab
+        }
+    }
+
+    return KC_NO;
+}
+
+bool get_repeat_key_eligible(uint16_t keycode, keyrecord_t* record) {
+
   if (is_oneshot_trigger(keycode)) {
     return false;
   }
@@ -592,14 +614,14 @@ bool repeat_key_press_user(uint16_t keycode, keyrecord_t* record) {
     case KC_LCTL ... KC_RGUI:
     case KC_HYPR:
     case KC_MEH:
-    // Ignore one-shot keys.
+      // Ignore one-shot keys.
 #ifndef NO_ACTION_ONESHOT
     case QK_ONE_SHOT_LAYER ... QK_ONE_SHOT_LAYER_MAX:
     case QK_ONE_SHOT_MOD ... QK_ONE_SHOT_MOD_MAX:
 #endif  // NO_ACTION_ONESHOT
       return false;
 
-    // Ignore hold events on tap-hold keys.
+      // Ignore hold events on tap-hold keys.
 #ifndef NO_ACTION_TAPPING
     case QK_MOD_TAP ... QK_MOD_TAP_MAX:
 #ifndef NO_ACTION_LAYER
