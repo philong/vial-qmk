@@ -114,6 +114,7 @@ enum user_keycode {
     U_DOUBLE_SLASH,
     U_DOUBLE_QUESTION,
     U_USERNAME,
+    U_CG_TOGG,
     U_OS_LCTL,
     U_OS_LSFT,
     U_OS_LALT,
@@ -795,6 +796,9 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
             } else {
                 caps_word_toggle();
             }
+            return false;
+        case U_CG_TOGG:
+            process_magic(CG_TOGG, record);
             return false;
 	}
 
