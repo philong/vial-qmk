@@ -1081,11 +1081,11 @@
             "KC_P"
         ],
         [
+            "TD(5)",
+            "U_SEL_WORD",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "U_CG_TOGG"
         ]
     ],
     "key_override": [
