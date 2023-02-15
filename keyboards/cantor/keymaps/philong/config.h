@@ -25,6 +25,10 @@
     #define QK_LAYER_TAP_GET_TAP_KEYCODE(kc) ((kc)&0xFF)
     #define QK_MODS_GET_BASIC_KEYCODE(kc) ((kc)&0xFF)
     #define QK_MODS_GET_MODS(kc) (((kc) >> 8) & 0x1F)
+    #define QK_MOMENTARY_GET_LAYER(kc) ((kc)&0x1F)
+    #define QK_LAYER_TAP_TOGGLE_GET_LAYER(kc) ((kc)&0x1F)
+    #define QK_LAYER_MOD_GET_LAYER(kc) (((kc) >> 5) & 0xF)
+    #define QK_LAYER_TAP_GET_LAYER(kc) (((kc) >> 8) & 0xF)
 #endif
 
 
