@@ -36,6 +36,10 @@
          "title": "Parent Directory",
          "name": "U_UP_DIRECTORY"
         },
+        {"shortName": ".",
+         "title": "Dot",
+         "name": "U_DOT"
+        },
         {"shortName": "...",
          "title": "Three Dots",
          "name": "U_THREE_DOTS"
