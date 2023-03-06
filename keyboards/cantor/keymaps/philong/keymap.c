@@ -94,7 +94,7 @@ enum user_keycode {
     U_SEL_WORD,
     U_JOIN_LN,
     U_REPEAT,
-    U_REV_REPEAT,
+    U_ALT_REPEAT,
     U_CURRENT_DIRECTORY,
     U_UP_DIRECTORY,
     U_DOT,
@@ -521,7 +521,7 @@ uint16_t combine_keycode(uint16_t keycode, uint8_t mods) {
     return (get_keycode_mods(mods) << 8) | keycode;
 }
 
-uint16_t get_rev_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
+uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     uint16_t tap_keycode = keycode;
 
     if (IS_LT(keycode)) {
@@ -647,9 +647,10 @@ bool get_repeat_key_eligible(uint16_t keycode, keyrecord_t* record) {
   return true;
 }
 
-bool process_repeat_key_with_rev_user(uint16_t keycode, keyrecord_t* record,
+// Shift+REPEAT -> ALTREP
+bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t* record,
                                       uint16_t repeat_keycode,
-                                      uint16_t rev_repeat_keycode) {
+                                      uint16_t alt_repeat_keycode) {
     const uint8_t mods = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
@@ -657,12 +658,12 @@ bool process_repeat_key_with_rev_user(uint16_t keycode, keyrecord_t* record,
         clear_mods();
         clear_weak_mods();
         clear_oneshot_mods();
-        bool result = process_repeat_key_with_rev(rev_repeat_keycode, record, repeat_keycode, rev_repeat_keycode);
+        bool result = process_repeat_key_with_alt(alt_repeat_keycode, record, repeat_keycode, alt_repeat_keycode);
         set_mods(mods);
         return result;
     }
 
-    return process_repeat_key_with_rev(keycode, record, U_REPEAT, U_REV_REPEAT);
+    return process_repeat_key_with_alt(keycode, record, U_REPEAT, U_ALT_REPEAT);
 }
 
 static bool on_left_hand(keypos_t pos) {
@@ -810,7 +811,7 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion_user(keycode, record)) { return false; }
-    if (!process_repeat_key_with_rev(keycode, record, U_REPEAT, U_REV_REPEAT)) { return false; }
+    if (!process_repeat_key_with_alt(keycode, record, U_REPEAT, U_ALT_REPEAT)) { return false; }
     if (!process_layer_lock_user(keycode, record, U_LAYER_LOCK)) { return false; }
     if (!process_oneshot(keycode, record)) { return false; }
     if (!process_select_word(keycode, record, U_SEL_WORD)) { return false; }
