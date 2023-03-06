@@ -24,9 +24,9 @@
          "title": "Repeat",
          "name": "U_REPEAT"
         },
-        {"shortName": "Rev\nRepeat",
-         "title": "Reverse Repeat",
-         "name": "U_REV_REPEAT"
+        {"shortName": "Alt\nRepeat",
+         "title": "Alternate Repeat",
+         "name": "U_ALT_REPEAT"
         },
         {"shortName": "./",
          "title": "Current Directory",
