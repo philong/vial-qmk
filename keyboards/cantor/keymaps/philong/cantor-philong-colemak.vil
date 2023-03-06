@@ -318,7 +318,7 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "U_REV_REPEAT",
+                "U_ALT_REPEAT",
                 "U_REPEAT",
                 "KC_NO",
                 "KC_TRNS"
@@ -384,7 +384,7 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "U_REV_REPEAT",
+                "U_ALT_REPEAT",
                 "U_REPEAT",
                 "KC_NO",
                 "KC_TRNS"
@@ -450,7 +450,7 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "U_REV_REPEAT",
+                "U_ALT_REPEAT",
                 "U_REPEAT",
                 "KC_NO",
                 "KC_TRNS"
@@ -959,7 +959,7 @@
             "RSFT_T(KC_COMMA)",
             "KC_NO",
             "KC_NO",
-            "U_REV_REPEAT"
+            "U_ALT_REPEAT"
         ],
         [
             "KC_N",
