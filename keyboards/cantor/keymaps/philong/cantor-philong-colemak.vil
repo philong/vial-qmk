@@ -482,6 +482,10 @@
                 "KC_LCTRL"
             ],
             [
+                "delay",
+                5
+            ],
+            [
                 "tap",
                 "KC_Z"
             ],
@@ -494,6 +498,10 @@
             [
                 "down",
                 "KC_LCTRL"
+            ],
+            [
+                "delay",
+                5
             ],
             [
                 "tap",
@@ -510,6 +518,10 @@
                 "KC_LCTRL"
             ],
             [
+                "delay",
+                5
+            ],
+            [
                 "tap",
                 "KC_C"
             ],
@@ -522,6 +534,10 @@
             [
                 "down",
                 "KC_LCTRL"
+            ],
+            [
+                "delay",
+                5
             ],
             [
                 "tap",
@@ -537,6 +553,10 @@
                 "down",
                 "KC_LSHIFT",
                 "KC_LCTRL"
+            ],
+            [
+                "delay",
+                5
             ],
             [
                 "tap",
@@ -603,6 +623,10 @@
                 "KC_LCTRL"
             ],
             [
+                "delay",
+                5
+            ],
+            [
                 "text",
                 "cf"
             ],
@@ -617,6 +641,10 @@
             [
                 "down",
                 "KC_LCTRL"
+            ],
+            [
+                "delay",
+                5
             ],
             [
                 "text",
