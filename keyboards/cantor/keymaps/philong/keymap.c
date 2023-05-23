@@ -8,6 +8,7 @@
 #endif
 
 #include "via.h"
+#include "qmk_settings.h"
 
 #include "quantum/keymap_extras/keymap_colemak.h"
 #include "quantum/keymap_extras/sendstring_colemak.h"
@@ -92,6 +93,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
     )
 };
+
+uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t* record) {
+    // Increase the tapping term a little for slower ring and pinky fingers.
+    uint16_t tap_keycode = keycode;
+
+    if (IS_LT(keycode)) {
+        tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_MT(keycode)) {
+        tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else {
+      return QS.tapping_term;
+    }
+
+    switch (tap_keycode) {
+        case CM_Q:
+        case CM_W:
+        case CM_A:
+        case CM_R:
+        case CM_Z:
+        case CM_X:
+        case CM_Y:
+        case CM_SCLN:
+        case CM_I:
+        case CM_O:
+        case CM_DOT:
+        case CM_SLSH:
+            return QS.tapping_term + 15;
+
+        default:
+            return QS.tapping_term;
+    }
+}
 
 enum user_keycode {
     U_LAYER_LOCK = USER00,
