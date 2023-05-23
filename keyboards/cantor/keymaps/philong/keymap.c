@@ -792,7 +792,7 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, ui
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
     switch (tap_hold_keycode) {
     case MT_F:
-        return TAPPING_TERM / 2;
+        return 50;
     default:
         return ACHORDION_DEFAULT_TIMEOUT;
     }
