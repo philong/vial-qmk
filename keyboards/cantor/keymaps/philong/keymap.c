@@ -94,6 +94,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
+void clear_all_mods(void) {
+    clear_mods();
+    clear_weak_mods();
+    clear_oneshot_mods();
+}
+
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t* record) {
     // Increase the tapping term a little for slower ring and pinky fingers.
     uint16_t tap_keycode = keycode;
@@ -334,7 +340,7 @@ void dynamic_macro_play_user(int8_t direction) {
             SS_TAP(X_TAB)
             ""
             SS_TAP(X_ENTER),
-            2
+            3
         );
         break;
     case 1:
@@ -346,7 +352,7 @@ void dynamic_macro_play_user(int8_t direction) {
             SS_TAP(X_TAB)
             ""
             SS_TAP(X_ENTER),
-            2
+            3
         );
     }
 }
@@ -590,9 +596,7 @@ bool process_joinln(uint16_t keycode, keyrecord_t* record, uint16_t joinln_keyco
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
     if (all_mods & MOD_MASK_SHIFT) {
-        clear_mods();
-        clear_weak_mods();
-        clear_oneshot_mods();
+        clear_all_mods();
 
         // Split current line
         SEND_STRING(
@@ -754,9 +758,7 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t* record,
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
     if (keycode == repeat_keycode && (all_mods & MOD_MASK_SHIFT)) {
-        clear_mods();
-        clear_weak_mods();
-        clear_oneshot_mods();
+        clear_all_mods();
         bool result = process_repeat_key_with_alt(alt_repeat_keycode, record, repeat_keycode, alt_repeat_keycode);
         set_mods(mods);
         return result;
@@ -792,9 +794,9 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, ui
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
     switch (tap_hold_keycode) {
     case MT_F:
-        return 50;
+        return ACHORDION_TIMEOUT_MIN;
     default:
-        return ACHORDION_DEFAULT_TIMEOUT;
+        return ACHORDION_TIMEOUT_DEFAULT;
     }
 }
 
@@ -824,6 +826,8 @@ struct user_macro {
     const enum user_keycode keycode;
     const char *string;
     const char *shifted_string;
+    const char *controlled_string;
+    const char *shifted_controlled_string;
 };
 
 const char CURRENT_DIRECTORY[] PROGMEM = "./";
@@ -847,29 +851,34 @@ const char DOUBLE_SLASH[] PROGMEM = "//";
 const char DOUBLE_QUESTION[] PROGMEM = "??";
 const char LEFT_SHIFT[] PROGMEM = "<<";
 const char RIGHT_SHIFT[] PROGMEM = ">>";
+const char DIAMOND[] PROGMEM = "<>";
+const char ADD_ASSIGN[] PROGMEM = "+=";
+const char SUB_ASSIGN[] PROGMEM = "-=";
+const char DOUBLE_UNDERSCORE[] PROGMEM = "__";
+const char IN_UNDERSCORES[] PROGMEM = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
 
 const struct user_macro USER_MACROS[] PROGMEM = {
-    {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY},
-    {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY},
-    {U_DOT, DOT, THREE_DOTS},
-    {U_THREE_DOTS, THREE_DOTS, DOUBLE_COLON},
-    {U_DOUBLE_COLON, DOUBLE_COLON, THREE_DOTS},
-    {U_EQUAL, EQUAL, STRICT_EQUAL},
-    {U_STRICT_EQUAL, STRICT_EQUAL, EQUAL},
-    {U_NOT_EQUAL, NOT_EQUAL, STRICT_NOT_EQUAL},
-    {U_STRICT_NOT_EQUAL, STRICT_NOT_EQUAL, NOT_EQUAL},
-    {U_LOWER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL},
-    {U_GREATER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL},
-    {U_ARROW, ARROW, DOUBLE_ARROW},
-    {U_DOUBLE_ARROW, DOUBLE_ARROW, ARROW},
-    {U_AND_OPERATOR, AND_OPERATOR, OR_OPERATOR},
-    {U_OR_OPERATOR, OR_OPERATOR, AND_OPERATOR},
-    {U_DOUBLE_MINUS, DOUBLE_MINUS, DOUBLE_PLUS},
-    {U_DOUBLE_SLASH, DOUBLE_SLASH, DOUBLE_QUESTION},
-    {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH},
-    {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT},
-    {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT},
-    {U_USERNAME, "philong.do@gmail.com", "p.do@axelor.com"},
+    {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY, NULL, NULL},
+    {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY, NULL, NULL},
+    {U_DOT, DOT, THREE_DOTS, NULL, NULL},
+    {U_THREE_DOTS, THREE_DOTS, DOUBLE_COLON, NULL, NULL},
+    {U_DOUBLE_COLON, DOUBLE_COLON, THREE_DOTS, NULL, NULL},
+    {U_EQUAL, EQUAL, DOUBLE_PLUS, STRICT_EQUAL, ADD_ASSIGN},
+    {U_STRICT_EQUAL, STRICT_EQUAL, EQUAL, NULL, NULL},
+    {U_NOT_EQUAL, NOT_EQUAL, DIAMOND, STRICT_NOT_EQUAL, STRICT_NOT_EQUAL},
+    {U_STRICT_NOT_EQUAL, STRICT_NOT_EQUAL, NOT_EQUAL, NULL, NULL},
+    {U_LOWER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, NULL, NULL},
+    {U_GREATER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, NULL, NULL},
+    {U_ARROW, ARROW, DOUBLE_ARROW, NULL, NULL},
+    {U_DOUBLE_ARROW, DOUBLE_ARROW, ARROW, NULL, NULL},
+    {U_AND_OPERATOR, AND_OPERATOR, OR_OPERATOR, NULL, NULL},
+    {U_OR_OPERATOR, OR_OPERATOR, AND_OPERATOR, NULL, NULL},
+    {U_DOUBLE_MINUS, DOUBLE_MINUS, DOUBLE_UNDERSCORE, IN_UNDERSCORES, SUB_ASSIGN},
+    {U_DOUBLE_SLASH, DOUBLE_SLASH, DOUBLE_QUESTION, NULL, NULL},
+    {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH, NULL, NULL},
+    {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT, NULL, NULL},
+    {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
+    {U_USERNAME, "philong.do@gmail.com", "p.do@axelor.com", "philong", "Phi-Long Do"},
 };
 
 const size_t NUM_USER_MACROS = sizeof (USER_MACROS) / sizeof (*USER_MACROS);
@@ -885,10 +894,18 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
         if (macro.keycode != keycode) {
             continue;
         }
-        if (all_mods & MOD_MASK_SHIFT) {
-            clear_mods();
-            clear_weak_mods();
-            clear_oneshot_mods();
+        const bool is_shifted = all_mods & MOD_MASK_SHIFT;
+        const bool is_controlled = all_mods & MOD_MASK_CTRL;
+        if (macro.shifted_controlled_string && is_shifted && is_controlled) {
+            clear_all_mods();
+            send_string_P(macro.shifted_controlled_string);
+            set_mods(mods);
+        } else if (macro.controlled_string && is_controlled) {
+            clear_all_mods();
+            send_string_P(macro.controlled_string);
+            set_mods(mods);
+        } else if (macro.shifted_string && is_shifted) {
+            clear_all_mods();
             send_string_P(macro.shifted_string);
             set_mods(mods);
         } else {
@@ -900,9 +917,7 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 	switch (keycode) {
 		case U_CAPS_WORD_TOGGLE:
             if (all_mods & MOD_MASK_SHIFT) {
-                clear_mods();
-                clear_weak_mods();
-                clear_oneshot_mods();
+                clear_all_mods();
                 tap_code(KC_CAPSLOCK);
                 set_mods(mods);
             } else {
