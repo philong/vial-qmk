@@ -4,7 +4,7 @@
     "layout": [
         [
             [
-                "TD(5)",
+                "U_SEL_WORD",
                 "KC_Q",
                 "KC_W",
                 "KC_E",
@@ -12,7 +12,7 @@
                 "KC_T"
             ],
             [
-                "Repeat",
+                "U_REPEAT",
                 "LGUI_T(KC_A)",
                 "LALT_T(KC_S)",
                 "LSFT_T(KC_D)",
@@ -20,7 +20,7 @@
                 "KC_G"
             ],
             [
-                "OS\nLSft",
+                "U_OS_LSFT",
                 "KC_Z",
                 "KC_X",
                 "LSFT_T(KC_C)",
@@ -41,7 +41,7 @@
                 "KC_I",
                 "KC_O",
                 "KC_P",
-                "Select\nWord"
+                "U_CAPS_WORD_TOGGLE"
             ],
             [
                 "KC_H",
@@ -57,7 +57,7 @@
                 "RSFT_T(KC_COMMA)",
                 "KC_DOT",
                 "KC_SLASH",
-                "OS\nRAlt"
+                "U_OS_RALT"
             ],
             [
                 "LT(5, KC_ENTER)",
@@ -70,7 +70,7 @@
         ],
         [
             [
-                "Layer\nLock",
+                "U_LAYER_LOCK",
                 "KC_INSERT",
                 "KC_HOME",
                 "KC_UP",
@@ -79,10 +79,10 @@
             ],
             [
                 "KC_TRNS",
-                "Caps\nWord",
-                "KC_LEFT",
-                "KC_DOWN",
-                "KC_RIGHT",
+                "U_CAPS_WORD_TOGGLE",
+                "LALT_T(KC_LEFT)",
+                "LSFT_T(KC_DOWN)",
+                "LCTL_T(KC_RIGHT)",
                 "KC_PGDOWN"
             ],
             [
@@ -107,7 +107,7 @@
                 "KC_8",
                 "KC_9",
                 "KC_LBRACKET",
-                "Join\nLines"
+                "U_JOIN_LN"
             ],
             [
                 "KC_MINUS",
@@ -118,7 +118,7 @@
                 "KC_GRAVE"
             ],
             [
-                "KC_0",
+                "TD(4)",
                 "KC_1",
                 "KC_2",
                 "KC_3",
@@ -136,7 +136,7 @@
         ],
         [
             [
-                "Layer\nLock",
+                "U_LAYER_LOCK",
                 "KC_PSCREEN",
                 "KC_F7",
                 "KC_F8",
@@ -173,7 +173,7 @@
                 "LSFT(KC_8)",
                 "TD(1)",
                 "LSFT(KC_LBRACKET)",
-                "Join\nLines"
+                "U_JOIN_LN"
             ],
             [
                 "LSFT(KC_MINUS)",
@@ -194,7 +194,7 @@
             [
                 "KC_ENTER",
                 "KC_BSPACE",
-                "Select\nWord",
+                "U_SEL_WORD",
                 -1,
                 -1,
                 -1
@@ -202,7 +202,7 @@
         ],
         [
             [
-                "Layer\nLock",
+                "U_LAYER_LOCK",
                 "KC_SLASH",
                 "KC_7",
                 "KC_8",
@@ -223,7 +223,7 @@
                 "KC_1",
                 "LSFT_T(KC_2)",
                 "RALT_T(KC_3)",
-                "KC_0"
+                "TD(4)"
             ],
             [
                 "KC_TRNS",
@@ -239,7 +239,7 @@
                 "RALT(KC_8)",
                 "RALT(KC_9)",
                 "RALT(KC_LBRACKET)",
-                "Join\nLines"
+                "U_JOIN_LN"
             ],
             [
                 "RALT(KC_MINUS)",
@@ -260,7 +260,7 @@
             [
                 "KC_ENTER",
                 "KC_BSPACE",
-                "Join\nLines",
+                "U_JOIN_LN",
                 -1,
                 -1,
                 -1
@@ -268,7 +268,7 @@
         ],
         [
             [
-                "Layer\nLock",
+                "U_LAYER_LOCK",
                 "KC_INSERT",
                 "KC_HOME",
                 "KC_UP",
@@ -277,7 +277,7 @@
             ],
             [
                 "KC_TRNS",
-                "Caps\nWord",
+                "U_CAPS_WORD_TOGGLE",
                 "KC_LEFT",
                 "KC_DOWN",
                 "KC_RIGHT",
@@ -318,8 +318,8 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "Alt\nRepeat",
-                "Repeat",
+                "U_ALT_REPEAT",
+                "U_REPEAT",
                 "KC_NO",
                 "KC_TRNS"
             ],
@@ -334,7 +334,7 @@
         ],
         [
             [
-                "Layer\nLock",
+                "U_LAYER_LOCK",
                 "KC_PSCREEN",
                 "KC_F7",
                 "KC_F8",
@@ -384,8 +384,8 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "Alt\nRepeat",
-                "Repeat",
+                "U_ALT_REPEAT",
+                "U_REPEAT",
                 "KC_NO",
                 "KC_TRNS"
             ],
@@ -400,33 +400,33 @@
         ],
         [
             [
-                "Layer\nLock",
+                "U_LAYER_LOCK",
                 "LSFT(KC_INSERT)",
-                "LSFT(KC_HOME)",
-                "LSFT(KC_UP)",
-                "LSFT(KC_END)",
-                "LSFT(KC_PGUP)"
+                "KC_WH_L",
+                "KC_MS_U",
+                "KC_WH_R",
+                "KC_WH_U"
             ],
             [
                 "KC_TRNS",
                 "KC_CAPSLOCK",
-                "LSFT(KC_LEFT)",
-                "LSFT(KC_DOWN)",
-                "LSFT(KC_RIGHT)",
-                "LSFT(KC_PGDOWN)"
+                "KC_MS_L",
+                "KC_MS_D",
+                "KC_MS_R",
+                "KC_WH_D"
             ],
             [
                 "KC_TRNS",
                 "KC_NO",
-                "DYN_REC_STOP",
-                "TD(30)",
-                "TD(31)",
+                "KC_ACL0",
+                "KC_ACL1",
+                "KC_ACL2",
                 "KC_NO"
             ],
             [
-                "KC_APPLICATION",
-                "KC_SPACE",
-                "KC_TAB",
+                "KC_TRNS",
+                "KC_BTN1",
+                "KC_BTN2",
                 -1,
                 -1,
                 -1
@@ -450,8 +450,8 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "Alt\nRepeat",
-                "Repeat",
+                "U_ALT_REPEAT",
+                "U_REPEAT",
                 "KC_NO",
                 "KC_TRNS"
             ],
@@ -950,7 +950,7 @@
             "RCTL_T(KC_J)",
             "RSFT_T(KC_K)",
             "KC_NO",
-            "--"
+            "U_DOUBLE_MINUS"
         ],
         [
             "LCTL_T(KC_F)",
@@ -1013,35 +1013,35 @@
             "KC_DOT",
             "KC_NO",
             "KC_NO",
-            "Repeat"
+            "U_REPEAT"
         ],
         [
             "LT(4, KC_BSPACE)",
             "RSFT_T(KC_COMMA)",
             "KC_NO",
             "KC_NO",
-            "Alt\nRepeat"
+            "U_ALT_REPEAT"
         ],
         [
             "KC_N",
             "RALT_T(KC_M)",
             "RSFT_T(KC_COMMA)",
             "KC_NO",
-            "!="
+            "U_NOT_EQUAL"
         ],
         [
             "KC_U",
             "KC_I",
             "KC_O",
             "KC_NO",
-            "&&"
+            "U_AND_OPERATOR"
         ],
         [
             "RALT_T(KC_M)",
             "RSFT_T(KC_COMMA)",
             "KC_DOT",
             "KC_NO",
-            "->"
+            "U_ARROW"
         ],
         [
             "KC_P",
@@ -1062,28 +1062,28 @@
             "LSFT_T(KC_C)",
             "RALT_T(KC_V)",
             "KC_NO",
-            "User\nName"
+            "U_USERNAME"
         ],
         [
             "KC_O",
             "KC_P",
             "KC_NO",
             "KC_NO",
-            "::"
+            "U_DOUBLE_COLON"
         ],
         [
             "RSFT_T(KC_COMMA)",
             "KC_DOT",
             "KC_NO",
             "KC_NO",
-            "."
+            "U_DOT"
         ],
         [
             "KC_SLASH",
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "//"
+            "U_DOUBLE_SLASH"
         ],
         [
             "KC_Q",
@@ -1097,7 +1097,7 @@
             "RALT_T(KC_V)",
             "KC_B",
             "KC_NO",
-            "<="
+            "U_LOWER_THAN_OR_EQUAL"
         ],
         [
             "KC_Q",
@@ -1111,21 +1111,21 @@
             "KC_R",
             "KC_T",
             "KC_NO",
-            "<<"
+            "U_LEFT_SHIFT"
         ],
         [
             "KC_DOT",
             "KC_SLASH",
             "KC_NO",
             "KC_NO",
-            "./"
+            "U_CURRENT_DIRECTORY"
         ],
         [
             "KC_Y",
             "KC_U",
             "KC_I",
             "KC_NO",
-            "=="
+            "U_EQUAL"
         ],
         [
             "LT(5, KC_ENTER)",
@@ -1143,10 +1143,10 @@
         ],
         [
             "TD(5)",
-            "Select\nWord",
+            "U_SEL_WORD",
             "KC_NO",
             "KC_NO",
-            "Toggle\nCtl/GUI"
+            "U_CG_TOGG"
         ]
     ],
     "key_override": [
@@ -1442,11 +1442,11 @@
     "settings": {
         "1": 0,
         "2": 50,
-        "3": 17,
-        "4": 200,
+        "3": 0,
+        "4": 175,
         "5": 5,
         "6": 800,
-        "7": 200,
+        "7": 175,
         "8": 7,
         "9": 10,
         "10": 20,
