@@ -19,6 +19,7 @@
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
 #include "features/autocorrection.h"
+#include "features/mouse_turbo_click.h"
 
 // Left-hand home row mods
 #define MT_A LGUI_T(KC_A)
@@ -139,6 +140,7 @@ enum user_keycode {
     U_JOIN_LN,
     U_REPEAT,
     U_ALT_REPEAT,
+    U_TURBO_CLICK,
     U_CURRENT_DIRECTORY,
     U_UP_DIRECTORY,
     U_DOT,
@@ -981,6 +983,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_sentence_case(keycode, record)) { return false; }
     if (!process_macros_user(keycode, record)) { return false; }
     if (!process_autocorrection(keycode, record)) { return false; }
+    if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) { return false; }
 
     return true;
 }
