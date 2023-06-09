@@ -424,7 +424,7 @@
                 "KC_NO"
             ],
             [
-                "KC_TRNS",
+                "U_TURBO_CLICK",
                 "KC_BTN1",
                 "KC_BTN2",
                 -1,
@@ -1142,8 +1142,8 @@
             "KC_P"
         ],
         [
-            "TD(5)",
             "U_SEL_WORD",
+            "U_CAPS_WORD_TOGGLE",
             "KC_NO",
             "KC_NO",
             "U_CG_TOGG"
