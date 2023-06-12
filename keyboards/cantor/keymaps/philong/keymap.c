@@ -164,6 +164,7 @@ enum user_keycode {
     U_RIGHT_SHIFT,
     U_USERNAME,
     U_CG_TOGG,
+    U_CM_TOGG,
     U_OS_LCTL,
     U_OS_LSFT,
     U_OS_LALT,
@@ -977,10 +978,171 @@ bool process_select_word_user(uint16_t keycode, keyrecord_t* record, uint16_t se
     return false;
 }
 
+typedef union {
+  uint32_t raw;
+  struct {
+    bool colemak_fr :1;
+  };
+} user_config_t;
+
+user_config_t user_config;
+
+void keyboard_post_init_user(void) {
+  user_config.raw = eeconfig_read_user();
+}
+
+void eeconfig_init_user(void) {  // EEPROM is getting reset!
+  user_config.raw = 0;
+  user_config.colemak_fr = false;
+  eeconfig_update_user(user_config.raw);
+}
+
+// bool send_key_with_ralt(char *key, char *dead_ralt_key, uint8_t mods, bool shifted) {
+//     clear_all_mods();
+//     SEND_STRING(SS_RALT(dead_ralt_key));
+//     SEND_STRING(shifted ? SS_LSFT(key) : key);
+//     set_mods(mods);
+//     return false;
+// }
+
+bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_keycode) {
+    if (!record->event.pressed) { return true; }
+
+    if (keycode == toggle_keycode) {
+        user_config.colemak_fr ^= 1;
+        eeconfig_update_user(user_config.raw);
+        return false;
+    }
+
+    if (!user_config.colemak_fr) { return true; }
+
+    uint16_t tap_keycode;
+
+    if (IS_LT(keycode)) {
+        if (record->tap.count == 0) { return true; } // Key is being held.
+        tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_MT(keycode)) {
+        if (record->tap.count == 0) { return true; } // Key is being held.
+        tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else {
+        tap_keycode = keycode;
+    }
+
+    const uint8_t mods = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+    if ((all_mods & MOD_BIT(KC_RALT)) == 0) { return true; }
+    const bool shifted = all_mods & MOD_MASK_SHIFT;
+
+    switch (tap_keycode) {
+        // grave
+        case CM_A:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("r"));
+            SEND_STRING(shifted ? SS_LSFT("a") : "a");
+            set_mods(mods);
+            return false;
+        case CM_P:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("r"));
+            SEND_STRING(shifted ? SS_LSFT("e") : "e");
+            set_mods(mods);
+            return false;
+        case CM_L:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("r"));
+            SEND_STRING(shifted ? SS_LSFT("u") : "u");
+            set_mods(mods);
+            return false;
+        // circonflexe
+        case CM_Q:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("x"));
+            SEND_STRING(shifted ? SS_LSFT("a") : "a");
+            set_mods(mods);
+            return false;
+        case CM_F:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("x"));
+            SEND_STRING(shifted ? SS_LSFT("e") : "e");
+            set_mods(mods);
+            return false;
+        case CM_I:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("x"));
+            SEND_STRING(shifted ? SS_LSFT("i") : "i");
+            set_mods(mods);
+            return false;
+        case CM_O:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("x"));
+            SEND_STRING(shifted ? SS_LSFT("o") : "o");
+            set_mods(mods);
+            return false;
+        case CM_U:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("x"));
+            SEND_STRING(shifted ? SS_LSFT("u") : "u");
+            set_mods(mods);
+            return false;
+        // tréma
+        case CM_W:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("d"));
+            SEND_STRING(shifted ? SS_LSFT("e") : "e");
+            set_mods(mods);
+            return false;
+        case CM_Y:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("d"));
+            SEND_STRING(shifted ? SS_LSFT("i") : "i");
+            set_mods(mods);
+            return false;
+        case CM_SCLN:
+            clear_all_mods();
+            SEND_STRING(SS_RALT("d"));
+            SEND_STRING(shifted ? SS_LSFT("u") : "u");
+            set_mods(mods);
+            return false;
+        default:
+            return true;
+    }
+
+    // switch (tap_keycode) {
+    //     // grave
+    //     case CM_A:
+    //         return send_key_with_ralt("a", "r", mods, shifted);
+    //     case CM_P:
+    //         return send_key_with_ralt("e", "r", mods, shifted);
+    //     case CM_L:
+    //         return send_key_with_ralt("u", "r", mods, shifted);
+    //     // circonflexe
+    //     case CM_Q:
+    //         return send_key_with_ralt("a", "x", mods, shifted);
+    //     case CM_F:
+    //         return send_key_with_ralt("e", "x", mods, shifted);
+    //     case CM_I:
+    //         return send_key_with_ralt("i", "x", mods, shifted);
+    //     case CM_O:
+    //         return send_key_with_ralt("o", "x", mods, shifted);
+    //     case CM_U:
+    //         return send_key_with_ralt("u", "x", mods, shifted);
+    //     // tréma
+    //     case CM_W:
+    //         return send_key_with_ralt("e", "d", mods, shifted);
+    //     case CM_Y:
+    //         return send_key_with_ralt("i", "d", mods, shifted);
+    //     case CM_SCLN:
+    //         return send_key_with_ralt("u", "d", mods, shifted);
+    //     default:
+    //         return true;
+    // }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion_user(keycode, record)) { return false; }
     if (!process_repeat_key_with_alt_user(keycode, record, U_REPEAT, U_ALT_REPEAT)) { return false; }
     if (!process_layer_lock_user(keycode, record, U_LAYER_LOCK)) { return false; }
+    if (!process_colemak_fr(keycode, record, U_CM_TOGG)) { return false; }
     if (!process_oneshot(keycode, record)) { return false; }
     if (!process_select_word_user(keycode, record, U_SEL_WORD)) { return false; }
     if (!process_joinln(keycode, record, U_JOIN_LN)) { return false; }
