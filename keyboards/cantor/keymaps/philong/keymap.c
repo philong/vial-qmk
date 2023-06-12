@@ -103,7 +103,7 @@ void clear_all_mods(void) {
 
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t* record) {
     // Increase the tapping term a little for slower ring and pinky fingers.
-    uint16_t tap_keycode = keycode;
+    uint16_t tap_keycode;
 
     if (IS_LT(keycode)) {
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
@@ -526,7 +526,7 @@ bool is_oneshot_trigger(uint16_t keycode) {
 }
 
 bool is_oneshot_ignored(uint16_t keycode) {
-    if (IS_LT(keycode) || IS_MOD(keycode)) {
+    if (IS_MOD(keycode)) {
         return true;
     }
 
@@ -650,12 +650,14 @@ uint16_t combine_keycode(uint16_t keycode, uint8_t mods) {
 }
 
 uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
-    uint16_t tap_keycode = keycode;
+    uint16_t tap_keycode;
 
     if (IS_LT(keycode)) {
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
     } else if (IS_MT(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else {
+        tap_keycode = keycode;
     }
 
     const bool shifted = mods & MOD_MASK_SHIFT;
