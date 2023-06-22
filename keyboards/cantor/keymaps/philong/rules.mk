@@ -16,3 +16,4 @@ SRC += features/sentence_case.c
 SRC += features/repeat_key.c
 SRC += features/autocorrection.c
 SRC += features/mouse_turbo_click.c
+SRC += andrewjrae-features/casemodes.c
