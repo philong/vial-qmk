@@ -12,6 +12,10 @@
          "title": "Caps Word",
          "name": "U_CAPS_WORD_TOGGLE"
         },
+        {"shortName": "Num\nWord",
+         "title": "Num Word",
+         "name": "U_NUM_WORD_TOGGLE"
+        },
         {"shortName": "Select\nWord",
          "title": "Select Word",
          "name": "U_SEL_WORD"
