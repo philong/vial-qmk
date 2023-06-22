@@ -17,6 +17,7 @@
 #include "features/sentence_case.h"
 #include "features/autocorrection.h"
 #include "features/mouse_turbo_click.h"
+#include "andrewjrae-features/casemodes.h"
 
 // #include "layermodes.h"
 #include "keycodes.h"
@@ -225,19 +226,46 @@ bool caps_word_press_user(uint16_t keycode) {
     }
 }
 
+bool terminate_case_modes(uint16_t keycode, const keyrecord_t *record) {
+        switch (keycode) {
+            // Keycodes to ignore (don't disable caps word)
+            case KC_A ... KC_O:
+            case KC_Q ... KC_Z:
+            case CM_O:
+            case KC_1 ... KC_0:
+            case KC_MINS:
+            case KC_UNDS:
+            case KC_BSPC:
+            case KC_LSFT:
+            case KC_RSFT:
+            case U_OS_LSFT:
+            case U_OS_RSFT:
+                // If mod chording disable the mods
+                if (record->event.pressed && (get_mods() != 0)) {
+                    return true;
+                }
+                break;
+            default:
+                if (record->event.pressed) {
+                    return true;
+                }
+                break;
+        }
+        return false;
+}
+
 void set_led(bool active) {
     uint16_t level = active ? LED_PIN_ON_STATE : ~LED_PIN_ON_STATE;
     writePin(USER_LED_PIN, level);
 }
 
-bool caps_word_active = false;
 bool in_high_layer = false;
 bool layer_locked = false;
 bool sentence_primed = false;
 bool dynamic_macro_recording = false;
 
 bool led_enabled_user(void) {
-    return caps_word_active || _num_word_enabled || in_high_layer || layer_locked || sentence_primed || dynamic_macro_recording || oneshot_active();
+    return is_caps_word_on() || get_xcase_state() != XCASE_OFF || _num_word_enabled || in_high_layer || layer_locked || sentence_primed || dynamic_macro_recording || oneshot_active();
 }
 
 void update_led(void) {
@@ -245,13 +273,16 @@ void update_led(void) {
 }
 
 void caps_word_set_user(bool active) {
-    caps_word_active = active;
     update_led();
 
     if (active) {
         oneshot_state_lsft = false;
         oneshot_state_rsft = false;
     }
+}
+
+void xcase_set_user(enum xcase_state state) {
+    update_led();
 }
 
 layer_state_t default_layer_state_set_user(layer_state_t state) {
@@ -926,24 +957,44 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
                 caps_word_off();
                 return false;
             }
+            if (get_xcase_state() != XCASE_OFF) {
+                disable_xcase();
+            }
             if (num_word_enabled()) {
                 disable_num_word();
                 return false;
             }
             break;
 		case U_CAPS_WORD_TOGGLE:
-            if (all_mods & MOD_MASK_CTRL) {
+            if (is_shifted && is_controlled) {
+                // caps lock
                 caps_word_off();
-                clear_all_mods();
-                toggle_num_word();
-                set_mods(mods);
-            } else if (all_mods & MOD_MASK_SHIFT) {
-                caps_word_off();
+                disable_xcase();
                 disable_num_word();
                 clear_all_mods();
                 tap_code(KC_CAPSLOCK);
                 set_mods(mods);
+            } else if (is_controlled) {
+                // num word
+                caps_word_off();
+                disable_xcase();
+                clear_all_mods();
+                toggle_num_word();
+                set_mods(mods);
+            } else if (is_shifted) {
+                caps_word_off();
+                disable_xcase();
+                disable_num_word();
+                // https://github.com/andrewjrae/kyria-keymap/#x-case
+                if (get_xcase_state() != XCASE_OFF) {
+                    disable_xcase();
+                } else {
+                    // enable_xcase();
+                    enable_xcase_with(OSM(MOD_LSFT));
+                }
             } else {
+                // caps word
+                disable_xcase();
                 disable_num_word();
                 caps_word_toggle();
             }
@@ -1175,6 +1226,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_macros_user(keycode, record)) { return false; }
     if (!process_autocorrection(keycode, record)) { return false; }
     if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) { return false; }
+    if (!process_case_modes(keycode, record)) { return false; }
     if (!process_num_word(keycode, record)) {  return false; }
 
     return true;
