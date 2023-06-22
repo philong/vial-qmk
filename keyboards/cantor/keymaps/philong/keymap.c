@@ -618,7 +618,7 @@ bool process_joinln(uint16_t keycode, keyrecord_t* record, uint16_t joinln_keyco
         // Split current line
         SEND_STRING(
             SS_LCTL(
-                SS_TAP(X_LEFT) SS_TAP(X_RGHT)
+                SS_TAP(X_RGHT) SS_TAP(X_LEFT) SS_TAP(X_RGHT)
             )
             SS_TAP(X_ENTER)
         );
@@ -627,23 +627,19 @@ bool process_joinln(uint16_t keycode, keyrecord_t* record, uint16_t joinln_keyco
     } else {
         // Join current line with next line
         SEND_STRING(
-            SS_TAP(X_END)
-            SS_LCTL(SS_TAP(X_DEL))
+            // Select any trailing spaces.
+            SS_TAP(X_END) SS_LSFT(SS_TAP(X_END))
+            // Delete any trailing spaces.
+            SS_TAP(X_SPC) SS_TAP(X_BSPC)
+            // Go to start of next line.
+            SS_TAP(X_RGHT)
+            // Go to first word if there is any indentation.
+            SS_TAP(X_HOME)
+            // Select indentation (if any) and end-of-line.
+            SS_LSFT(SS_TAP(X_HOME) SS_TAP(X_LEFT))
+            // Replace selection with a space.
             SS_TAP(X_SPC)
         );
-        // SEND_STRING( // Go to the end of the line and tap delete.
-        //     SS_TAP(X_END) SS_TAP(X_DEL)
-        //     // In case this has joined two words together, insert one space.
-        //     SS_TAP(X_SPC)
-        //     SS_LCTL(
-        //     // Go to the beginning of the next word.
-        //     SS_TAP(X_RGHT) SS_TAP(X_LEFT)
-        //     // Select back to the end of the previous word. This should select
-        //     // all spaces and tabs between the joined lines from indentation
-        //     // or trailing whitespace, including the space inserted earlier.
-        //     SS_LSFT(SS_TAP(X_LEFT) SS_TAP(X_RGHT)))
-        //     // Replace the selection with a single space.
-        //     SS_TAP(X_SPC));
     }
 
     return false;
