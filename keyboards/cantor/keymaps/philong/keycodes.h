@@ -129,6 +129,7 @@ enum user_keycode {
     U_USERNAME,
     U_CG_TOGG,
     U_CM_TOGG,
+    U_AUTOCOMPLETE,
     U_OS_LCTL,
     U_OS_LSFT,
     U_OS_LALT,
