@@ -16,8 +16,12 @@
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
 #include "features/autocorrection.h"
-#include "features/mouse_turbo_click.h"
+#ifdef MOUSEKEY_ENABLE
+    #include "features/mouse_turbo_click.h"
+#endif
 #include "andrewjrae-features/casemodes.h"
+
+#include "autocomplete.h"
 
 // #include "layermodes.h"
 #include "keycodes.h"
@@ -1246,9 +1250,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_macros_user(keycode, record)) { return false; }
     if (!process_multi_caps_word(keycode, record, U_CAPS_WORD_TOGGLE)) { return false; }
     if (!process_autocorrection(keycode, record)) { return false; }
-    if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) { return false; }
     if (!process_case_modes(keycode, record)) { return false; }
     if (!process_num_word(keycode, record)) {  return false; }
+    if (!process_autocomplete(keycode, record, U_AUTOCOMPLETE)) { return false; }
+
+#ifdef MOUSEKEY_ENABLE
+    if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) { return false; }
+#endif
 
     return true;
 }
