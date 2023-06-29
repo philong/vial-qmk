@@ -85,7 +85,7 @@
 // https://github.com/qmk/qmk_firmware/issues/16406
 // #define USB_SUSPEND_WAKEUP_DELAY 5000
 
-#define ONESHOT_TIMEOUT 1000
+#define ONESHOT_TIMEOUT 2000
 
 #define LAYER_LOCK_IDLE_TIMEOUT 60000
 
