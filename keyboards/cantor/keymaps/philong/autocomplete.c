@@ -13,47 +13,47 @@ static uint8_t current_word_length = 0;                // Length of the current 
 static char autocomplete_result[MAX_WORD_LENGTH + 1] = "";
 
 #define ALPHABET_SIZE 26
-#define MAX_WORDS 66
+#define MAX_WORDS 89
 
 static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
-    {"async", "asynchronous", "asynchronously", "await", "add", "array", "arrays", "abstract", "and", "args", "arg", "arguments", "assert", "auto", "annotation", "actual", "alias", "abbr", "arrow", "alter", "average", "atom", "atomic", "abs", "absolute", "all", "allow", "allowed", "author", "authorize", "authorized", "affect", "affects", "affected", "app", "application", "applications", "als", NULL},
-    {"break", "breaks", "bool", "boolean", "byte", "begin", "base", "become", "blank", "bad", "bisect", "branch", "back", "backend", "between", "boot", "because", "bug", "bugs", NULL},
-    {"class", "classes", "const", "catch", "case", "cases", "child", "children", "char", "character", "cache", "close", "current", "collect", "collection", "collections", "collector", "continue", "context", "contexts", "contains", "constructor", "comment", "comments", "computer", "cpu", "companion", "copy", "copyright", "copyleft", "commit", "commits", "command", "commands", "create", "count", "counts", "clone", "check", "call", "callback", "callbacks", "control", "controller", "controllers", "cancel", "cursor", "code", NULL},
-    {"data", "def", "define", "definition", "definitions", "del", "delete", "default", "dict", "double", "dummy", "decimal", "debug", "debugger", "dynamic", "delegate", "duplicate", "domain", "domains", "done", "down", "divide", "diagonal", "diff", "drop", "distinct", "discard", "draft", "dev", "develop", "development", "developer", "developers", "design", "designer", "designers", "doc", "documentation", "decode", "decoder", "decoders", "day", "days", NULL},
-    {"else", "except", "exception", "enum", "end", "echo", "event", "export", "exports", "error", "extends", "elif", "explicit", "extern", "external", "expect", "expected", "empty", "enter", "escape", "effect", "effects", "each", "extra", "extract", "example", "examples", "etc.", "effect", "effects", "engine", "engineer", "engineering", "even", "event", "events", "encoding", "encode", "encoder", "encoders", "encrypt", "encryption", "encryptions", NULL},
-    {"final", "false", "for", "forEach", "function", "float", "from", "front", "frontend", "friend", "field", "file", "full", "fetch", "forbid", "forbidden", "forward", "free", "fail", "failure", "find", "found", "first", "feature", "features", "frame", "framework", "few", "fewer", NULL},
-    {"get", "getter", "getters", "group", "group by", "goto", "global", "generic", "git", "good", "gpu", "garbage", "graph", "graphic", "graphics", NULL},
-    {"hidden", "hello", "how", "has", "hash", "help", "header", "have", "having", "hour", "hours", "host", "high", "html", "http", "https", "hard", "hardware", "heap", NULL},
-    {"interface", "implement", "implements", "int", "integer", "index", "indexes", "input", "instance", "instanceof", "import", "imports", "include", "inline", "implicit", "intern", "internal", "international", "internationalization", "inner", "init", "initialize", "insert", "issue", "issues", NULL},
-    {"join", "json", "jump", "java", "javascript", NULL},
+    {"async", "asynchronous", "asynchronously", "await", "add", "addition", "array", "arrays", "abstract", "and", "args", "arg", "arguments", "assert", "auto", "annotation", "actual", "alias", "abbr", "arrow", "alter", "average", "atom", "atomic", "abs", "absolute", "all", "allow", "allowed", "author", "authorize", "authorized", "affect", "affects", "affected", "app", "application", "applications", "also", "alternate", "alternative", "alternatives", "advanced", "adapt", "adaptor", "adaptors", "address", "addresses", "avatar", NULL},
+    {"break", "breaks", "bool", "boolean", "byte", "bytes", "begin", "base", "become", "blank", "bad", "bisect", "branch", "branches", "back", "backend", "between", "boot", "because", "bug", "bugs", "block", "blocks", "build", "builder", NULL},
+    {"class", "classes", "const", "catch", "case", "cases", "child", "children", "char", "character", "cache", "close", "current", "collect", "collection", "collections", "collector", "continue", "context", "contexts", "contains", "constructor", "comment", "comments", "compute", "computer", "computers", "cpu", "companion", "copy", "copyright", "copyleft", "commit", "commits", "command", "commands", "create", "count", "counts", "clone", "check", "call", "callback", "callbacks", "control", "controller", "controllers", "cancel", "cursor", "code", "custom", "condition", "conditional", "clear", "change", "changes", "calculate", "calculator", "calculators", "channel", "channels", "cast", "connect", "connection", "convert", "conversion", "compile", "compiler", "chat", "chatbot", NULL},
+    {"data", "def", "define", "definition", "definitions", "del", "delete", "deletion", "default", "dict", "double", "dummy", "decimal", "debug", "debugger", "dynamic", "delegate", "duplicate", "domain", "domains", "done", "down", "download", "downloaded", "downloading", "divide", "diagonal", "diff", "drop", "distinct", "discard", "draft", "dev", "develop", "development", "developer", "developers", "design", "designer", "designers", "doc", "documentation", "decode", "decoder", "decoders", "day", "days", "dir", "directory", "directories", "device", "devices", "digit", "digits", NULL},
+    {"elem", "element", "elements", "else", "except", "exception", "enum", "end", "echo", "event", "export", "exports", "error", "extends", "elif", "explicit", "extern", "external", "expect", "expected", "empty", "enter", "escape", "effect", "effects", "each", "extra", "extract", "example", "examples", "etc.", "effect", "effects", "engine", "engineer", "engineering", "even", "event", "events", "encoding", "encode", "encoder", "encoders", "encrypt", "encryption", "encryptions", "edit", "editor", "erase", "execute", "executor", NULL},
+    {"final", "false", "for", "forEach", "function", "float", "from", "front", "frontend", "friend", "field", "fields", "file", "filename", "filenames", "full", "fetch", "forbid", "forbidden", "forward", "free", "fail", "failure", "find", "found", "first", "feature", "features", "frame", "framework", "few", "fewer", "folder", "folders", "fast", "firmware", NULL},
+    {"get", "getter", "getters", "group", "group by", "global", "generic", "git", "good", "gpu", "garbage", "graph", "graphic", "graphics", "giga", "gigabytes", NULL},
+    {"hidden", "hello", "how", "has", "hash", "help", "header", "have", "having", "hour", "hours", "host", "high", "html", "http", "https", "hard", "hardware", "heap", "hook", "hooks", NULL},
+    {"item", "items", "interface", "implement", "implements", "int", "integer", "index", "indexes", "input", "instance", "instanceof", "import", "imports", "include", "inline", "implicit", "intern", "internal", "international", "internationalization", "inner", "init", "initialize", "insert", "issue", "issues", "instruction", "instructions", "image", "images", NULL},
+    {"join", "json", "jump", "java", "javascript", "job", "jobs", NULL},
     {"key", "keyword", "keywords", "kill", "killall", "kind", "keep", "keyboard", "kernel", NULL},
-    {"len", "length", "let", "list", "long", "lock", "lambda", "log", "login", "logout", "logger", "local", "location", "localization", "loop", "left", "line", "lines", "like", "likes", "layout", "layouts", "liquid", "load", "loading", "loader", "loaders", "low", "listen", "listener", "listeners", "lib", "library", "libraries", "little", "level", "levels", "less", NULL},
-    {"map", "main", "module", "mutable", "match", "matches", "method", "month", "months", "master", "mutable", "max", "maximize", "maximum", "min", "minimize", "minimum", "minus", "merge", "multi", "multiply", "model", "models", "move", "memo", "memoize", "memoized", "memory", "mean", "malloc", "medium", "minute", "minutes", "milli", "millisecond", "milliseconds", "micro", "microsecond", "microseconds", "normal", "mouse", "mask", "maintain", "maintainance", "manage", "manager", "managers", "management", "material", "more", NULL},
-    {"null", "name", "namespace", "next", "none", "node", "number", "numeric", "native", "nonlocal", "net", "nil", "npm", "not", "new", NULL},
-    {"object", "override", "overridden", "output", "operator", "operators", "open", "order", "ordered", "old", "original", "optional", "org", "odd", NULL},
-    {"public", "print", "println", "private", "protected", "push", "pop", "python", "package", "pointer", "position", "previous", "permits", "provides", "parent", "pass", "property", "param", "parameter", "parameters", "prefix", "post", "pull", "prod", "production", "produce", "protocol", "password", "plus", "percent", "parse", "play", "player", "put", "phone", "project", "projects", "purchase", "purchases", "program", "programming", "problem", "problems", "progress", "progressive", "press", "pressed", "publish", "published", NULL},
+    {"len", "length", "let", "list", "long", "lock", "locked", "lambda", "log", "login", "logout", "logger", "local", "location", "localization", "loop", "left", "line", "lines", "like", "likes", "layout", "layouts", "liquid", "load", "loading", "loader", "loaders", "low", "listen", "listener", "listeners", "lib", "library", "libraries", "little", "level", "levels", "less", "link", "linking", NULL},
+    {"map", "main", "module", "mutable", "match", "matches", "method", "month", "months", "master", "mutable", "max", "maximize", "maximum", "min", "minimize", "minimum", "minus", "merge", "multi", "multiply", "model", "models", "move", "memo", "memoize", "memoized", "memory", "mean", "malloc", "medium", "minute", "minutes", "milli", "millisecond", "milliseconds", "micro", "microsecond", "microseconds", "normal", "mouse", "mask", "maintain", "maintainance", "manage", "manager", "managers", "management", "material", "more", "manifest", "mega", "megabytes", "modify", "make", "monitor", NULL},
+    {"null", "name", "namespace", "next", "none", "node", "number", "numbers", "numeric", "native", "nonlocal", "net", "nil", "npm", "not", "new", "nest", "nested", NULL},
+    {"object", "override", "overridden", "output", "operator", "operators", "operation", "operations", "open", "order", "ordered", "old", "original", "optional", "org", "odd", NULL},
+    {"public", "print", "println", "private", "protected", "push", "pop", "python", "package", "pointer", "position", "previous", "permits", "provides", "parent", "pass", "property", "param", "parameter", "parameters", "prefix", "post", "pull", "prod", "production", "produce", "protocol", "password", "plus", "percent", "parse", "play", "player", "put", "phone", "project", "projects", "purchase", "purchases", "program", "programming", "problem", "problems", "progress", "progressive", "press", "pressed", "publish", "published", "process", "processor", "processors", "processing", "procedure", "precision", "picture", NULL},
     {"query", "queue", "quit", "quote", NULL},
-    {"return", "returns", "read", "raise", "ref", "reference", "references", "require", "required", "run", "record", "records", "register", "receiver", "remote", "reduce", "reducer", "redo", "right", "range", "react", "remove", "restart", "reboot", "round", "random", "restrict", "restricted", "recipe", "retry", "retries", "repuest", "requests", "response", "responses", "responsive", "release", "released", "role", "roles", "replay", NULL},
-    {"str", "string", "strings", "switch", "super", "static", "stash", "struct", "self", "system", "size", "sizeof", "synchronized", "set", "setter", "setters", "success", "successful", "short", "socket", "select", "select * from ", "sealed", "signed", "suffix", "suspend", "status", "shift", "sql", "sort", "sorted", "solid", "state", "states", "sum", "start", "startup", "stop", "stops", "shut", "shutdown", "store", "small", "simple", "second", "seconds", "standard", "stage", "staging", "smart", "smartphone", "smartphones", "script", "split", "search", "soft", "software", "seems", "separate", "sound", "sounds", "special", "specialize", "specialized", "specialization", NULL},
-    {"this", "throw", "true", "type", "typeof", "typescript", "temp", "temporary", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "that", "those", "telephone", "telephones", "ticket", "tickets", "time", "times", "timer", "timers", "too", "tools", NULL},
-    {"undefined", "update", "updater", "use", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", "util", "utils", "undo", NULL},
-    {"value", "valueOf", "void", "var", "variable", "variables", "varchar", "volatile", "vector", "virtual", "via", "view", "views", NULL},
-    {"while", "where", "write", "with", "warning", "week", "weeks", "weekend", "wide", "web", "www", "wchar_t", "word", "words", "world", "window", "windows", "work", "worker", "workers", NULL},
+    {"return", "returns", "read", "raise", "ref", "reference", "references", "require", "required", "run", "record", "records", "register", "receiver", "remote", "reduce", "reducer", "redo", "right", "range", "react", "remove", "removal", "restart", "reboot", "round", "random", "restrict", "restricted", "recipe", "retry", "retries", "repuest", "requests", "response", "responses", "responsive", "release", "released", "role", "roles", "replay", "rule", "rules", "room", "rooms", "result", "results", "resume", "resource", "resources", "repo", "repository", NULL},
+    {"str", "string", "strings", "switch", "super", "static", "stash", "struct", "self", "system", "size", "sizeof", "synchronized", "set", "setting", "settings", "setter", "setters", "success", "successful", "successfully", "short", "socket", "select", "select * from ", "sealed", "signed", "suffix", "suspend", "status", "shift", "sql", "sort", "sorted", "solid", "state", "states", "sum", "summary", "start", "startup", "stop", "stops", "shut", "shutdown", "store", "small", "simple", "second", "seconds", "standard", "stage", "staging", "smart", "smartphone", "smartphones", "script", "split", "search", "searches", "soft", "software", "seems", "separate", "sound", "sounds", "special", "specialize", "specialized", "specialization", "service", "services", "speed", "slice", "splice", "scale", "slow", "sync", "synchronized", "synchronous", "synchronously", "single", "should", "screen", "screenshot", "screenshots", "subtract", "swap", NULL},
+    {"this", "throw", "true", "type", "typeof", "typescript", "temp", "temporary", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "that", "those", "telephone", "telephones", "ticket", "tickets", "time", "times", "timer", "timers", "too", "tools", "transition", "transitioning", "tera", "terabytes", "thread", "threads", "threading", "translation", "translations", "task", "tasks", "trigger", "triggers", "total", "track", "tracking", "trackers", "trackers", NULL},
+    {"undefined", "update", "updater", "use", "useState", "useEffect", "useMemo", "useCallback", "useRef", "useReducer", "useTransition", "useId", "useContext", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", "util", "utils", "undo", "up", "upload", "uploaded", "uploading", NULL},
+    {"value", "valueOf", "void", "var", "variable", "variables", "varchar", "volatile", "vector", "virtual", "via", "view", "views", "validate", "validator", "video", "videos", NULL},
+    {"while", "where", "write", "with", "warning", "week", "weeks", "weekend", "wide", "web", "www", "wchar_t", "word", "words", "world", "window", "windows", "work", "worker", "workers", "would", "will", NULL},
     {"xml", "xor", "xpath", NULL},
     {"yield", "yarn", "year", "years", "yes", NULL},
     {"zip", "zero", "zone", "zoom", NULL},
 };
 
 static const char *PROGMEM extra_autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
-    {"Android", "Amazon", "Apple", "Axelor", "and you?", NULL},                                      // a
+    {"android", "amazon", "apple", "axelor", "and you?", NULL},                                      // a
     {"bonjour", NULL},                                                                               // b
     {"chrome", NULL},                                                                                // c
     {NULL},                                                                                          // d
     {NULL},                                                                                          // e
-    {"Firefox", NULL},                                                                               // f
-    {"Google", NULL},                                                                                // g
-    {"How are you?", "Hi, how are you?", "Hello, World!", "Hibernate", NULL},                        // h
-    {"in progress", "i18n", "I'm fine, thanks.", NULL},                                              // i
+    {"firefox", NULL},                                                                               // f
+    {"google", "goto", NULL},                                                                        // g
+    {"how are you?", "hi, how are you?", "hello, World!", "hibernate", NULL},                        // h
+    {"in progress", "i18n", "i'm fine, thanks.", NULL},                                              // i
     {"jpql", "jpa", NULL},                                                                           // j
     {NULL},                                                                                          // k
     {"l10n", "Linux", NULL},                                                                         // l
@@ -65,8 +65,8 @@ static const char *PROGMEM extra_autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
     {NULL},                                                                                          // r
     {"salut", NULL},                                                                                 // s
     {"tmp", NULL},                                                                                   // t
-    {"unicode", "Unix", "Ubuntu", NULL},                                                             // u
-    {"Vial", NULL},                                                                                  // v
+    {"unicode", "unix", "ubuntu", NULL},                                                             // u
+    {"vial", NULL},                                                                                  // v
     {"work in progress", NULL},                                                                      // w
     {NULL},                                                                                          // x
     {NULL},                                                                                          // y
@@ -193,6 +193,11 @@ static char keycode_to_char(uint16_t keycode) {
     }
 }
 
+static char keycode_to_case_char(uint16_t keycode, bool shifted) {
+    const char c = keycode_to_char(keycode);
+    return shifted ? toupper(c) : c;
+}
+
 static size_t find_last_word_pos(const char *buffer) {
     if (buffer == NULL || *buffer == '\0') {
         return 0;
@@ -264,7 +269,7 @@ static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char
         return true;
     }
 
-    const int index = prefix_word[0] - 'a';
+    const int index = tolower(prefix_word[0]) - 'a';
 
     if (index < 0 || index >= ALPHABET_SIZE) {
         return false; // Invalid prefix
@@ -367,9 +372,6 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
             position = ++token - current_word;
         }
 
-        // uprintf("current_word: %s, current_word_length: %d, word_pos: %d\n", current_word, current_word_length, word_pos);
-        // uprintf("autocomplete_result: %s\n", autocomplete_result);
-
         if (autocomplete_result[0] != '\0') {
             SEND_STRING(autocomplete_result);
             const size_t autocomplete_len = strlen(autocomplete_result);
@@ -382,8 +384,6 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
             strncpy(current_word + current_word_length, autocomplete_result, autocomplete_len);
             current_word_length += autocomplete_len;
             current_word[current_word_length] = '\0';
-
-            // uprintf("r: current_word: %s, current_word_length: %d\n", current_word, current_word_length);
         }
         return false;
     } else if (keycode == KC_BACKSPACE) {
@@ -404,8 +404,9 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         }
 
         // Add the pressed key to the current word
+        const bool shifted                     = all_mods & MOD_MASK_SHIFT;
         current_word_mods[current_word_length] = all_mods;
-        current_word[current_word_length++]    = keycode_to_char(keycode);
+        current_word[current_word_length++]    = keycode_to_case_char(keycode, shifted);
         current_word[current_word_length]      = '\0'; // Null-terminate the word
     } else {
         // Non-alphanumeric key pressed
