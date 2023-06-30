@@ -9,6 +9,7 @@ DEFERRED_EXEC_ENABLE = yes
 EXTRAKEY_ENABLE = yes
 CONSOLE_ENABLE = no
 LTO_ENABLE = yes
+UNICODE_ENABLE = yes
 SRC += features/achordion.c
 SRC += features/layer_lock.c
 SRC += features/select_word.c
