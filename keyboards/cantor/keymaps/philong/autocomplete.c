@@ -13,14 +13,14 @@ static uint8_t current_word_length = 0;                // Length of the current 
 static char autocomplete_result[MAX_WORD_LENGTH + 1] = "";
 
 #define ALPHABET_SIZE 26
-#define MAX_WORDS 52
+#define MAX_WORDS 51
 
 static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
     {"async", "await", "add", "array", "arrays", "abstract", "and", "args", "arg", "arguments", "assert", "auto", "annotation", "actual", "alias", "abbr", "arrow", "alter", "average", "atom", "atomic", "abs", "absolute", "all", "allow", "allowed", "author", "authorize", "authorized", NULL},
     {"break", "bool", "boolean", "byte", "begin", "base", "become", "blank", "bad", "bisect", "branch", "back", "between", "boot", "because", NULL},
     {"class", "const", "catch", "case", "child", "children", "char", "character", "cache", "close", "current", "collection", "collections", "continue", "context", "contains", "constructor", "comment", "comments", "computer", "cpu", "companion", "copy", "copyright", "copyleft", "commit", "command", "create", "count", "clone", "check", "call", "callback", "callbacks", "control", "chrome", "cancel", "cursor", NULL},
     {"data", "def", "define", "del", "delete", "default", "dict", "double", "dummy", "decimal", "develop", "debug", "debugger", "dynamic", "delegate", "duplicate", "domain", "domains", "done", "down", "divide", "diagonal", "diff", "drop", "distinct", "discard", "draft", NULL},
-    {"else", "except", "exception", "enum", "end", "echo", "event", "export", "exports", "error", "extends", "elif", "explicit", "extern", "external", "expect", "expected", "empty", "enter", "escape", "effect", "each", "extra", "extract", "example", "examples", NULL},
+    {"else", "except", "exception", "enum", "end", "echo", "event", "export", "exports", "error", "extends", "elif", "explicit", "extern", "external", "expect", "expected", "empty", "enter", "escape", "effect", "each", "extra", "extract", "example", "examples", "etc.", NULL},
     {"final", "false", "for", "forEach", "function", "float", "from", "friend", "field", "file", "full", "fetch", "forbid", "forbidden", "forward", "free", "fail", "failure", "find", "found", "first", NULL},
     {"get", "getter", "group", "group by", "goto", "global", "generic", "git", "good", "gpu", NULL},
     {"hidden", "How are you?", "has", "hash", "help", "header", "have", "having", "hour", "hours", "host", "high", "hibernate", "hello", "Hello, World!", "heap", NULL},
@@ -34,7 +34,7 @@ static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
     {"public", "print", "println", "private", "protected", "push", "pop", "python", "package", "pointer", "position", "previous", "permits", "provides", "parent", "pass", "property", "param", "parameter", "parameters", "prefix", "post", "pull", "produce", "protocol", "password", "plus", "percent", "parse", "play", "player", "put", "phone", "project", "projects", "purchase", "purchases", NULL},
     {"query", "queue", "quit", "quote", NULL},
     {"return", "returns", "read", "raise", "ref", "reference", "require", "required", "run", "record", "records", "register", "receiver", "remote", "reduce", "reducer", "redo", "right", "range", "react", "remove", "restart", "reboot", "round", "random", "restrict", "restricted", "recipe", "retry", NULL},
-    {"str", "string", "switch", "super", "static", "stash", "struct", "self", "system", "size", "sizeof", "synchronized", "set", "setter", "success", "successful", "short", "socket", "select", "select * from ", "sealed", "signed", "suffix", "suspend", "status", "shift", "sql", "sort", "sorted", "solid", "state", "sum", "start", "startup", "stop", "shutdown", "store", "small", "simple", "second", "seconds", "standard", "stage", "smart", "smartphone", "smartphones", "script", "split", "search", "sale", "sales", NULL},
+    {"str", "string", "strings", "switch", "super", "static", "stash", "struct", "self", "system", "size", "sizeof", "synchronized", "set", "setter", "success", "successful", "short", "socket", "select", "select * from ", "sealed", "signed", "suffix", "suspend", "status", "shift", "sql", "sort", "sorted", "solid", "state", "sum", "start", "startup", "stop", "shutdown", "store", "small", "simple", "second", "seconds", "standard", "stage", "smart", "smartphone", "smartphones", "script", "split", "search", NULL},
     {"this", "throw", "true", "type", "typeof", "typescript", "temp", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "that", "those", "telephone", "telephones", NULL},
     {"undefined", "update", "updater", "use", "useState", "useEffect", "useMemo", "useCallback", "useRef", "useContext", "useReducer", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", NULL},
     {"value", "valueOf", "void", "var", "variable", "variables", "varchar", "volatile", "vector", "virtual", "via", "view", NULL},
@@ -244,7 +244,7 @@ static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char
 
     if (prefix_word_len <= 0) {
         strcpy(result, "I ");
-        return false;
+        return true;
     }
 
     const int index = prefix_word[0] - 'a';
@@ -254,20 +254,24 @@ static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char
         return false; // Invalid prefix
     }
 
-    // TODO: handle more cases via a lookup table
+    bool found = false;
+
+    // TODO: handle more special cases via a lookup table
     if (prefix_word[0] == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
-        const char *completion = "a va";
-        strcpy(result, completion);
-        return true;
+        const char *PROGMEM words[] = {"ca va", "ca va, et toi ?"};
+        found                       = autocomplete_search(words, prefix_word, prefix_word_len, result);
     }
 
-    bool found = autocomplete_search(autocomplete_list[index], prefix_word, prefix_word_len, result);
+    if (!found) {
+        found = autocomplete_search(autocomplete_list[index], prefix_word, prefix_word_len, result);
+    }
 
     if (!found) {
         found = autocomplete_search(extra_autocomplete_list[index], prefix_word, prefix_word_len, result);
-        if (!found) {
-            result[0] = '\0';
-        }
+    }
+
+    if (!found) {
+        result[0] = '\0';
     }
 
     return found;
@@ -304,10 +308,30 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
 
     if (keycode == autocomplete_keycode) {
         // Autocomplete the word based on the current input
-        const size_t   word_pos  = find_last_word_pos(current_word);
-        const char    *word      = current_word + word_pos;
-        const uint8_t *word_mods = current_word_mods + word_pos;
-        autocomplete(word, word_mods, autocomplete_result);
+
+        // const size_t   word_pos  = find_last_word_pos(current_word);
+        // const char    *word      = current_word + word_pos;
+        // const uint8_t *word_mods = current_word_mods + word_pos;
+        // autocomplete(word, word_mods, autocomplete_result);
+
+        size_t      position = 0;
+        const char *token    = current_word;
+
+        while (1) {
+            const uint8_t *word_mods = current_word_mods + position;
+
+            if (autocomplete(token, word_mods, autocomplete_result)) {
+                break;
+            }
+
+            token = strchr(token, ' ');
+
+            if (token == NULL) {
+                break;
+            }
+
+            position = ++token - current_word;
+        }
 
         // uprintf("current_word: %s, current_word_length: %d, word_pos: %d\n", current_word, current_word_length, word_pos);
         // uprintf("autocomplete_result: %s\n", autocomplete_result);
