@@ -16,64 +16,33 @@ static char autocomplete_result[MAX_WORD_LENGTH + 1] = "";
 #define MAX_AUTOCOMPLETE 105
 
 static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_AUTOCOMPLETE] = {
-    {"async", "asynchronous", "asynchronously", "await", "add", "addition", "array", "arrays", "abstract", "and", "args", "arg", "arguments", "assert", "auto", "annotation", "actual", "alias", "abbr", "arrow", "alter", "average", "atom", "atomic", "abs", "absolute", "all", "allow", "allowed", "author", "authorize", "authorized", "affect", "affects", "affected", "app", "application", "applications", "also", "alternate", "alternative", "alternatives", "advanced", "adapt", "adaptor", "adaptors", "address", "addresses", "avatar", "animate", "animation", "align", "accent", "accents", "after", "area", "anomaly", NULL},
-    {"break", "breaks", "bool", "boolean", "byte", "bytes", "begin", "base", "basic", "become", "blank", "bad", "bisect", "branch", "branches", "back", "background", "backend", "between", "boot", "because", "bug", "bugfix", "block", "blocked", "build", "builder", "black", "blue", "border", "bottom", "before", NULL},
-    {"class", "classes", "const", "catch", "case", "cases", "child", "children", "char", "character", "cache", "close", "closed", "current", "col", "collect", "collection", "collections", "collector", "column", "columns", "continue", "content", "contents", "context", "contexts", "contains", "constructor", "comment", "comments", "compute", "computer", "computers", "cpu", "companion", "copy", "copyright", "copyleft", "commit", "commits", "command", "commands", "create", "count", "counts", "clone", "check", "call", "callback", "callbacks", "control", "controller", "controllers", "cancel", "cursor", "code", "custom", "condition", "conditional", "clear", "clean", "change", "changes", "calculate", "calculator", "calculators", "channel", "channels", "cast", "connect", "connection", "convert", "conversion", "compile", "compiler", "chat", "chatbot", "color", "colors", "collapse", "circle", "calendar", "card", "cards", "country", "countries", NULL},
+    {"async", "asynchronous", "asynchronously", "await", "add", "addition", "array", "arrays", "abstract", "and", "args", "arg", "arguments", "assert", "auto", "annotation", "actual", "alias", "abbr", "arrow", "alter", "average", "atom", "atomic", "abs", "absolute", "all", "allow", "allowed", "author", "authorize", "authorized", "affect", "affects", "affected", "app", "application", "applications", "also", "alternate", "alternative", "alternatives", "advanced", "adapt", "adaptor", "adaptors", "address", "addresses", "avatar", "animate", "animation", "align", "accent", "accents", "after", "area", "anomaly", /*extra*/ "android", "amazon", "apple", "axelor", "and you?", NULL},
+    {"break", "breaks", "bool", "boolean", "byte", "bytes", "begin", "base", "basic", "become", "blank", "bad", "bisect", "branch", "branches", "back", "background", "backend", "between", "boot", "because", "bug", "bugfix", "block", "blocked", "build", "builder", "black", "blue", "border", "bottom", "before", /*extra*/ "bonjour", NULL},
+    {"class", "classes", "const", "catch", "case", "cases", "child", "children", "char", "character", "cache", "close", "closed", "current", "col", "collect", "collection", "collections", "collector", "column", "columns", "continue", "content", "contents", "context", "contexts", "contains", "constructor", "comment", "comments", "compute", "computer", "computers", "cpu", "companion", "copy", "copyright", "copyleft", "commit", "commits", "command", "commands", "create", "count", "counts", "clone", "check", "call", "callback", "callbacks", "control", "controller", "controllers", "cancel", "cursor", "code", "custom", "condition", "conditional", "clear", "clean", "change", "changes", "calculate", "calculator", "calculators", "channel", "channels", "cast", "connect", "connection", "convert", "conversion", "compile", "compiler", "chat", "chatbot", "color", "colors", "collapse", "circle", "calendar", "card", "cards", "country", "countries", /*extra*/ "chrome", NULL},
     {"data", "def", "define", "definition", "definitions", "del", "delete", "deleted", "deletion", "default", "dict", "double", "dummy", "decimal", "debug", "debugger", "dynamic", "delegate", "duplicate", "domain", "domains", "done", "down", "download", "downloaded", "downloading", "divide", "diagonal", "diff", "difference", "drop", "distinct", "discard", "draft", "dev", "develop", "development", "developer", "developers", "design", "designer", "designers", "doc", "documentation", "decode", "decoder", "decoders", "day", "days", "dir", "direction", "directions", "directory", "directories", "device", "devices", "display", "dirty", "digit", "digits", "decoration", "dest", "destination", NULL},
     {"elem", "element", "elements", "else", "except", "exception", "expr", "expression", "enum", "end", "env", "environment", "echo", "event", "export", "exports", "error", "extends", "elif", "explicit", "extern", "external", "expect", "expected", "empty", "enter", "escape", "effect", "effects", "each", "extra", "extract", "example", "examples", "etc.", "effect", "effects", "engine", "engineer", "engineering", "even", "event", "events", "encoding", "encode", "encoder", "encoders", "encrypt", "encryption", "encryptions", "edit", "editor", "erase", "execute", "executor", NULL},
-    {"final", "false", "for", "forEach", "function", "float", "from", "front", "frontend", "friend", "friends", "field", "fields", "file", "filename", "filenames", "filter", "filters", "full", "fetch", "forbid", "forbidden", "forward", "foreground", "free", "fail", "failure", "find", "found", "first", "feature", "features", "frame", "framework", "few", "fewer", "folder", "folders", "fast", "firmware", "focus", "fall", "fallback", "family", "future", "form", NULL},
-    {"get", "getter", "getters", "group", "group by", "global", "generic", "git", "good", "gpu", "garbage", "graph", "graphic", "graphics", "giga", "gigabytes", "green", "gray", "grid", "gantt", NULL},
-    {"hidden", "hello", "how", "has", "hash", "help", "header", "have", "having", "home", "hour", "hours", "host", "high", "html", "http", "https", "hard", "hardware", "heap", "hook", "hooks", "height", "history", NULL},
-    {"item", "items", "interface", "implement", "implements", "int", "integer", "index", "indexes", "input", "instance", "instanceof", "import", "imports", "include", "inline", "implicit", "intern", "internal", "international", "internationalization", "inner", "init", "initial", "initialize", "initialization", "insert", "invert", "issue", "issues", "instruction", "instructions", "image", "images", "inherit", "inheritance", NULL},
-    {"join", "json", "jump", "java", "javascript", "job", "jobs", NULL},
+    {"final", "false", "for", "forEach", "function", "float", "from", "front", "frontend", "friend", "friends", "field", "fields", "file", "filename", "filenames", "filter", "filters", "full", "fetch", "forbid", "forbidden", "forward", "foreground", "free", "fail", "failure", "find", "found", "first", "feature", "features", "frame", "framework", "few", "fewer", "folder", "folders", "fast", "firmware", "focus", "fall", "fallback", "family", "future", "form", /*extra*/ "firefox", NULL},
+    {"get", "getter", "getters", "group", "group by", "global", "generic", "git", "good", "gpu", "garbage", "graph", "graphic", "graphics", "giga", "gigabytes", "green", "gray", "grid", "gantt", /*extra*/ "google", "goto", NULL},
+    {"hidden", "hello", "how", "has", "hash", "help", "header", "have", "having", "home", "hour", "hours", "host", "high", "html", "http", "https", "hard", "hardware", "heap", "hook", "hooks", "height", "history", /*extra*/ "how are you?", "hi, how are you?", "hello, World!", NULL},
+    {"item", "items", "interface", "implement", "implements", "int", "integer", "index", "indexes", "input", "instance", "instanceof", "import", "imports", "include", "inline", "implicit", "intern", "internal", "international", "internationalization", "inner", "init", "initial", "initialize", "initialization", "insert", "invert", "issue", "issues", "instruction", "instructions", "image", "images", "inherit", "inheritance", /*extra*/ "i18n", "in progress", "i'm fine, thanks.", NULL},
+    {"join", "json", "jump", "java", "javascript", "job", "jobs", /*extra*/ "jpql", "jpa", NULL},
     {"key", "keyword", "keywords", "kill", "killall", "kind", "keep", "keyboard", "kernel", "kanban", NULL},
-    {"len", "length", "let", "list", "long", "lock", "locked", "lambda", "log", "login", "logout", "logger", "local", "location", "localization", "loop", "left", "line", "lines", "like", "likes", "layout", "layouts", "liquid", "load", "loading", "loader", "loaders", "low", "lower", "lowercase", "listen", "listener", "listeners", "lib", "library", "libraries", "little", "level", "levels", "less", "link", "linking", "last", NULL},
-    {"map", "main", "module", "mutable", "match", "matches", "method", "menu", "menus", "month", "months", "master", "mutable", "max", "maximize", "maximum", "min", "minimize", "minimum", "minus", "merge", "multi", "multiply", "model", "models", "move", "memo", "memoize", "memoized", "memory", "mean", "malloc", "medium", "minute", "minutes", "milli", "millisecond", "milliseconds", "micro", "microsecond", "microseconds", "normal", "mouse", "mask", "maintain", "maintainance", "manage", "manager", "managers", "management", "material", "more", "manifest", "mega", "megabytes", "modify", "make", "margin", "monitor", "matrix", NULL},
+    {"len", "length", "let", "list", "long", "lock", "locked", "lambda", "log", "login", "logout", "logger", "local", "location", "localization", "loop", "left", "line", "lines", "like", "likes", "layout", "layouts", "liquid", "load", "loading", "loader", "loaders", "low", "lower", "lowercase", "listen", "listener", "listeners", "lib", "library", "libraries", "little", "level", "levels", "less", "link", "linking", "last", /*extra*/ "l10n", "linux", NULL},
+    {"map", "main", "module", "mutable", "match", "matches", "method", "menu", "menus", "month", "months", "master", "mutable", "max", "maximize", "maximum", "min", "minimize", "minimum", "minus", "merge", "multi", "multiply", "model", "models", "move", "memo", "memoize", "memoized", "memory", "mean", "malloc", "medium", "minute", "minutes", "milli", "millisecond", "milliseconds", "micro", "microsecond", "microseconds", "normal", "mouse", "mask", "maintain", "maintainance", "manage", "manager", "managers", "management", "material", "more", "manifest", "mega", "megabytes", "modify", "make", "margin", "monitor", "matrix", /*extra*/ "microsoft", NULL},
     {"null", "name", "namespace", "next", "none", "node", "number", "numbers", "numeric", "native", "nonlocal", "net", "nil", "npm", "not", "new", "nest", "nested", NULL},
     {"object", "override", "overridden", "output", "operator", "operators", "operation", "operations", "open", "order", "ordered", "old", "original", "optional", "org", "odd", "orange", NULL},
-    {"public", "print", "println", "private", "protected", "push", "pop", "python", "package", "pointer", "position", "previous", "permits", "person", "personal", "provides", "parent", "pass", "property", "properties", "pseudo", "param", "parameter", "parameters", "prefix", "post", "pull", "prod", "production", "produce", "protocol", "password", "plus", "percent", "percentage", "parse", "parser", "play", "player", "platform", "put", "phone", "project", "projects", "purchase", "purchases", "program", "programming", "problem", "problems", "progress", "progressive", "press", "pressed", "publish", "published", "process", "processor", "processors", "processing", "procedure", "precision", "picture", "pink", "padding", "propose", "proposal", "popup", NULL},
-    {"query", "queue", "quit", "quote", NULL},
-    {"return", "returns", "read", "raise", "ref", "reference", "references", "require", "required", "run", "record", "records", "register", "receiver", "remote", "reduce", "reducer", "redo", "right", "range", "react", "remove", "removal", "restart", "reboot", "round", "random", "restrict", "restricted", "recipe", "retry", "retries", "reproduce", "request", "requests", "response", "responses", "responsive", "release", "released", "role", "roles", "replay", "rule", "rules", "root", "room", "rooms", "result", "results", "resume", "resource", "resources", "repo", "repository", "report", "reports", "resolution", "red", "regex", "row", "rows", "rgb", "reverse", "reversed", NULL},
+    {"public", "print", "println", "private", "protected", "push", "pop", "python", "package", "pointer", "position", "previous", "permits", "person", "personal", "provides", "parent", "pass", "property", "properties", "pseudo", "param", "parameter", "parameters", "prefix", "post", "pull", "prod", "production", "produce", "protocol", "password", "plus", "percent", "percentage", "parse", "parser", "play", "player", "platform", "put", "phone", "project", "projects", "purchase", "purchases", "program", "programming", "problem", "problems", "progress", "progressive", "press", "pressed", "publish", "published", "process", "processor", "processors", "processing", "procedure", "precision", "picture", "pink", "padding", "propose", "proposal", "popup", /*extra*/ "pnpm", "Phi-Long", "Phi-Long Do", "philong", "philong.do@gmail.com", "p.do@axelor.com", NULL},
+    {"query", "queue", "quit", "quote", /*extra*/ "qmk", NULL},
+    {"return", "returns", "read", "raise", "ref", "reference", "references", "require", "required", "run", "record", "records", "register", "receiver", "remote", "reduce", "reducer", "redo", "right", "range", "react", "remove", "removal", "restart", "reboot", "round", "random", "restrict", "restricted", "recipe", "retry", "retries", "reproduce", "request", "requests", "response", "responses", "responsive", "release", "released", "role", "roles", "replay", "rule", "rules", "root", "room", "rooms", "result", "results", "resume", "resource", "resources", "repo", "repository", "report", "reports", "resolution", "red", "regex", "row", "rows", "rgb", "reverse", "reversed", /*extra*/ "salut", NULL},
     {"str",    "string",  "strings",  "switch", "super",   "static", "stash",      "struct",      "self",   "system", "size",  "sizeof", "synchronized", "set",      "setting", "settings", "setter", "setters",  "success",   "successful", "successfully", "show",    "showcase",   "short",       "socket",         "select",  "selector", "selectors", "select * from ", "sealed", "signed", "suffix", "suspend", "status",       "shift",       "sql",           "sort",   "sorted", "solid",  "state",      "states",      "sum",      "summary", "start", "startup", "stop",   "stops", "shut",   "shutdown", "store",   "small",      "similar", "simple",
      "second", "seconds", "standard", "stage",  "staging", "smart",  "smartphone", "smartphones", "script", "split",  "space", "spacer", "search",       "searches", "soft",    "software", "seems",  "separate", "separator", "sound",      "sounds",       "special", "specialize", "specialized", "specialization", "service", "services", "speed",     "slice",          "splice", "scale",  "slow",   "sync",    "synchronized", "synchronous", "synchronously", "single", "should", "screen", "screenshot", "screenshots", "subtract", "swap",    "style", "strong",  "source", "src",   "square", "shell",    "suggest", "suggestion", NULL},
-    {"this", "throw", "true", "type", "typeof", "typescript", "temp", "temporary", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "that", "those", "telephone", "telephones", "ticket", "tickets", "time", "times", "timer", "timers", "too", "tools", "transition", "transitioning", "tera", "terabytes", "thread", "threads", "threading", "translation", "translations", "task", "tasks", "trigger", "triggers", "total", "track", "tracking", "trackers", "trackers", "text", "transform", "transformation", "transparent", "transport", "top", "triangle", NULL},
-    {"undefined", "update", "updated", "updater", "use", "useState", "useEffect", "useMemo", "useCallback", "useRef", "useReducer", "useTransition", "useId", "useContext", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", "util", "utils", "undo", "up", "upload", "uploaded", "uploading", "upper", "uppercase", "unicode", "utf-8", NULL},
+    {"this", "throw", "true", "type", "typeof", "typescript", "temp", "temporary", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "that", "those", "telephone", "telephones", "ticket", "tickets", "time", "times", "timer", "timers", "too", "tools", "transition", "transitioning", "tera", "terabytes", "thread", "threads", "threading", "translation", "translations", "task", "tasks", "trigger", "triggers", "total", "track", "tracking", "trackers", "trackers", "text", "transform", "transformation", "transparent", "transport", "top", "triangle", "tmp", NULL},
+    {"undefined", "update", "updated", "updater", "use", "useState", "useEffect", "useMemo", "useCallback", "useRef", "useReducer", "useTransition", "useId", "useContext", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", "util", "utils", "undo", "up", "upload", "uploaded", "uploading", "upper", "uppercase", "unicode", "utf-8", "unix", "ubuntu", NULL},
     {"value", "valueOf", "void", "var", "variable", "variables", "variant", "variants", "varchar", "volatile", "vector", "virtual", "via", "view", "views", "validate", "validator", "visible", "visibility", "video", "videos", "venv", NULL},
-    {"while", "where", "write", "with", "warning", "week", "weeks", "weekend", "wide", "web", "www", "wchar_t", "word", "words", "world", "window", "windows", "work", "worker", "workers", "weak", "would", "will", "with", "within", "white", "width", "weight", NULL},
+    {"while", "where", "write", "with", "warning", "week", "weeks", "weekend", "wide", "web", "www", "wchar_t", "word", "words", "world", "window", "windows", "work", "worker", "workers", "weak", "would", "will", "with", "within", "white", "width", "weight", /*extra*/ "work in progress", NULL},
     {"xml", "xor", "xpath", NULL},
     {"yield", "yarn", "year", "years", "yellow", "yes", NULL},
     {"zip", "zero", "zone", "zoom", NULL},
-};
-
-#define MAX_AUTOCOMPLETE_EXTRA 7
-
-static const char *PROGMEM extra_autocomplete_list[ALPHABET_SIZE][MAX_AUTOCOMPLETE_EXTRA] = {
-    {"android", "amazon", "apple", "axelor", "and you?", NULL},                                      // a
-    {"bonjour", NULL},                                                                               // b
-    {"chrome", NULL},                                                                                // c
-    {NULL},                                                                                          // d
-    {NULL},                                                                                          // e
-    {"firefox", NULL},                                                                               // f
-    {"google", "goto", NULL},                                                                        // g
-    {"how are you?", "hi, how are you?", "hello, World!", "hibernate", NULL},                        // h
-    {"i18n", "in progress", "i'm fine, thanks.", NULL},                                              // i
-    {"jpql", "jpa", NULL},                                                                           // j
-    {NULL},                                                                                          // k
-    {"l10n", "Linux", NULL},                                                                         // l
-    {"Microsoft", NULL},                                                                             // m
-    {NULL},                                                                                          // n
-    {NULL},                                                                                          // o
-    {"pnpm", "Phi-Long", "Phi-Long Do", "philong", "philong.do@gmail.com", "p.do@axelor.com", NULL}, // p
-    {"qmk", NULL},                                                                                   // q
-    {NULL},                                                                                          // r
-    {"salut", NULL},                                                                                 // s
-    {"tmp", NULL},                                                                                   // t
-    {"unix", "ubuntu", NULL},                                                                        // u
-    {"vial", NULL},                                                                                  // v
-    {"work in progress", NULL},                                                                      // w
-    {NULL},                                                                                          // x
-    {NULL},                                                                                          // y
-    {NULL},                                                                                          // z
 };
 
 static void reset_word(void) {
@@ -243,11 +212,11 @@ static int word_cmp(const char *word, const char *prefix_word, const size_t pref
     return strncasecmp(word, prefix_word, prefix_word_len);
 }
 
-static bool autocomplete_search(const char **words, const size_t max_size, const char *prefix_word, const size_t prefix_word_len, char *result) {
-    for (size_t i = 0; i < max_size; ++i) {
-        const char *word = words[i];
+static size_t autocomplete_search(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result) {
+    for (size_t index = start_index; index < max_size; ++index) {
+        const char *word = words[index];
         if (word == NULL) {
-            return false;
+            break;
         }
         const size_t word_len = strlen(word);
         if (word_len > prefix_word_len && word_cmp(word, prefix_word, prefix_word_len) == 0) {
@@ -256,11 +225,11 @@ static bool autocomplete_search(const char **words, const size_t max_size, const
             const size_t len       = strlen(remaining);
             strncpy(result, remaining, len);
             result[len] = '\0';
-            return true;
+            return index;
         }
     }
 
-    return false;
+    return -1;
 }
 
 static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char *result) {
@@ -278,24 +247,20 @@ static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char
         return false; // Invalid prefix
     }
 
-    bool found = false;
+    size_t found_index = false;
 
     // TODO: handle more special cases via a lookup table
     if (prefix_word[0] == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
         const char *PROGMEM words[]    = {"ca va", "ca va, et toi ?", NULL};
         const size_t        words_size = sizeof(words) / sizeof(words[0]);
-        found                          = autocomplete_search(words, words_size, prefix_word, prefix_word_len, result);
+        found_index                    = autocomplete_search(words, words_size, 0, prefix_word, prefix_word_len, result);
     }
 
-    if (!found) {
-        found = autocomplete_search(autocomplete_list[index], MAX_AUTOCOMPLETE, prefix_word, prefix_word_len, result);
+    if (found_index < 0) {
+        found_index = autocomplete_search(autocomplete_list[index], MAX_AUTOCOMPLETE, 0, prefix_word, prefix_word_len, result);
     }
 
-    if (!found) {
-        found = autocomplete_search(extra_autocomplete_list[index], MAX_AUTOCOMPLETE_EXTRA, prefix_word, prefix_word_len, result);
-    }
-
-    return found;
+    return found_index >= 0;
 }
 
 //  Like strpbrk, but also takes camelCase into account.
