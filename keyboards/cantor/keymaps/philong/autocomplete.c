@@ -13,9 +13,9 @@ static uint8_t current_word_length = 0;                // Length of the current 
 static char autocomplete_result[MAX_WORD_LENGTH + 1] = "";
 
 #define ALPHABET_SIZE 26
-#define MAX_WORDS 105
+#define MAX_AUTOCOMPLETE 105
 
-static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
+static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_AUTOCOMPLETE] = {
     {"async", "asynchronous", "asynchronously", "await", "add", "addition", "array", "arrays", "abstract", "and", "args", "arg", "arguments", "assert", "auto", "annotation", "actual", "alias", "abbr", "arrow", "alter", "average", "atom", "atomic", "abs", "absolute", "all", "allow", "allowed", "author", "authorize", "authorized", "affect", "affects", "affected", "app", "application", "applications", "also", "alternate", "alternative", "alternatives", "advanced", "adapt", "adaptor", "adaptors", "address", "addresses", "avatar", "animate", "animation", "align", "accent", "accents", "after", "area", "anomaly", NULL},
     {"break", "breaks", "bool", "boolean", "byte", "bytes", "begin", "base", "basic", "become", "blank", "bad", "bisect", "branch", "branches", "back", "background", "backend", "between", "boot", "because", "bug", "bugfix", "block", "blocked", "build", "builder", "black", "blue", "border", "bottom", "before", NULL},
     {"class", "classes", "const", "catch", "case", "cases", "child", "children", "char", "character", "cache", "close", "closed", "current", "col", "collect", "collection", "collections", "collector", "column", "columns", "continue", "content", "contents", "context", "contexts", "contains", "constructor", "comment", "comments", "compute", "computer", "computers", "cpu", "companion", "copy", "copyright", "copyleft", "commit", "commits", "command", "commands", "create", "count", "counts", "clone", "check", "call", "callback", "callbacks", "control", "controller", "controllers", "cancel", "cursor", "code", "custom", "condition", "conditional", "clear", "clean", "change", "changes", "calculate", "calculator", "calculators", "channel", "channels", "cast", "connect", "connection", "convert", "conversion", "compile", "compiler", "chat", "chatbot", "color", "colors", "collapse", "circle", "calendar", "card", "cards", "country", "countries", NULL},
@@ -37,15 +37,17 @@ static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
     {"str",    "string",  "strings",  "switch", "super",   "static", "stash",      "struct",      "self",   "system", "size",  "sizeof", "synchronized", "set",      "setting", "settings", "setter", "setters",  "success",   "successful", "successfully", "show",    "showcase",   "short",       "socket",         "select",  "selector", "selectors", "select * from ", "sealed", "signed", "suffix", "suspend", "status",       "shift",       "sql",           "sort",   "sorted", "solid",  "state",      "states",      "sum",      "summary", "start", "startup", "stop",   "stops", "shut",   "shutdown", "store",   "small",      "similar", "simple",
      "second", "seconds", "standard", "stage",  "staging", "smart",  "smartphone", "smartphones", "script", "split",  "space", "spacer", "search",       "searches", "soft",    "software", "seems",  "separate", "separator", "sound",      "sounds",       "special", "specialize", "specialized", "specialization", "service", "services", "speed",     "slice",          "splice", "scale",  "slow",   "sync",    "synchronized", "synchronous", "synchronously", "single", "should", "screen", "screenshot", "screenshots", "subtract", "swap",    "style", "strong",  "source", "src",   "square", "shell",    "suggest", "suggestion", NULL},
     {"this", "throw", "true", "type", "typeof", "typescript", "temp", "temporary", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "that", "those", "telephone", "telephones", "ticket", "tickets", "time", "times", "timer", "timers", "too", "tools", "transition", "transitioning", "tera", "terabytes", "thread", "threads", "threading", "translation", "translations", "task", "tasks", "trigger", "triggers", "total", "track", "tracking", "trackers", "trackers", "text", "transform", "transformation", "transparent", "transport", "top", "triangle", NULL},
-    {"undefined", "update", "updated", "updater", "use", "useState", "useEffect", "useMemo", "useCallback", "useRef", "useReducer", "useTransition", "useId", "useContext", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", "util", "utils", "undo", "up", "upload", "uploaded", "uploading", "upper", "uppercase", NULL},
-    {"value", "valueOf", "void", "var", "variable", "variables", "variant", "variants", "varchar", "volatile", "vector", "virtual", "via", "view", "views", "validate", "validator", "visible", "visibility", "video", "videos", NULL},
+    {"undefined", "update", "updated", "updater", "use", "useState", "useEffect", "useMemo", "useCallback", "useRef", "useReducer", "useTransition", "useId", "useContext", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", "util", "utils", "undo", "up", "upload", "uploaded", "uploading", "upper", "uppercase", "unicode", "utf-8", NULL},
+    {"value", "valueOf", "void", "var", "variable", "variables", "variant", "variants", "varchar", "volatile", "vector", "virtual", "via", "view", "views", "validate", "validator", "visible", "visibility", "video", "videos", "venv", NULL},
     {"while", "where", "write", "with", "warning", "week", "weeks", "weekend", "wide", "web", "www", "wchar_t", "word", "words", "world", "window", "windows", "work", "worker", "workers", "weak", "would", "will", "with", "within", "white", "width", "weight", NULL},
     {"xml", "xor", "xpath", NULL},
     {"yield", "yarn", "year", "years", "yellow", "yes", NULL},
     {"zip", "zero", "zone", "zoom", NULL},
 };
 
-static const char *PROGMEM extra_autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
+#define MAX_AUTOCOMPLETE_EXTRA 7
+
+static const char *PROGMEM extra_autocomplete_list[ALPHABET_SIZE][MAX_AUTOCOMPLETE_EXTRA] = {
     {"android", "amazon", "apple", "axelor", "and you?", NULL},                                      // a
     {"bonjour", NULL},                                                                               // b
     {"chrome", NULL},                                                                                // c
@@ -54,7 +56,7 @@ static const char *PROGMEM extra_autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
     {"firefox", NULL},                                                                               // f
     {"google", "goto", NULL},                                                                        // g
     {"how are you?", "hi, how are you?", "hello, World!", "hibernate", NULL},                        // h
-    {"in progress", "i18n", "i'm fine, thanks.", NULL},                                              // i
+    {"i18n", "in progress", "i'm fine, thanks.", NULL},                                              // i
     {"jpql", "jpa", NULL},                                                                           // j
     {NULL},                                                                                          // k
     {"l10n", "Linux", NULL},                                                                         // l
@@ -66,7 +68,7 @@ static const char *PROGMEM extra_autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
     {NULL},                                                                                          // r
     {"salut", NULL},                                                                                 // s
     {"tmp", NULL},                                                                                   // t
-    {"unicode", "unix", "ubuntu", NULL},                                                             // u
+    {"unix", "ubuntu", NULL},                                                                        // u
     {"vial", NULL},                                                                                  // v
     {"work in progress", NULL},                                                                      // w
     {NULL},                                                                                          // x
@@ -241,8 +243,8 @@ static int word_cmp(const char *word, const char *prefix_word, const size_t pref
     return strncasecmp(word, prefix_word, prefix_word_len);
 }
 
-static bool autocomplete_search(const char **words, const char *prefix_word, const size_t prefix_word_len, char *result) {
-    for (size_t i = 0; i < MAX_WORDS; ++i) {
+static bool autocomplete_search(const char **words, const size_t max_size, const char *prefix_word, const size_t prefix_word_len, char *result) {
+    for (size_t i = 0; i < max_size; ++i) {
         const char *word = words[i];
         if (word == NULL) {
             return false;
@@ -280,16 +282,17 @@ static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char
 
     // TODO: handle more special cases via a lookup table
     if (prefix_word[0] == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
-        const char *PROGMEM words[] = {"ca va", "ca va, et toi ?"};
-        found                       = autocomplete_search(words, prefix_word, prefix_word_len, result);
+        const char *PROGMEM words[]    = {"ca va", "ca va, et toi ?", NULL};
+        const size_t        words_size = sizeof(words) / sizeof(words[0]);
+        found                          = autocomplete_search(words, words_size, prefix_word, prefix_word_len, result);
     }
 
     if (!found) {
-        found = autocomplete_search(autocomplete_list[index], prefix_word, prefix_word_len, result);
+        found = autocomplete_search(autocomplete_list[index], MAX_AUTOCOMPLETE, prefix_word, prefix_word_len, result);
     }
 
     if (!found) {
-        found = autocomplete_search(extra_autocomplete_list[index], prefix_word, prefix_word_len, result);
+        found = autocomplete_search(extra_autocomplete_list[index], MAX_AUTOCOMPLETE_EXTRA, prefix_word, prefix_word_len, result);
     }
 
     return found;
