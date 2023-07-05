@@ -29,11 +29,11 @@ static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_AUTOCOMPLETE] = 
     {"class",   "classes", "const",    "catch",  "case",     "child", "children", "char",      "character", "cache",    "close",  "current", "col",      "collect", "collection", "collector", "column",  "continue",   "content", "context", "contains",  "constructor", "comment", "compute", "console", "cpu",  "companion", "copy",   "copyright", "copyleft",  "commit",  "command",  "create", "count",   "clone",        "check", "call",   "callback", "control", "controller", "cancel",     "cursor",    "code",   "custom", "condition", "conditional", "clear",    "clean",   "change", "changelog", "calculate",  "calculator", "channel", "cast",   "connect",  "connection", "convert", "conversion", "compile", "chat",
      "chatbot", "color",   "collapse", "circle", "calendar", "card",  "country",  "countries", "common",    "complete", "chrome", "can",     "citation", "could",   "called",     "city",      "century", "considered", "came",    "created", "continued", "certain",     "company", "cause",   "cannot",  "come", "culture",   "cities", "computer",  "community", "complex", "commonly", "court",  "central", "construction", "cost",  "church", "capital",  "career",  "companies",  "commercial", "christian", "course", "center", "concept",   "carried",     "compared", "contain", "cell",   "cut",       "completely", "campaign",   "claimed", "charge", "cultural", "camel",      "circuit", "c++",        NULL},
     {"data", "def", "define", "definition", "del", "delete", "deletion", "default", "dict", "double", "dummy", "decimal", "debug", "debugger", "dynamic", "delegate", "duplicate", "domain", "done", "down", "download", "downloaded", "downloading", "divide", "diagonal", "diff", "difference", "drop", "distinct", "discard", "draft", "dev", "develop", "development", "developer", "design", "designer", "doc", "documentation", "decode", "day", "dir", "direction", "directory", "directories", "device", "display", "dirty", "digit", "decoration", "dest", "destination", "dry", "dark", "during", "different", "did", "do", "due", "death", "does", "developed", "died", "detail", "description", "describe", "described", "designed", "difficult", "directly", "decided", "defined", "direct", "distance", "divided", "date", "degree", "discovered", "decrement", NULL},
-    {"elem", "element", "else", "except", "exception", "expr", "expression", "enum", "end", "env", "environment", "echo", "even", "export", "error", "extends", "elif", "explicit", "extern", "external", "expect", "expected", "empty", "enter", "escape", "effect", "each", "extra", "extract", "example", "etc.", "engine", "engineer", "engineering", "encoding", "encode", "encrypt", "encryption", "edit", "editor", "erase", "exec", "execute", "executor", "exclude", "early", "either", "every", "energy", "especially", "established", "economic", "event", "eventually", "evidence", "enough", "education", "entire", "earlier", "ever", "experience", "economy", "exist", "elected", "ended", "eight", "estimated", "equipment", "edition", "easily", "extended", "equal", "effective", "easy", "easily", "emoji", NULL},
+    {"elem", "element", "else", "except", "exception", "expr", "expression", "enum", "end", "env", "environment", "echo", "even", "export", "error", "extends", "elif", "explicit", "extern", "external", "expect", "expected", "empty", "enter", "escape", "effect", "each", "extra", "extract", "example", "etc.", "engine", "engineer", "engineering", "encoding", "encode", "encrypt", "encryption", "edit", "editor", "erase", "exec", "execute", "executor", "exclude", "early", "either", "every", "energy", "especially", "established", "economic", "event", "eventually", "evidence", "enough", "education", "entire", "earlier", "ever", "experience", "economy", "exist", "elected", "ended", "eight", "estimated", "equipment", "edition", "easily", "extended", "equal", "effective", "easy", "easily", "emoji", "et toi ?", NULL},
     {"final", "false", "for", "forEach", "function", "float", "from", "front", "frontend", "friend", "field", "file", "filename", "filter", "full", "fetch", "forbid", "forbidden", "forward", "foreground", "free", "fail", "failure", "find", "found", "first", "feature", "frame", "framework", "few", "fewer", "folder", "fast", "firmware", "focus", "fall", "fallback", "family", "future", "firefox", "four", "film", "following", "further", "five", "force", "followed", "fact", "far", "food", "former", "father", "formed", "fire", "foreign", "frequently", "failed", "founded", "financial", "flow", "frequency", "female", "face", "flash", NULL},
     {"get", "getter", "group", "group by", "global", "generic", "git", "good", "gpu", "garbage", "graph", "graphic", "giga", "gigabytes", "green", "gray", "grid", "gantt", "google", "goto", "government", "given", "game", "generally", "general", "great", "gave", "give", "ground", "go", "greater", "growth", "gas", "going", NULL},
-    {"hidden", "hello", "how", "has", "help", "header", "have", "having", "home", "hour", "host", "high", "highlight", "html", "http", "hard", "hardware", "heap", "hook", "height", "history", "his", "he", "had", "him", "however", "held", "human", "himself", "higher", "hand", "half", "head", "house", "highly", "health", "highest", "heavy", "hold", "historical", "hit", "heat", "hex", "hexadecimal", "how are you?", "hi, how are you?", "hello, World!", NULL},
-    {"item", "interface", "implement", "int", "integer", "index", "indexes", "input", "instance", "instanceof", "import", "include", "inline", "implicit", "intern", "internal", "international", "internationalization", "inner", "init", "initial", "initialize", "initialization", "insert", "invert", "issue", "instruction", "image", "inherit", "inheritance", "install", "iter", "iterate", "iteration", "id", "i18n", "in", "is", "it", "into", "if", "including", "important", "information", "itself", "instead", "increased", "individual", "increase", "introduced", "influence", "industry", "interest", "involved", "idea", "island", "independent", "intended", "income", "increasing", "inside", "immediately", "increment", "integrate", "intelligence", "improve", "improvement", "icon", "in progress", "i'm fine, thanks.", NULL},
+    {"hidden", "hello", "how", "has", "help", "header", "have", "having", "home", "hour", "host", "high", "highlight", "html", "http", "hard", "hardware", "heap", "hook", "height", "history", "his", "he", "had", "him", "however", "held", "human", "himself", "higher", "hand", "half", "head", "house", "highly", "health", "highest", "heavy", "hold", "historical", "hit", "heat", "hex", "hexadecimal", "hi, how are you?", "hi, I'm fine, thanks.", "hi, I'm fine, thanks. And you?", "how are you?", "hello, World!", NULL},
+    {"item", "interface", "implement", "int", "integer", "index", "indexes", "input", "instance", "instanceof", "import", "include", "inline", "implicit", "intern", "internal", "international", "internationalization", "inner", "init", "initial", "initialize", "initialization", "insert", "invert", "issue", "instruction", "image", "inherit", "inheritance", "install", "iter", "iterate", "iteration", "id", "i18n", "in", "is", "it", "into", "if", "including", "important", "information", "itself", "instead", "increased", "individual", "increase", "introduced", "influence", "industry", "interest", "involved", "idea", "island", "independent", "intended", "income", "increasing", "inside", "immediately", "increment", "integrate", "intelligence", "improve", "improvement", "icon", "in progress", "i'm fine, thanks.", "i'm fine, thanks. And you?", NULL},
     {"join", "json", "jump", "java", "javascript", "job", "jpql", "jpa", "just", "japan", NULL},
     {"key", "keyword", "kill", "killall", "kind", "keep", "keyboard", "kernel", "kanban", "known", "killed", "king", "knowledge", "know", "kebab", NULL},
     {"len", "length", "let", "list", "long", "lock", "locked", "lambda", "log", "login", "logout", "logger", "local", "location", "localization", "loop", "left", "line", "like", "layout", "liquid", "load", "loading", "loader", "low", "lower", "lowercase", "listen", "listener", "lib", "library", "libraries", "little", "level", "less", "link", "linking", "last", "light", "l10n", "linux", "later", "large", "life", "language", "led", "law", "late", "land", "largest", "least", "lost", "longer", "limited", "lead", "located", "leading", "living", "likely", "legal", "largely", "loss", "lack", "love", "letter", "leave", "learn", "learning", NULL},
@@ -44,8 +44,8 @@ static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_AUTOCOMPLETE] = 
      "picture", "pink",  "padding", "propose", "proposal",  "popup", "preview", "plural", "people",  "part",    "power",    "place",    "point",   "period", "political", "population", "per",    "possible", "popular",  "produced",   "particular", "provide", "present",   "played", "practice", "pressure", "performance", "particularly", "physical", "policy",   "primary",  "performed", "past",    "products",   "president", "potential", "plan",   "proposed", "passed", "parties", "prevent", "playing",  "probably", "paper",       "police",  "poor",     "primarily",   "positive", "pascal",  "pnpm",    "Phi-Long",  "Phi-Long Do", "philong",   "philong.do@gmail.com", "p.do@axelor.com", NULL},
     {"query", "queries", "queue", "quit", "quote", "quick", "quickly", "quality", "question", "qmk", NULL},
     {"return", "read", "raise", "ref", "reference", "require", "run", "record", "register", "receiver", "remote", "reduce", "red", "right", "range", "react", "remove", "removal", "restart", "reboot", "round", "random", "restrict", "restricted", "recipe", "retry", "retries", "reproduce", "request", "response", "responsive", "release", "role", "replay", "rule", "root", "room", "result", "resume", "resource", "repo", "repository", "report", "resolution", "regex", "row", "rgb", "reverse", "rather", "released", "required", "received", "rate", "research", "region", "returned", "religious", "referred", "remained", "real", "related", "recorded", "radio", "remains", "reported", "rest", "recent", "relationship", "relatively", "replaced", "reached", "reason", "reduced", "remain", "regular", "resulting", "remaining", "running", "removed", "reach", "refused", "reality", "reset", "regression", NULL},
-    {"str",    "string", "switch",  "super",      "static",    "stash",      "struct", "self",     "system", "size", "sizeof", "sync", "synchronized", "synchronous", "synchronously", "set",   "setting", "setter",  "success", "successful", "successfully", "show", "showcase", "short",  "socket", "select", "selector", "select * from ", "sealed", "signed",    "suffix",  "suspend", "status", "shift",    "sql",     "sort",    "sorted",  "solid", "state", "statement", "sum",  "summary", "start",   "startup", "stop",  "shut", "shutdown", "store", "small", "similar",   "simple", "second",  "standard", "stage",  "staging",  "smart",   "smartphone", "script", "split",    "space",      "search", "searches", "soft",    "software", "seems",     "separate", "separator", "sound", "special",  "specialize", "specialization",       "service", "speed", "slice", "splice", "scale", "slow", "single", "should", "screen", "screenshot", "subtract", "swap", "style", "strong", "source", "src",
-     "square", "shell",  "suggest", "suggestion", "subscribe", "substitute", "syntax", "singular", "such",   "some", "so",     "same", "several",      "since",       "she",           "still", "said",    "support", "see",     "sometimes",  "species",      "side", "social",   "season", "school", "six",    "surface",  "significant",    "study",  "structure", "started", "sent",    "story",  "specific", "student", "smaller", "subject", "south", "saw",   "soon",      "sold", "science", "society", "simply",  "sense", "site", "served",   "seven", "sea",   "supported", "summer", "studies", "say",      "signal", "southern", "section", "stories",    "ship",   "security", "scientific", "serve",  "supply",   "soldier", "spread",   "suggested", "sign",     "studio",    "snake", "solution", "salut",      "salut, tu vas bien ?", NULL},
+    {"str",    "string",     "switch",   "super", "static", "stash",  "struct", "self", "system", "size",  "sizeof",  "sync",       "synchronized", "synchronous", "synchronously", "set",      "setting", "setter", "success", "successful", "successfully", "show",  "showcase", "short", "socket", "select",  "selector", "select * from ", "sealed",  "signed", "suffix", "suspend", "status", "shift", "sql",     "sort",        "sorted", "solid",     "state",   "statement", "sum",   "summary",  "start",   "startup", "stop",    "shut",  "shutdown", "store", "small", "similar", "simple",  "second", "standard", "stage", "staging", "smart", "smartphone", "script",    "split",  "space",   "search", "searches", "soft",     "software", "seems",   "separate", "separator", "sound",      "special", "specialize", "specialization", "service", "speed",     "slice", "splice", "scale", "slow",     "single", "should",
+     "screen", "screenshot", "subtract", "swap",  "style",  "strong", "source", "src",  "square", "shell", "suggest", "suggestion", "subscribe",    "substitute",  "syntax",        "singular", "such",    "some",   "so",      "same",       "several",      "since", "she",      "still", "said",   "support", "see",      "sometimes",      "species", "side",   "social", "season",  "school", "six",   "surface", "significant", "study",  "structure", "started", "sent",      "story", "specific", "student", "smaller", "subject", "south", "saw",      "soon",  "sold",  "science", "society", "simply", "sense",    "site",  "served",  "seven", "sea",        "supported", "summer", "studies", "say",    "signal",   "southern", "section",  "stories", "ship",     "security",  "scientific", "serve",   "supply",     "soldier",        "spread",  "suggested", "sign",  "studio", "snake", "solution", "salut", "salut, tu vas bien ?",  NULL},
     {"this", "throw", "true",  "type", "typeof", "typescript", "temp",  "temporary", "transaction", "transactional", "transient", "transitive", "then",   "template", "try",    "table",      "tuple", "title",    "that",  "those",     "telephone",   "ticket",     "time",  "too",         "tool",      "transition", "transitioning", "tera",  "terabytes", "thread",     "threading", "translation", "task",  "trigger",  "total",  "track", "tracking",  "tracker", "text", "top",    "theme", "transform", "transformation", "transparent", "transport", "transfer",  "triangle", "tmp",     "todo",
      "the",  "to",    "their", "two",  "than",   "these",      "there", "through",   "three",       "took",          "take",      "term",       "though", "team",     "theory", "throughout", "thus",  "together", "third", "typically", "traditional", "themselves", "trade", "temperature", "therefore", "television", "town",          "today", "turn",      "technology", "towards",   "test",        "train", "training", "taking", "thing", "treatment", "turned",  "ten",  "troops", "told",  "tradition", "terminal",       "tree",        "thanks",    "thank you", "tweet",    "tweeter", NULL},
     {"undefined", "update", "use", "using", "union", "url", "username", "unsigned", "undef", "unless", "up", "upstream", "util", "undo", "uninstall", "upload", "uploaded", "uploading", "upper", "uppercase", "upsert", "unsubscribe", "unicode", "utf-8", "unix", "used", "under", "until", "usually", "united", "upon", "unit", "ubuntu", NULL},
@@ -277,14 +277,11 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
         }
 
         // TODO: handle more special cases via a lookup table
-        if (prefix_word[0] == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
-            const char *PROGMEM words[]    = {"ca va", "ca va, et toi ?", NULL};
-            const size_t        words_size = sizeof(words) / sizeof(words[0]);
-            found_index                    = autocomplete_search(words, words_size, start_index, prefix_word, prefix_word_len, result);
-            break;
-        }
-
-        if (found_index < 0) {
+        if (start_letter == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
+            static const char *PROGMEM words[]    = {"ca va", "ca va, et toi ?", NULL};
+            static const size_t        words_size = sizeof(words) / sizeof(words[0]);
+            found_index                           = autocomplete_search(words, words_size, start_index, prefix_word, prefix_word_len, result);
+        } else {
             found_index = autocomplete_search(autocomplete_list[index], MAX_AUTOCOMPLETE, start_index, prefix_word, prefix_word_len, result);
         }
 
@@ -298,7 +295,7 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
 
 //  Like strpbrk, but also takes camelCase into account.
 static const char *strchr_multiple(const char *str) {
-    static const char *char_set = " -_.";
+    static const char *char_set = " -_.,";
     const char        *original = str;
 
     while (*str != '\0') {
@@ -316,6 +313,48 @@ static const char *strchr_multiple(const char *str) {
     }
 
     return NULL;
+}
+
+static void send_string_auto_unicode(const char *str) {
+    SEND_STRING(str);
+    // int length = strlen(str);
+    // int i      = 0;
+
+    // while (i < length) {
+    //     if ((unsigned char)str[i] <= 127) {
+    //         // Plain ASCII character
+    //         int j = i;
+    //         while (j < length && (unsigned char)str[j] <= 127) {
+    //             j++;
+    //         }
+    //         // Send the plain ASCII substring
+    //         char plain_ascii[j - i + 1];
+    //         strncpy(plain_ascii, &str[i], j - i);
+    //         plain_ascii[j - i] = '\0';
+    //         SEND_STRING(plain_ascii);
+    //         i = j;
+    //     } else {
+    //         // Non-ASCII character
+    //         int j = i;
+    //         while (j < length && (unsigned char)str[j] > 127) {
+    //             j++;
+    //         }
+    //         // Send the UTF-8 substring
+    //         char utf8[j - i + 1];
+    //         strncpy(utf8, &str[i], j - i);
+    //         utf8[j - i] = '\0';
+    //         send_unicode_string(utf8);
+    //         i = j;
+    //     }
+    // }
+}
+
+static void convert_to_uppercase(char *str) {
+    size_t i = 0;
+    while (str[i] != '\0') {
+        str[i] = toupper(str[i]);
+        ++i;
+    }
 }
 
 bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autocomplete_keycode) {
@@ -350,11 +389,6 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
     if (keycode == autocomplete_keycode) {
         // Autocomplete the word based on the current input
 
-        // const size_t   word_pos  = find_last_word_pos(current_word);
-        // const char    *word      = current_word + word_pos;
-        // const uint8_t *word_mods = current_word_mods + word_pos;
-        // autocomplete(word, word_mods, autocomplete_result);
-
         if (last_autocomplete.index >= 0) {
             current_word_length -= last_autocomplete.size;
             current_word[current_word_length] = '\0';
@@ -386,7 +420,19 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         }
 
         if (autocomplete_result[0] != '\0') {
-            SEND_STRING(autocomplete_result);
+            const bool shifted = (all_mods && MOD_MASK_SHIFT) || is_caps_word_on();
+            char      *result;
+
+            if (shifted) {
+                char result_upper[MAX_WORD_LENGTH + 1];
+                strcpy(result_upper, autocomplete_result);
+                convert_to_uppercase(result_upper);
+                result = result_upper;
+            } else {
+                result = autocomplete_result;
+            }
+
+            send_string_auto_unicode(result);
             const size_t autocomplete_len = strlen(autocomplete_result);
             const size_t new_len          = current_word_length + autocomplete_len;
 
@@ -428,7 +474,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         }
 
         // Add the pressed key to the current word
-        const bool shifted                     = all_mods & MOD_MASK_SHIFT;
+        const bool shifted                     = (all_mods & MOD_MASK_SHIFT) || is_caps_word_on();
         current_word_mods[current_word_length] = all_mods;
         current_word[current_word_length++]    = keycode_to_case_char(keycode, shifted);
         current_word[current_word_length]      = '\0'; // Null-terminate the word
