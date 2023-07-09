@@ -3,7 +3,6 @@
 #include QMK_KEYBOARD_H
 
 #include "quantum/keymap_extras/keymap_colemak.h"
-#include "quantum/keymap_extras/sendstring_colemak.h"
 
 // Left-hand home row mods
 #define MT_A LGUI_T(KC_A)
