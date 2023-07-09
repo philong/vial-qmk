@@ -1132,11 +1132,11 @@
             "U_USERNAME"
         ],
         [
-            "KC_O",
-            "KC_P",
+            "U_REPEAT",
+            "KC_QUOTE",
             "KC_NO",
             "KC_NO",
-            "U_DOUBLE_COLON"
+            "U_CM_TOGG"
         ],
         [
             "RSFT_T(KC_COMMA)",
@@ -1512,7 +1512,7 @@
         "3": 0,
         "4": 175,
         "5": 5,
-        "6": 800,
+        "6": 2000,
         "7": 175,
         "8": 7,
         "9": 10,
