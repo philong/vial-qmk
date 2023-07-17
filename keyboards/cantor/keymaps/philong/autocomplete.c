@@ -148,6 +148,22 @@ static ssize_t autocomplete_search(const char **words, const size_t max_size, co
     return -1;
 }
 
+static bool is_end_of_sentence(const char *str) {
+    int length = strlen(str);
+
+    // Trim whitespace characters at the end of the string
+    while (length > 0 && isspace((int)str[length - 1])) {
+        length--;
+    }
+
+    // Check if the last non-whitespace character is a period, exclamation mark, or question mark
+    if (length > 0 && (str[length - 1] == '.' || str[length - 1] == '!' || str[length - 1] == '?')) {
+        return true; // End of a sentence
+    } else {
+        return false; // Not the end of a sentence
+    }
+}
+
 static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, char *result) {
     result[0]                    = '\0';
     const size_t prefix_word_len = strlen(prefix_word);
@@ -159,8 +175,11 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
         start_index = 0;
     }
 
-    if (prefix_word_len <= 0) {
-        strcpy(result, "I ");
+    if (prefix_word_len <= 0 || is_end_of_sentence(prefix_word)) {
+        strcpy(result, "The ");
+        return 0;
+    } else if (prefix_word_len >= 1 && isspace((int)prefix_word[prefix_word_len - 1])) {
+        strcpy(result, "the ");
         return 0;
     }
 
@@ -173,6 +192,7 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
 
     ssize_t found_index = -1;
 
+    // Suggestion loop
     for (int i = 0; i < 2; ++i) {
         if (i != 0) {
             if (start_index == 0) {
