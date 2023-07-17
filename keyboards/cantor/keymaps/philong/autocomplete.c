@@ -277,7 +277,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
     }
 
     // let through anything above that's normal keyboard keycode or a mod
-    if (IS_MOD(keycode) || keycode == KC_ESCAPE) {
+    if (IS_MODIFIER_KEYCODE(keycode) || keycode == KC_ESCAPE) {
         return true;
     }
 
