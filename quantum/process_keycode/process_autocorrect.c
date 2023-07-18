@@ -188,6 +188,20 @@ __attribute__((weak)) bool apply_autocorrect(uint8_t backspaces, const char *str
     return true;
 }
 
+__attribute__((weak)) bool autocorrect_is_alpha(uint16_t keycode) {
+    return KC_A <= keycode && keycode <= KC_Z;
+}
+
+__attribute__((weak)) bool autocorrect_is_boundary(uint16_t keycode) {
+    switch (keycode) {
+        case KC_1 ... KC_0:
+        case KC_TAB ... KC_SEMICOLON:
+        case KC_GRAVE ... KC_SLASH:
+            return true;
+    }
+    return false;
+}
+
 /**
  * @brief Process handler for autocorrect feature
  *
@@ -230,39 +244,37 @@ bool process_autocorrect(uint16_t keycode, keyrecord_t *record) {
         return true;
     }
 
-    // keycode buffer check
-    switch (keycode) {
-        case KC_A ... KC_Z:
-            // process normally
-            break;
-        case KC_1 ... KC_0:
-        case KC_TAB ... KC_SEMICOLON:
-        case KC_GRAVE ... KC_SLASH:
+    if (!autocorrect_is_alpha(keycode)) {
+        if (autocorrect_is_boundary(keycode)) {
             // Set a word boundary if space, period, digit, etc. is pressed.
             keycode = KC_SPC;
-            break;
-        case KC_ENTER:
-            // Behave more conservatively for the enter key. Reset, so that enter
-            // can't be used on a word ending.
-            typo_buffer_size = 0;
-            keycode          = KC_SPC;
-            break;
-        case KC_BSPC:
-            // Remove last character from the buffer.
-            if (typo_buffer_size > 0) {
-                --typo_buffer_size;
+        } else {
+            // keycode buffer check
+            switch (keycode) {
+                case KC_ENTER:
+                    // Behave more conservatively for the enter key. Reset, so that enter
+                    // can't be used on a word ending.
+                    typo_buffer_size = 0;
+                    keycode          = KC_SPC;
+                    break;
+                case KC_BSPC:
+                    // Remove last character from the buffer.
+                    if (typo_buffer_size > 0) {
+                        --typo_buffer_size;
+                    }
+                    return true;
+                case KC_QUOTE:
+                    // Treat " (shifted ') as a word boundary.
+                    if ((mods & MOD_MASK_SHIFT) != 0) {
+                        keycode = KC_SPC;
+                    }
+                    break;
+                default:
+                    // Clear state if some other non-alpha key is pressed.
+                    typo_buffer_size = 0;
+                    return true;
             }
-            return true;
-        case KC_QUOTE:
-            // Treat " (shifted ') as a word boundary.
-            if ((mods & MOD_MASK_SHIFT) != 0) {
-                keycode = KC_SPC;
-            }
-            break;
-        default:
-            // Clear state if some other non-alpha key is pressed.
-            typo_buffer_size = 0;
-            return true;
+        }
     }
 
     // Rotate oldest character if buffer is full.
