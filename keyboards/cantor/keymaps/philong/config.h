@@ -85,7 +85,17 @@
 
 #define SENTENCE_CASE_TIMEOUT 2000
 
-#define DMACRO1_TEXT1 ""
-#define DMACRO1_TEXT2 ""
-#define DMACRO2_TEXT1 ""
-#define DMACRO2_TEXT2 ""
+#include "ignore.extras.h"
+
+#ifndef DMACRO1_TEXT1
+    #define DMACRO1_TEXT1 ""
+#endif
+#ifndef DMACRO1_TEXT2
+    #define DMACRO1_TEXT2 ""
+#endif
+#ifndef DMACRO2_TEXT1
+    #define DMACRO2_TEXT1 ""
+#endif
+#ifndef DMACRO2_TEXT2
+    #define DMACRO2_TEXT2 ""
+#endif
