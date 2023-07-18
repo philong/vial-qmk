@@ -217,6 +217,8 @@ bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
         case KC_BSPC:
         case CM_X:
         case KC_KP_DOT:
+        case QK_REPEAT_KEY:
+        case QK_ALT_REPEAT_KEY:
         case U_REPEAT:
         case U_ALT_REPEAT:
             // case KC_ENT:
@@ -693,7 +695,7 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
     return !is_oneshot_trigger(keycode);
 }
 
-// Shift+REPEAT -> ALTREP
+// Shift+QK_REPEAT_KEY -> QK_ALT_REPEAT_KEY
 bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uint16_t repeat_keycode, uint16_t alt_repeat_keycode) {
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
