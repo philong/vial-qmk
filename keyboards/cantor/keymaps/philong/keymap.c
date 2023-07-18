@@ -17,7 +17,6 @@
 #include "features/select_word.h"
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
-#include "features/autocorrection.h"
 #ifdef MOUSEKEY_ENABLE
 #    include "features/mouse_turbo_click.h"
 #endif
@@ -128,6 +127,13 @@ void update_led(void) {
 
 bool is_tap_dance(const uint16_t keycode) {
     return QK_TAP_DANCE <= keycode && keycode <= QK_TAP_DANCE_MAX;
+}
+
+// KC_A ... KC_Z -> Colemak
+bool is_alpha(const uint16_t keycode) {
+    return (KC_A <= keycode && keycode <= KC_O) // Exclude CM_SCLN == KC_P
+        || (keycode == CM_O)    // Include CM_O == KC_SCLN
+        || (KC_Q <= keycode && keycode <= KC_Z);
 }
 
 // Mod-tap, RAlt mod and Colemak
@@ -378,12 +384,17 @@ bool sentence_case_check_ending(const uint16_t *buffer) {
     return true; // Real sentence ending; capitalize next letter.
 }
 
-bool autocorrection_is_letter(uint16_t keycode) {
-    return (KC_A <= keycode && keycode <= KC_Z && keycode != KC_P) || keycode == KC_SCLN;
+// Colemak
+bool autocorrect_is_alpha(uint16_t keycode) {
+    return is_alpha(keycode);
 }
 
-bool autocorrection_is_boundary(uint16_t keycode) {
-    return (KC_1 <= keycode && keycode <= KC_SLSH && keycode != KC_SCLN) || keycode == KC_P;
+// Colemak
+bool autocorrect_is_boundary(uint16_t keycode) {
+    return (KC_1 <= keycode && keycode <= KC_0)
+        || (KC_TAB <= keycode && keycode < KC_SEMICOLON)
+        || (keycode == CM_SCLN)
+        || (KC_GRAVE <= keycode && keycode <= KC_SLASH);
 }
 
 // Colemak
@@ -1227,9 +1238,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_multi_caps_word(keycode, record, U_CAPS_WORD_TOGGLE)) {
-        return false;
-    }
-    if (!process_autocorrection(keycode, record)) {
         return false;
     }
     if (!process_case_modes(keycode, record)) {
