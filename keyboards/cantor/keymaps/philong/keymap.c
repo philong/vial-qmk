@@ -728,11 +728,8 @@ bool is_outer_key(keyrecord_t *record) {
     }
 }
 
+// The return value is true to consider the tap-hold key held or false to consider it tapped.
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
-    if (is_tap_dance(other_keycode)) {
-            return false;
-    }
-
     if (is_outer_key(tap_hold_record)) {
         return true;
     }
@@ -756,10 +753,6 @@ bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
     // Doubled tap-hold holds issue while recording a dynamic macro
     // https://getreuer.info/posts/keyboards/achordion/index.html#compatibility
     if (dynamic_macro_recording) {
-        return true;
-    }
-
-    if (is_tap_dance(keycode)) {
         return true;
     }
 
