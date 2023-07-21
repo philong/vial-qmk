@@ -28,6 +28,72 @@
 
 #include "keycodes.h"
 
+const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+     /*
+      * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
+      * │Tab│ Q │ W │ E │ R │ T │       │ Y │ U │ I │ O │ P │Bsp│
+      * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
+      * │Ctl│ A │ S │ D │ F │ G │       │ H │ J │ K │ L │ ; │ ' │
+      * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
+      * │Sft│ Z │ X │ C │ V │ B │       │ N │ M │ , │ . │ / │Sft│
+      * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
+      *               ┌───┐                   ┌───┐
+      *               │GUI├───┐           ┌───┤Alt│
+      *               └───┤   ├───┐   ┌───┤   ├───┘
+      *                   └───┤Bsp│   │Ent├───┘
+      *                       └───┘   └───┘
+      */
+    [0] = LAYOUT_split_3x6_3(
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                           KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
+        KC_LCTL, MT_A,    MT_S,    MT_D,    MT_F,    KC_G,                           KC_H,    MT_J,    MT_K,    MT_L,    MT_SCLN, KC_QUOT,
+        KC_LSFT, KC_Z,    MT_X,    KC_C,    KC_V,    KC_B,                           KC_N,    KC_M,    KC_COMM, MT_DOT,  KC_SLSH, KC_RSFT,
+                                            KC_LGUI, KC_SPC, KC_BSPC,       KC_ENT,  KC_SPC,  KC_RALT
+    ),
+
+    [1] = LAYOUT_split_3x6_3(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+    [2] = LAYOUT_split_3x6_3(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+    [3] = LAYOUT_split_3x6_3(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+    [4] = LAYOUT_split_3x6_3(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+    [5] = LAYOUT_split_3x6_3(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+    [6] = LAYOUT_split_3x6_3(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+    [7] = LAYOUT_split_3x6_3(
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
+    )
+};
+
 static bool sentence_primed         = false;
 static bool dynamic_macro_recording = false;
 static bool oneshot_mods_enabled    = false;
@@ -58,6 +124,17 @@ bool led_enabled_user(void) {
 
 void update_led(void) {
     set_led(led_enabled_user());
+}
+
+bool is_tap_dance(const uint16_t keycode) {
+    return QK_TAP_DANCE <= keycode && keycode <= QK_TAP_DANCE_MAX;
+}
+
+// KC_A ... KC_Z -> Colemak
+bool is_alpha(const uint16_t keycode) {
+    return (KC_A <= keycode && keycode <= KC_O) // Exclude CM_SCLN == KC_P
+        || (keycode == CM_O)    // Include CM_O == KC_SCLN
+        || (KC_Q <= keycode && keycode <= KC_Z);
 }
 
 // Mod-tap, RAlt mod and Colemak
@@ -309,7 +386,7 @@ bool sentence_case_check_ending(const uint16_t *buffer) {
 }
 
 bool autocorrection_is_letter(uint16_t keycode) {
-    return (KC_A <= keycode && keycode <= KC_Z && keycode != KC_P) || keycode == KC_SCOLON;
+    return is_alpha(keycode);
 }
 
 bool autocorrection_is_boundary(uint16_t keycode) {
@@ -326,7 +403,7 @@ char sentence_case_press_user(uint16_t keycode, keyrecord_t *record, uint8_t mod
 
             case KC_A ... KC_O:
             case KC_Q ... KC_Z:
-            case KC_SCOLON:
+            case KC_SCLN:
                 return 'a'; // Letter key.
 
             case KC_DOT: // . is punctuation, Shift . is a symbol (>)
@@ -652,8 +729,7 @@ bool is_outer_key(keyrecord_t *record) {
 }
 
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
-    switch (other_keycode) {
-        case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+    if (is_tap_dance(other_keycode)) {
             return false;
     }
 
@@ -680,6 +756,10 @@ bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
     // Doubled tap-hold holds issue while recording a dynamic macro
     // https://getreuer.info/posts/keyboards/achordion/index.html#compatibility
     if (dynamic_macro_recording) {
+        return true;
+    }
+
+    if (is_tap_dance(keycode)) {
         return true;
     }
 
@@ -883,7 +963,7 @@ bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t cap
             disable_xcase();
             disable_num_word();
             clear_all_mods();
-            tap_code(KC_CAPSLOCK);
+            tap_code(KC_CAPS_LOCK);
             set_mods(mods);
         } else if (is_controlled) {
             // num word

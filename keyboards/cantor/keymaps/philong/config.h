@@ -34,6 +34,7 @@
     #define QK_LAYER_TAP_TOGGLE_GET_LAYER(kc) ((kc)&0x1F)
     #define QK_LAYER_MOD_GET_LAYER(kc) (((kc) >> 5) & 0xF)
     #define QK_LAYER_TAP_GET_LAYER(kc) (((kc) >> 8) & 0xF)
+    #define IS_MODIFIER_KEYCODE(kc) IS_MOD(kc)
 #endif
 
 
@@ -98,7 +99,17 @@
 
 #define SENTENCE_CASE_TIMEOUT 2000
 
-#define DMACRO1_TEXT1 ""
-#define DMACRO1_TEXT2 ""
-#define DMACRO2_TEXT1 ""
-#define DMACRO2_TEXT2 ""
+#include "ignore.extras.h"
+
+#ifndef DMACRO1_TEXT1
+    #define DMACRO1_TEXT1 ""
+#endif
+#ifndef DMACRO1_TEXT2
+    #define DMACRO1_TEXT2 ""
+#endif
+#ifndef DMACRO2_TEXT1
+    #define DMACRO2_TEXT1 ""
+#endif
+#ifndef DMACRO2_TEXT2
+    #define DMACRO2_TEXT2 ""
+#endif
