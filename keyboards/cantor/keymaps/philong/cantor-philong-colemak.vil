@@ -28,9 +28,9 @@
                 "KC_B"
             ],
             [
-                "LT(4, KC_ESCAPE)",
-                "LT(2, KC_SPACE)",
-                "LT(3, KC_TAB)",
+                "LT4(KC_ESCAPE)",
+                "LT2(KC_SPACE)",
+                "LT3(KC_TAB)",
                 -1,
                 -1,
                 -1
@@ -60,9 +60,9 @@
                 "U_OS_RALT"
             ],
             [
-                "LT(6, KC_ENTER)",
-                "LT(5, KC_BSPACE)",
-                "LT(7, KC_DELETE)",
+                "LT6(KC_ENTER)",
+                "LT5(KC_BSPACE)",
+                "LT7(KC_DELETE)",
                 -1,
                 -1,
                 -1
@@ -111,16 +111,16 @@
             ],
             [
                 "KC_MINUS",
-                "RCTL_T(KC_4)",
-                "RSFT_T(KC_5)",
-                "LALT_T(KC_6)",
+                "KC_4",
+                "KC_5",
+                "KC_6",
                 "TD(9)",
                 "KC_TRNS"
             ],
             [
                 "TD(4)",
-                "RALT_T(KC_1)",
-                "RSFT_T(KC_2)",
+                "KC_1",
+                "KC_2",
                 "KC_3",
                 "KC_TRNS",
                 "KC_TRNS"
@@ -145,7 +145,7 @@
             ],
             [
                 "KC_TRNS",
-                "U_CAPS_WORD_TOGGLE",
+                "LGUI_T(KC_CAPSLOCK)",
                 "LALT_T(KC_LEFT)",
                 "LSFT_T(KC_DOWN)",
                 "LCTL_T(KC_RIGHT)",
@@ -1218,7 +1218,7 @@
     ],
     "key_override": [
         {
-            "trigger": "LT(5, KC_BSPACE)",
+            "trigger": "LT5(KC_BSPACE)",
             "replacement": "KC_DELETE",
             "layers": 65519,
             "trigger_mods": 2,
