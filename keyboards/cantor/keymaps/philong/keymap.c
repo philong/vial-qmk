@@ -142,11 +142,18 @@ bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
     return IS_MT(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == CM_SCLN;
 }
 
+static const uint16_t END_KEY_LAYER = 0;
+
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     // Increase the tapping term a little for slower ring and pinky fingers.
     uint16_t tap_keycode;
 
     if (IS_LT(keycode)) {
+        const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
+        if (layer == END_KEY_LAYER) {
+            return QS.tapping_term;
+        }
+
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
     } else if (IS_MT(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
@@ -741,6 +748,10 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, ui
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+    if (IS_LT(tap_hold_keycode) && QK_LAYER_TAP_GET_LAYER(tap_hold_keycode) == END_KEY_LAYER) {
+        return 0;
+    }
+
     switch (tap_hold_keycode) {
         case MT_F:
             return ACHORDION_TIMEOUT_MIN;
@@ -935,6 +946,67 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     return true;
+}
+
+// static const uint16_t end_keycodes = {
+//     KC_SCLN,
+//     KC_COMMA,
+//     KC_DOT,
+//     KC_SLASH,
+//     KC_ONE,
+// }
+// static const size_t num_end_keycodes = sizeof(end_keycodes) / sizeof(end_keycodes[0]);
+
+bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
+    if (!IS_LT(keycode)) {
+        return true;  // Continue default handling.
+    }
+
+    const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
+
+    if (layer != END_KEY_LAYER) {
+        return true;  // Continue default handling.
+    }
+
+    const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+
+    const uint8_t mods     = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    if (tap_keycode == KC_F24) {
+        if (record->tap.count == 0) {  // Key is being held.
+            if (record->event.pressed) {
+                clear_all_mods();
+                tap_code16(KC_END);
+                set_mods(all_mods);
+            }
+        }
+
+        if (record->event.pressed) {
+            set_mods(all_mods | MOD_BIT(KC_LSFT));
+            register_code16(KC_1);
+            set_mods(all_mods);
+        } else {
+            unregister_code16(KC_1);
+        }
+        return false;  // Skip default handling.
+    }
+
+    if (record->tap.count == 0) {  // Key is being held.
+        if (record->event.pressed) {
+            clear_all_mods();
+            tap_code16(KC_END);
+            set_mods(all_mods);
+        }
+    }
+
+    if (record->event.pressed) {
+        register_code16(tap_keycode);
+    } else {
+        unregister_code16(tap_keycode);
+    }
+
+    return false;  // Skip default handling.
 }
 
 bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t caps_word_keycode) {
@@ -1224,6 +1296,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_macros_user(keycode, record)) {
+        return false;
+    }
+    if (!process_end_keys(keycode, record)) {
         return false;
     }
     if (!process_multi_caps_word(keycode, record, U_CAPS_WORD_TOGGLE)) {

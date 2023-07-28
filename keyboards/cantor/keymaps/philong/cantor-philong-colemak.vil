@@ -4,7 +4,7 @@
     "layout": [
         [
             [
-                "U_SEL_WORD",
+                "USER03",
                 "KC_Q",
                 "KC_W",
                 "KC_E",
@@ -12,7 +12,7 @@
                 "KC_T"
             ],
             [
-                "U_REPEAT",
+                "USER05",
                 "LGUI_T(KC_A)",
                 "LALT_T(KC_S)",
                 "LSFT_T(KC_D)",
@@ -20,7 +20,7 @@
                 "KC_G"
             ],
             [
-                "U_OS_LSFT",
+                "USER35",
                 "KC_Z",
                 "KC_X",
                 "LSFT_T(KC_C)",
@@ -40,24 +40,24 @@
                 "KC_U",
                 "KC_I",
                 "KC_O",
-                "KC_P",
-                "U_CAPS_WORD_TOGGLE"
+                "LT0(KC_P)",
+                "USER01"
             ],
             [
                 "KC_H",
                 "RCTL_T(KC_J)",
                 "RSFT_T(KC_K)",
                 "LALT_T(KC_L)",
-                "RGUI_T(KC_SCLN)",
+                "RGUI_T(KC_SCOLON)",
                 "KC_QUOTE"
             ],
             [
                 "KC_N",
                 "RALT_T(KC_M)",
                 "RSFT_T(KC_COMMA)",
-                "KC_DOT",
-                "KC_SLASH",
-                "U_OS_RALT"
+                "LT0(KC_DOT)",
+                "LT0(KC_SLASH)",
+                "USER40"
             ],
             [
                 "LT6(KC_ENTER)",
@@ -136,7 +136,7 @@
         ],
         [
             [
-                "U_LAYER_LOCK",
+                "USER00",
                 "KC_INSERT",
                 "KC_HOME",
                 "KC_UP",
@@ -172,15 +172,15 @@
                 "KC_7",
                 "KC_8",
                 "KC_9",
-                "KC_LBRACKET",
-                "U_JOIN_LN"
+                "LT0(KC_LBRACKET)",
+                "USER04"
             ],
             [
                 "KC_MINUS",
                 "KC_4",
                 "KC_5",
                 "KC_6",
-                "KC_RBRACKET",
+                "LT0(KC_RBRACKET)",
                 "KC_GRAVE"
             ],
             [
@@ -202,7 +202,7 @@
         ],
         [
             [
-                "U_LAYER_LOCK",
+                "USER00",
                 "KC_PSCREEN",
                 "KC_F7",
                 "KC_F8",
@@ -239,7 +239,7 @@
                 "LSFT(KC_8)",
                 "TD(1)",
                 "LSFT(KC_LBRACKET)",
-                "U_JOIN_LN"
+                "USER04"
             ],
             [
                 "LSFT(KC_MINUS)",
@@ -251,7 +251,7 @@
             ],
             [
                 "LSFT(KC_0)",
-                "LSFT(KC_1)",
+                "LT0(KC_F24)",
                 "LSFT(KC_2)",
                 "LSFT(KC_3)",
                 "LSFT(KC_BSLASH)",
@@ -260,7 +260,7 @@
             [
                 "KC_ENTER",
                 "KC_BSPACE",
-                "U_SEL_WORD",
+                "USER03",
                 -1,
                 -1,
                 -1
@@ -268,8 +268,8 @@
         ],
         [
             [
-                "U_LAYER_LOCK",
-                "KC_SLASH",
+                "USER00",
+                "LT0(KC_SLASH)",
                 "KC_7",
                 "KC_8",
                 "KC_9",
@@ -285,8 +285,8 @@
             ],
             [
                 "KC_TRNS",
-                "KC_DOT",
-                "KC_1",
+                "LT0(KC_DOT)",
+                "LT0(KC_1)",
                 "LSFT_T(KC_2)",
                 "RALT_T(KC_3)",
                 "TD(4)"
@@ -305,7 +305,7 @@
                 "RALT(KC_8)",
                 "RALT(KC_9)",
                 "RALT(KC_LBRACKET)",
-                "U_JOIN_LN"
+                "USER04"
             ],
             [
                 "RALT(KC_MINUS)",
@@ -326,7 +326,7 @@
             [
                 "KC_ENTER",
                 "KC_BSPACE",
-                "U_JOIN_LN",
+                "USER04",
                 -1,
                 -1,
                 -1
@@ -334,7 +334,7 @@
         ],
         [
             [
-                "U_LAYER_LOCK",
+                "USER00",
                 "KC_INSERT",
                 "KC_HOME",
                 "KC_UP",
@@ -343,7 +343,7 @@
             ],
             [
                 "KC_TRNS",
-                "U_CAPS_WORD_TOGGLE",
+                "USER01",
                 "KC_LEFT",
                 "KC_DOWN",
                 "KC_RIGHT",
@@ -360,7 +360,7 @@
             [
                 "KC_ESCAPE",
                 "KC_SPACE",
-                "U_AUTOCOMPLETE",
+                "USER33",
                 -1,
                 -1,
                 -1
@@ -384,8 +384,8 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "U_ALT_REPEAT",
-                "U_REPEAT",
+                "USER06",
+                "USER05",
                 "KC_NO",
                 "KC_TRNS"
             ],
@@ -400,7 +400,7 @@
         ],
         [
             [
-                "U_LAYER_LOCK",
+                "USER00",
                 "KC_PSCREEN",
                 "KC_F7",
                 "KC_F8",
@@ -450,8 +450,8 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "U_ALT_REPEAT",
-                "U_REPEAT",
+                "USER06",
+                "USER05",
                 "KC_NO",
                 "KC_TRNS"
             ],
@@ -466,7 +466,7 @@
         ],
         [
             [
-                "U_LAYER_LOCK",
+                "USER00",
                 "LSFT(KC_INSERT)",
                 "KC_WH_L",
                 "KC_MS_U",
@@ -487,7 +487,7 @@
                 "KC_ACL0",
                 "KC_ACL1",
                 "KC_ACL2",
-                "U_TURBO_CLICK"
+                "USER07"
             ],
             [
                 "KC_BTN3",
@@ -516,8 +516,8 @@
             [
                 "KC_NO",
                 "KC_RALT",
-                "U_ALT_REPEAT",
-                "U_REPEAT",
+                "USER06",
+                "USER05",
                 "KC_NO",
                 "KC_TRNS"
             ],
@@ -1017,7 +1017,7 @@
             "RCTL_T(KC_J)",
             "RSFT_T(KC_K)",
             "KC_NO",
-            "U_DOUBLE_MINUS"
+            "USER23"
         ],
         [
             "LCTL_T(KC_F)",
@@ -1048,74 +1048,74 @@
             "TD(3)"
         ],
         [
-            "LT(2, KC_SPACE)",
-            "LT(4, KC_ESCAPE)",
+            "LT2(KC_SPACE)",
+            "LT4(KC_ESCAPE)",
             "KC_NO",
             "KC_NO",
             "KC_BSPACE"
         ],
         [
-            "LT(2, KC_SPACE)",
-            "LT(3, KC_TAB)",
+            "LT2(KC_SPACE)",
+            "LT3(KC_TAB)",
             "KC_NO",
             "KC_NO",
             "KC_ENTER"
         ],
         [
-            "LT(5, KC_BSPACE)",
-            "LT(6, KC_ENTER)",
+            "LT5(KC_BSPACE)",
+            "LT6(KC_ENTER)",
             "KC_NO",
             "KC_NO",
-            "U_REPEAT"
+            "USER05"
         ],
         [
-            "LT(5, KC_BSPACE)",
-            "LT(7, KC_DELETE)",
+            "LT5(KC_BSPACE)",
+            "LT7(KC_DELETE)",
             "KC_NO",
             "KC_NO",
-            "U_ALT_REPEAT"
+            "USER06"
         ],
         [
             "KC_I",
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
-            "U_DOUBLE_QUOTE"
+            "USER29"
         ],
         [
             "LCTL_T(KC_F)",
             "RALT_T(KC_V)",
             "KC_NO",
             "KC_NO",
-            "U_OS_RALT"
+            "USER40"
         ],
         [
             "KC_N",
             "RALT_T(KC_M)",
             "RSFT_T(KC_COMMA)",
             "KC_NO",
-            "U_NOT_EQUAL"
+            "USER15"
         ],
         [
             "KC_U",
             "KC_I",
             "KC_O",
             "KC_NO",
-            "U_AND_OPERATOR"
+            "USER21"
         ],
         [
             "RALT_T(KC_M)",
             "RSFT_T(KC_COMMA)",
-            "KC_DOT",
+            "LT0(KC_DOT)",
             "KC_NO",
-            "U_ARROW"
+            "USER19"
         ],
         [
             "RCTL_T(KC_J)",
             "RALT_T(KC_M)",
             "KC_NO",
             "KC_NO",
-            "U_OS_RALT"
+            "USER40"
         ],
         [
             "KC_W",
@@ -1129,91 +1129,91 @@
             "LSFT_T(KC_C)",
             "RALT_T(KC_V)",
             "KC_NO",
-            "U_USERNAME"
+            "USER30"
         ],
         [
-            "U_REPEAT",
+            "USER05",
             "KC_QUOTE",
             "KC_NO",
             "KC_NO",
-            "U_CM_TOGG"
+            "USER32"
         ],
         [
             "RSFT_T(KC_COMMA)",
-            "KC_DOT",
+            "LT0(KC_DOT)",
             "KC_NO",
             "KC_NO",
-            "U_THREE_DOTS"
+            "USER11"
         ],
         [
-            "KC_SLASH",
+            "LT0(KC_SLASH)",
             "RGUI_T(KC_SCLN)",
             "KC_NO",
             "KC_NO",
-            "U_DOUBLE_SLASH"
+            "USER25"
         ],
         [
             "RSFT_T(KC_K)",
             "RSFT_T(KC_COMMA)",
             "KC_NO",
             "KC_NO",
-            "U_OS_RSFT"
+            "USER39"
         ],
         [
             "LSFT_T(KC_C)",
             "RALT_T(KC_V)",
             "KC_B",
             "KC_NO",
-            "U_LOWER_THAN_OR_EQUAL"
+            "USER17"
         ],
         [
             "LSFT_T(KC_D)",
             "LSFT_T(KC_C)",
             "KC_NO",
             "KC_NO",
-            "U_OS_LSFT"
+            "USER35"
         ],
         [
             "KC_E",
             "KC_R",
             "KC_T",
             "KC_NO",
-            "U_LEFT_SHIFT"
+            "USER27"
         ],
         [
-            "KC_DOT",
-            "KC_SLASH",
+            "LT0(KC_DOT)",
+            "LT0(KC_SLASH)",
             "KC_NO",
             "KC_NO",
-            "U_CURRENT_DIRECTORY"
+            "USER08"
         ],
         [
             "KC_Y",
             "KC_U",
             "KC_I",
             "KC_NO",
-            "U_EQUAL"
+            "USER13"
         ],
         [
-            "LT(6, KC_ENTER)",
-            "LT(7, KC_DELETE)",
+            "LT6(KC_ENTER)",
+            "LT7(KC_DELETE)",
             "KC_NO",
             "KC_NO",
             "DYN_REC_STOP"
         ],
         [
             "KC_N",
-            "LT(5, KC_BSPACE)",
+            "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
             "KC_GRAVE"
         ],
         [
-            "U_SEL_WORD",
-            "U_CAPS_WORD_TOGGLE",
+            "USER03",
+            "USER01",
             "KC_NO",
             "KC_NO",
-            "U_CG_TOGG"
+            "USER31"
         ]
     ],
     "key_override": [
