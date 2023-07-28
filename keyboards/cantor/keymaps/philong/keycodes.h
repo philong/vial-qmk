@@ -32,33 +32,33 @@ enum layers {
 enum user_keycode {
     U_LAYER_LOCK = USER00,
     U_CAPS_WORD_TOGGLE,
-    U_NUM_WORD_TOGGLE,
+    U_NUM_WORD_TOGGLE, // remove?
     U_SEL_WORD,
     U_JOIN_LN,
     U_REPEAT,
     U_ALT_REPEAT,
     U_TURBO_CLICK,
     U_CURRENT_DIRECTORY,
-    U_UP_DIRECTORY,
-    U_DOT,
+    U_UP_DIRECTORY, // remove?
+    U_DOT, // remove?
     U_THREE_DOTS,
-    U_DOUBLE_COLON,
+    U_DOUBLE_COLON, // remove?
     U_EQUAL,
-    U_STRICT_EQUAL,
+    U_STRICT_EQUAL, // remove?
     U_NOT_EQUAL,
-    U_STRICT_NOT_EQUAL,
+    U_STRICT_NOT_EQUAL, // remove?
     U_LOWER_THAN_OR_EQUAL,
-    U_GREATER_THAN_OR_EQUAL,
+    U_GREATER_THAN_OR_EQUAL, // remove?
     U_ARROW,
-    U_DOUBLE_ARROW,
+    U_DOUBLE_ARROW, // remove?
     U_AND_OPERATOR,
-    U_OR_OPERATOR,
+    U_OR_OPERATOR, // remove?
     U_DOUBLE_MINUS,
-    U_DOUBLE_PLUS,
+    U_DOUBLE_PLUS, // remove?
     U_DOUBLE_SLASH,
-    U_DOUBLE_QUESTION,
+    U_DOUBLE_QUESTION, // remove?
     U_LEFT_SHIFT,
-    U_RIGHT_SHIFT,
+    U_RIGHT_SHIFT, // remove?
     U_DOUBLE_QUOTE,
     U_USERNAME,
     U_CG_TOGG,
