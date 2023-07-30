@@ -17,7 +17,9 @@
 #include "features/select_word.h"
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
-#include "features/autocorrection.h"
+#ifdef KEYCODES_V5
+    #include "features/autocorrection.h"
+#endif
 #ifdef MOUSEKEY_ENABLE
 #    include "features/mouse_turbo_click.h"
 #endif
@@ -225,6 +227,8 @@ bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
         case KC_BSPC:
         case CM_X:
         case KC_KP_DOT:
+        // case QK_REPEAT_KEY:
+        // case QK_ALT_REPEAT_KEY:
         case U_REPEAT:
         case U_ALT_REPEAT:
             // case KC_ENT:
@@ -344,7 +348,11 @@ size_t get_dynamic_macro_index(int8_t direction) {
     return -1;
 }
 
+#ifdef KEYCODES_V5
 void dynamic_macro_record_start_user(void) {
+#else
+void dynamic_macro_record_start_user(int8_t direction) {
+#endif
     dynamic_macro_recording = true;
     update_led();
 }
@@ -392,13 +400,25 @@ bool sentence_case_check_ending(const uint16_t *buffer) {
     return true; // Real sentence ending; capitalize next letter.
 }
 
+// Colemak
+#ifdef KEYCODES_V5
 bool autocorrection_is_letter(uint16_t keycode) {
     return is_alpha(keycode);
 }
-
 bool autocorrection_is_boundary(uint16_t keycode) {
-    return (KC_1 <= keycode && keycode <= KC_SLSH && keycode != KC_SCOLON) || keycode == KC_P;
+    return (KC_1 <= keycode && keycode <= KC_SLSH && keycode != KC_SCLN) || keycode == KC_P;
 }
+#else
+bool autocorrect_is_alpha(uint16_t keycode) {
+    return is_alpha(keycode);
+}
+bool autocorrect_is_boundary(uint16_t keycode) {
+    return (KC_1 <= keycode && keycode <= KC_0)
+        || (KC_TAB <= keycode && keycode < KC_SCLN)
+        || (keycode == CM_SCLN)
+        || (KC_GRAVE <= keycode && keycode <= KC_SLASH);
+}
+#endif
 
 // Colemak
 char sentence_case_press_user(uint16_t keycode, keyrecord_t *record, uint8_t mods) {
@@ -696,7 +716,7 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
     return !is_oneshot_trigger(keycode);
 }
 
-// Shift+REPEAT -> ALTREP
+// Shift+QK_REPEAT_KEY -> QK_ALT_REPEAT_KEY
 bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uint16_t repeat_keycode, uint16_t alt_repeat_keycode) {
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
@@ -1304,9 +1324,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_multi_caps_word(keycode, record, U_CAPS_WORD_TOGGLE)) {
         return false;
     }
-    if (!process_autocorrection(keycode, record)) {
-        return false;
-    }
     if (!process_case_modes(keycode, record)) {
         return false;
     }
@@ -1316,6 +1333,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_autocomplete(keycode, record, U_AUTOCOMPLETE)) {
         return false;
     }
+
+#ifdef KEYCODES_V5
+    if (!process_autocorrection(keycode, record)) {
+        return false;
+    }
+#endif
 
 #ifdef MOUSEKEY_ENABLE
     if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) {

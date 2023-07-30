@@ -8,7 +8,12 @@
 /* default layer count */
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
 
-#define UNICODE_SELECTED_MODES UC_LNX
+#define KEYCODES_V5
+
+#ifndef UNICODE_MODE_LINUX
+    #define UNICODE_MODE_LINUX UC_LNX
+#endif
+#define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 
 // Colemak
 #define UNICODE_KEY_LNX LCTL(LSFT(KC_I))
@@ -21,7 +26,7 @@
 #endif
 
 // QMK 0.19.0 keycode parsing macros currently missing from Vial
-#ifndef IS_QK_BASIC
+#ifdef KEYCODES_V5
     #define IS_QK_BASIC(code) ((code) >= QK_BASIC && (code) <= QK_BASIC_MAX)
     #define IS_QK_MOD_TAP(code) ((code) >= QK_MOD_TAP && (code) <= QK_MOD_TAP_MAX)
     #define IS_QK_LAYER_TAP(code) ((code) >= QK_LAYER_TAP && (code) <= QK_LAYER_TAP_MAX)
@@ -35,8 +40,14 @@
     #define QK_LAYER_MOD_GET_LAYER(kc) (((kc) >> 5) & 0xF)
     #define QK_LAYER_TAP_GET_LAYER(kc) (((kc) >> 8) & 0xF)
     #define IS_MODIFIER_KEYCODE(kc) IS_MOD(kc)
+#else
+    #define IS_MT(code) IS_QK_MOD_TAP(code)
+    #define IS_LT(code) IS_QK_LAYER_TAP(code)
 #endif
 
+#ifndef QK_KB_0
+  #define QK_KB_0 USER00
+#endif
 
 // https://precondition.github.io/home-row-mods#getting-started-with-home-row-mods-on-qmk
 
@@ -47,7 +58,9 @@
 #endif
 
 // Prevent normal rollover on alphas from accidentally triggering mods.
-#define IGNORE_MOD_TAP_INTERRUPT
+#ifdef KEYCODES_V5
+    #define IGNORE_MOD_TAP_INTERRUPT
+#endif
 
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
 #define TAPPING_FORCE_HOLD

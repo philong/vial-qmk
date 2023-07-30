@@ -30,7 +30,7 @@ enum layers {
 };
 
 enum user_keycode {
-    U_LAYER_LOCK = USER00,
+    U_LAYER_LOCK = QK_KB_0,
     U_CAPS_WORD_TOGGLE,
     U_NUM_WORD_TOGGLE, // remove?
     U_SEL_WORD,
@@ -73,3 +73,9 @@ enum user_keycode {
     U_OS_RALT,
     U_OS_RGUI,
 };
+
+#ifndef QK_REPEAT_KEY
+    #define QK_REPEAT_KEY U_REPEAT
+    #define QK_ALT_REPEAT_KEY U_ALT_REPEAT
+#endif
+
