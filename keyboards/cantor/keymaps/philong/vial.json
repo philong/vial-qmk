@@ -12,6 +12,10 @@
          "title": "Caps Word",
          "name": "U_CAPS_WORD_TOGGLE"
         },
+        {"shortName": "Num\nWord",
+         "title": "Num Word",
+         "name": "U_NUM_WORD_TOGGLE"
+        },
         {"shortName": "Select\nWord",
          "title": "Select Word",
          "name": "U_SEL_WORD"
@@ -36,41 +40,85 @@
          "title": "Current Directory",
          "name": "U_CURRENT_DIRECTORY"
         },
+        {"shortName": "../",
+         "title": "Parent Directory",
+         "name": "U_UP_DIRECTORY"
+        },
+        {"shortName": ".",
+         "title": "Dot",
+         "name": "U_DOT"
+        },
         {"shortName": "...",
          "title": "Three Dots",
          "name": "U_THREE_DOTS"
+        },
+        {"shortName": "::",
+         "title": "Double Colon",
+         "name": "U_DOUBLE_COLON"
         },
         {"shortName": "==",
          "title": "Equal",
          "name": "U_EQUAL"
         },
+        {"shortName": "===",
+         "title": "Strict Equal",
+         "name": "U_STRICT_EQUAL"
+        },
         {"shortName": "!=",
          "title": "Not Equal",
          "name": "U_NOT_EQUAL"
+        },
+        {"shortName": "!==",
+         "title": "Strict Not Equal",
+         "name": "U_STRICT_NOT_EQUAL"
         },
         {"shortName": "<=",
          "title": "Lower Than Or Equal",
          "name": "U_LOWER_THAN_OR_EQUAL"
         },
+        {"shortName": ">=",
+         "title": "Greater Than Or Equal",
+         "name": "U_GREATER_THAN_OR_EQUAL"
+        },
         {"shortName": "->",
          "title": "Arrow",
          "name": "U_ARROW"
+        },
+        {"shortName": "=>",
+         "title": "Double Arrow",
+         "name": "U_DOUBLE_ARROW"
         },
         {"shortName": "&&",
          "title": "And Operator",
          "name": "U_AND_OPERATOR"
         },
+        {"shortName": "||",
+         "title": "Or Operator",
+         "name": "U_OR__OPERATOR"
+        },
         {"shortName": "--",
          "title": "Double Minus",
          "name": "U_DOUBLE_MINUS"
+        },
+        {"shortName": "++",
+         "title": "Double Plus",
+         "name": "U_DOUBLE_PLUS"
         },
         {"shortName": "//",
          "title": "Double Slash",
          "name": "U_DOUBLE_SLASH"
         },
+        {"shortName": "??",
+         "title": "Double Question",
+         "name": "U_DOUBLE_QUESTION"
+        },
         {"shortName": "<<",
          "title": "Left Shift",
          "name": "U_LEFT_SHIFT"
+        },
+        {"shortName": ">>",
+         "title": "Right Shift",
+         "name": "U_RIGHT_SHIFT"
         },
         {"shortName": "\"\"",
          "title": "Double Quote",
