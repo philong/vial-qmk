@@ -460,24 +460,25 @@ char sentence_case_press_user(uint16_t keycode, keyrecord_t *record, uint8_t mod
     return '\0';
 }
 
+static bool lctl_primed = false;
+static bool lsft_primed = false;
+static bool lalt_primed = false;
+static bool lgui_primed = false;
+static bool rctl_primed = false;
+static bool rsft_primed = false;
+static bool ralt_primed = false;
+static bool rgui_primed = false;
+
 bool is_oneshot_trigger(uint16_t keycode) {
-    switch (keycode) {
-        case U_OS_LCTL:
-        case U_OS_LSFT:
-        case U_OS_LALT:
-        case U_OS_LGUI:
-        case U_OS_RCTL:
-        case U_OS_RSFT:
-        case U_OS_RALT:
-        case U_OS_RGUI:
-            return true;
-        default:
-            return false;
-    }
+    return U_OS_LCTL <= keycode && keycode <= U_OS_RGUI;
 }
 
-bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t trigger_keycode, uint16_t mod_key) {
+bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t trigger_keycode, uint16_t mod_key, bool *primed) {
     if (keycode != trigger_keycode) {
+        if (primed && !is_oneshot_trigger(keycode)) {
+            *primed = false;
+        }
+
         return true;
     }
 
@@ -486,11 +487,15 @@ bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t tri
     if (record->event.pressed) {
         register_code(mod_key);
         oneshot_timer = timer_read_fast();
+        *primed       = true;
     } else {
         unregister_code(mod_key);
-        const bool is_hold = timer_elapsed_fast(oneshot_timer) > GET_TAPPING_TERM(keycode, record);
-        if (!is_hold) {
-            set_oneshot_mods(get_oneshot_mods() | MOD_BIT(mod_key));
+        if (*primed) {
+            if (timer_elapsed_fast(oneshot_timer) <= GET_TAPPING_TERM(keycode, record)) {
+                // Primed and tapped
+                set_oneshot_mods(get_oneshot_mods() | MOD_BIT(mod_key));
+            }
+            *primed = false;
         }
     }
 
@@ -498,28 +503,28 @@ bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t tri
 }
 
 bool process_oneshot(uint16_t keycode, keyrecord_t *record) {
-    if (!process_oneshot_trigger(keycode, record, U_OS_LCTL, KC_LCTL)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LCTL, KC_LCTL, &lctl_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_LSFT, KC_LSFT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LSFT, KC_LSFT, &lsft_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_LALT, KC_LALT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LALT, KC_LALT, &lalt_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_LGUI, KC_LGUI)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LGUI, KC_LGUI, &lgui_primed)) {
         return true;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RCTL, KC_RCTL)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RCTL, KC_RCTL, &rctl_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RSFT, KC_RSFT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RSFT, KC_RSFT, &rsft_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RALT, KC_RALT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RALT, KC_RALT, &ralt_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RGUI, KC_RGUI)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RGUI, KC_RGUI, &rgui_primed)) {
         return false;
     }
 
