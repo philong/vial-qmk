@@ -18,7 +18,7 @@
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
 #ifdef KEYCODES_V5
-    #include "features/autocorrection.h"
+#    include "features/autocorrection.h"
 #endif
 #ifdef MOUSEKEY_ENABLE
 #    include "features/mouse_turbo_click.h"
@@ -135,8 +135,8 @@ bool is_tap_dance(const uint16_t keycode) {
 // KC_A ... KC_Z -> Colemak
 bool is_alpha(const uint16_t keycode) {
     return (KC_A <= keycode && keycode <= KC_O) // Exclude CM_SCLN == KC_P
-        || (keycode == CM_O)    // Include CM_O == KC_SCLN
-        || (KC_Q <= keycode && keycode <= KC_Z);
+           || (keycode == CM_O)                 // Include CM_O == KC_SCLN
+           || (KC_Q <= keycode && keycode <= KC_Z);
 }
 
 // Mod-tap, RAlt mod and Colemak
@@ -413,10 +413,7 @@ bool autocorrect_is_alpha(uint16_t keycode) {
     return is_alpha(keycode);
 }
 bool autocorrect_is_boundary(uint16_t keycode) {
-    return (KC_1 <= keycode && keycode <= KC_0)
-        || (KC_TAB <= keycode && keycode < KC_SCLN)
-        || (keycode == CM_SCLN)
-        || (KC_GRAVE <= keycode && keycode <= KC_SLASH);
+    return (KC_1 <= keycode && keycode <= KC_0) || (KC_TAB <= keycode && keycode < KC_SCLN) || (keycode == CM_SCLN) || (KC_GRAVE <= keycode && keycode <= KC_SLASH);
 }
 #endif
 
@@ -979,13 +976,13 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 
 bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
     if (!IS_LT(keycode)) {
-        return true;  // Continue default handling.
+        return true; // Continue default handling.
     }
 
     const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
 
     if (layer != END_KEY_LAYER) {
-        return true;  // Continue default handling.
+        return true; // Continue default handling.
     }
 
     const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
@@ -994,7 +991,7 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
     if (tap_keycode == KC_F24) {
-        if (record->tap.count == 0) {  // Key is being held.
+        if (record->tap.count == 0) { // Key is being held.
             if (record->event.pressed) {
                 clear_all_mods();
                 tap_code16(KC_END);
@@ -1009,10 +1006,10 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
         } else {
             unregister_code16(KC_1);
         }
-        return false;  // Skip default handling.
+        return false; // Skip default handling.
     }
 
-    if (record->tap.count == 0) {  // Key is being held.
+    if (record->tap.count == 0) { // Key is being held.
         if (record->event.pressed) {
             clear_all_mods();
             tap_code16(KC_END);
@@ -1026,7 +1023,7 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
         unregister_code16(tap_keycode);
     }
 
-    return false;  // Skip default handling.
+    return false; // Skip default handling.
 }
 
 bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t caps_word_keycode) {
