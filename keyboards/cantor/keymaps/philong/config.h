@@ -38,9 +38,7 @@
     #define QK_LAYER_MOD_GET_LAYER(kc) (((kc) >> 5) & 0xF)
     #define QK_LAYER_TAP_GET_LAYER(kc) (((kc) >> 8) & 0xF)
     #define IS_MODIFIER_KEYCODE(kc) IS_MOD(kc)
-#else
-    #define IS_MT(code) IS_QK_MOD_TAP(code)
-    #define IS_LT(code) IS_QK_LAYER_TAP(code)
+    #define QK_ONE_SHOT_MOD_GET_MODS(kc) ((kc)&0x1F)
 #endif
 
 #ifndef QK_KB_0
