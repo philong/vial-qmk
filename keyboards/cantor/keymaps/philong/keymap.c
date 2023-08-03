@@ -18,7 +18,7 @@
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
 #ifdef KEYCODES_V5
-    #include "features/autocorrection.h"
+#    include "features/autocorrection.h"
 #endif
 #ifdef MOUSEKEY_ENABLE
 #    include "features/mouse_turbo_click.h"
@@ -135,8 +135,8 @@ bool is_tap_dance(const uint16_t keycode) {
 // KC_A ... KC_Z -> Colemak
 bool is_alpha(const uint16_t keycode) {
     return (KC_A <= keycode && keycode <= KC_O) // Exclude CM_SCLN == KC_P
-        || (keycode == CM_O)    // Include CM_O == KC_SCLN
-        || (KC_Q <= keycode && keycode <= KC_Z);
+           || (keycode == CM_O)                 // Include CM_O == KC_SCLN
+           || (KC_Q <= keycode && keycode <= KC_Z);
 }
 
 // Mod-tap, RAlt mod and Colemak
@@ -410,10 +410,7 @@ bool autocorrect_is_alpha(uint16_t keycode) {
     return is_alpha(keycode);
 }
 bool autocorrect_is_boundary(uint16_t keycode) {
-    return (KC_1 <= keycode && keycode <= KC_0)
-        || (KC_TAB <= keycode && keycode < KC_SCLN)
-        || (keycode == CM_SCLN)
-        || (KC_GRAVE <= keycode && keycode <= KC_SLASH);
+    return (KC_1 <= keycode && keycode <= KC_0) || (KC_TAB <= keycode && keycode < KC_SCLN) || (keycode == CM_SCLN) || (KC_GRAVE <= keycode && keycode <= KC_SLASH);
 }
 #endif
 
@@ -460,24 +457,24 @@ char sentence_case_press_user(uint16_t keycode, keyrecord_t *record, uint8_t mod
     return '\0';
 }
 
+static bool lctl_primed = false;
+static bool lsft_primed = false;
+static bool lalt_primed = false;
+static bool lgui_primed = false;
+static bool rctl_primed = false;
+static bool rsft_primed = false;
+static bool ralt_primed = false;
+static bool rgui_primed = false;
+
 bool is_oneshot_trigger(uint16_t keycode) {
-    switch (keycode) {
-        case U_OS_LCTL:
-        case U_OS_LSFT:
-        case U_OS_LALT:
-        case U_OS_LGUI:
-        case U_OS_RCTL:
-        case U_OS_RSFT:
-        case U_OS_RALT:
-        case U_OS_RGUI:
-            return true;
-        default:
-            return false;
-    }
+    return U_OS_LCTL <= keycode && keycode <= U_OS_RGUI;
 }
 
-bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t trigger_keycode, uint16_t mod_key) {
+bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t trigger_keycode, uint16_t mod_key, bool *primed) {
     if (keycode != trigger_keycode) {
+        if (primed && !is_oneshot_trigger(keycode)) {
+            *primed = false;
+        }
         return true;
     }
 
@@ -486,11 +483,15 @@ bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t tri
     if (record->event.pressed) {
         register_code(mod_key);
         oneshot_timer = timer_read_fast();
+        *primed       = true;
     } else {
         unregister_code(mod_key);
-        const bool is_hold = timer_elapsed_fast(oneshot_timer) > GET_TAPPING_TERM(keycode, record);
-        if (!is_hold) {
-            set_oneshot_mods(get_oneshot_mods() | MOD_BIT(mod_key));
+        if (*primed) {
+            if (timer_elapsed_fast(oneshot_timer) <= GET_TAPPING_TERM(keycode, record)) {
+                // Primed and tapped
+                set_oneshot_mods(get_oneshot_mods() | MOD_BIT(mod_key));
+            }
+            *primed = false;
         }
     }
 
@@ -498,28 +499,28 @@ bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t tri
 }
 
 bool process_oneshot(uint16_t keycode, keyrecord_t *record) {
-    if (!process_oneshot_trigger(keycode, record, U_OS_LCTL, KC_LCTL)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LCTL, KC_LCTL, &lctl_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_LSFT, KC_LSFT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LSFT, KC_LSFT, &lsft_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_LALT, KC_LALT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LALT, KC_LALT, &lalt_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_LGUI, KC_LGUI)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_LGUI, KC_LGUI, &lgui_primed)) {
         return true;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RCTL, KC_RCTL)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RCTL, KC_RCTL, &rctl_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RSFT, KC_RSFT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RSFT, KC_RSFT, &rsft_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RALT, KC_RALT)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RALT, KC_RALT, &ralt_primed)) {
         return false;
     }
-    if (!process_oneshot_trigger(keycode, record, U_OS_RGUI, KC_RGUI)) {
+    if (!process_oneshot_trigger(keycode, record, U_OS_RGUI, KC_RGUI, &rgui_primed)) {
         return false;
     }
 
@@ -976,13 +977,13 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 
 bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
     if (!IS_LT(keycode)) {
-        return true;  // Continue default handling.
+        return true; // Continue default handling.
     }
 
     const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
 
     if (layer != END_KEY_LAYER) {
-        return true;  // Continue default handling.
+        return true; // Continue default handling.
     }
 
     const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
@@ -991,7 +992,7 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
     if (tap_keycode == KC_F24) {
-        if (record->tap.count == 0) {  // Key is being held.
+        if (record->tap.count == 0) { // Key is being held.
             if (record->event.pressed) {
                 clear_all_mods();
                 tap_code16(KC_END);
@@ -1006,10 +1007,10 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
         } else {
             unregister_code16(KC_1);
         }
-        return false;  // Skip default handling.
+        return false; // Skip default handling.
     }
 
-    if (record->tap.count == 0) {  // Key is being held.
+    if (record->tap.count == 0) { // Key is being held.
         if (record->event.pressed) {
             clear_all_mods();
             tap_code16(KC_END);
@@ -1023,7 +1024,7 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
         unregister_code16(tap_keycode);
     }
 
-    return false;  // Skip default handling.
+    return false; // Skip default handling.
 }
 
 bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t caps_word_keycode) {
