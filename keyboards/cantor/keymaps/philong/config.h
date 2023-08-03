@@ -64,6 +64,7 @@
 
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
 #define TAPPING_FORCE_HOLD
+#define QUICK_TAP_TERM 0
 
 #define PERMISSIVE_HOLD
 
