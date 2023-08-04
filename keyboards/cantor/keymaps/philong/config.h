@@ -1,3 +1,4 @@
+#define KEYCODES_V5
 
 /* keyboard uid */
 #define VIAL_KEYBOARD_UID {0xF0, 0x67, 0x2F, 0x54, 0x23, 0xB3, 0x7B, 0x55}
@@ -7,8 +8,6 @@
 
 /* default layer count */
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
-
-#define KEYCODES_V5
 
 #ifndef UNICODE_MODE_LINUX
     #define UNICODE_MODE_LINUX UC_LNX
@@ -40,9 +39,7 @@
     #define QK_LAYER_MOD_GET_LAYER(kc) (((kc) >> 5) & 0xF)
     #define QK_LAYER_TAP_GET_LAYER(kc) (((kc) >> 8) & 0xF)
     #define IS_MODIFIER_KEYCODE(kc) IS_MOD(kc)
-#else
-    #define IS_MT(code) IS_QK_MOD_TAP(code)
-    #define IS_LT(code) IS_QK_LAYER_TAP(code)
+    #define QK_ONE_SHOT_MOD_GET_MODS(kc) ((kc)&0x1F)
 #endif
 
 #ifndef QK_KB_0
@@ -106,7 +103,6 @@
 // #define USB_SUSPEND_WAKEUP_DELAY 5000
 
 #define ONESHOT_TIMEOUT 2000
-
 #define MK_3_SPEED
 #define MK_MOMENTARY_ACCEL
 #define MOUSEKEY_DELAY 0

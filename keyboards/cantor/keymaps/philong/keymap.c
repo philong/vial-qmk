@@ -141,23 +141,21 @@ bool is_alpha(const uint16_t keycode) {
 
 // Mod-tap, RAlt mod and Colemak
 bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
-    return IS_MT(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == CM_SCLN;
+    return IS_QK_MOD_TAP(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == CM_SCLN;
 }
-
 static const uint16_t END_KEY_LAYER = 0;
 
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     // Increase the tapping term a little for slower ring and pinky fingers.
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
         if (layer == END_KEY_LAYER) {
             return QS.tapping_term;
         }
-
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     } else {
         return QS.tapping_term;
@@ -360,7 +358,6 @@ void dynamic_macro_record_start_user(int8_t direction) {
 void dynamic_macro_record_end_user(int8_t direction) {
     dynamic_macro_recording = false;
     update_led();
-
     size_t index = get_dynamic_macro_index(direction);
     if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
     dynamic_macro_recorded[index] = true;
@@ -478,7 +475,6 @@ bool process_oneshot_trigger(uint16_t keycode, keyrecord_t *record, uint16_t tri
         if (primed && !is_oneshot_trigger(keycode)) {
             *primed = false;
         }
-
         return true;
     }
 
@@ -584,9 +580,9 @@ uint16_t combine_keycode(uint16_t keycode, uint8_t mods) {
 uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     } else {
         tap_keycode = keycode;
@@ -770,7 +766,7 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, ui
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-    if (IS_LT(tap_hold_keycode) && QK_LAYER_TAP_GET_LAYER(tap_hold_keycode) == END_KEY_LAYER) {
+    if (IS_QK_LAYER_TAP(tap_hold_keycode) && QK_LAYER_TAP_GET_LAYER(tap_hold_keycode) == END_KEY_LAYER) {
         return 0;
     }
 
@@ -800,11 +796,12 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t lay
     // Unlock all layers if any layer is locked (ensures key has toggle effect).
     if (keycode == layer_lock_keycode && locked_layers != 0 && record->event.pressed) {
         layer_lock_all_off();
+        update_led();
         return false;
     }
 
     if (locked_layers != 0) {
-        if (IS_MT(keycode)) {
+        if (IS_QK_MOD_TAP(keycode)) {
             const uint16_t tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
             if (record->event.pressed) {
                 register_code(tap_keycode);
@@ -812,7 +809,7 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t lay
                 unregister_code(tap_keycode);
             }
             return false;
-        } else if (IS_LT(keycode)) {
+        } else if (IS_QK_LAYER_TAP(keycode)) {
             const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
             if (record->event.pressed) {
                 register_code(tap_keycode);
@@ -900,12 +897,12 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.
@@ -945,21 +942,16 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (tap_keycode) {
         case KC_ESCAPE:
-            if (is_caps_word_on()) {
+            if (is_caps_word_on() || get_xcase_state() != XCASE_OFF || num_word_enabled()) {
                 caps_word_off();
-                return false;
-            }
-            if (get_xcase_state() != XCASE_OFF) {
                 disable_xcase();
-                return false;
-            }
-            if (num_word_enabled()) {
                 disable_num_word();
                 return false;
             }
             break;
         case U_NUM_WORD_TOGGLE:
             caps_word_off();
+            disable_xcase();
             toggle_num_word();
             return false;
         case U_CG_TOGG:
@@ -980,7 +972,7 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 // static const size_t num_end_keycodes = sizeof(end_keycodes) / sizeof(end_keycodes[0]);
 
 bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
-    if (!IS_LT(keycode)) {
+    if (!IS_QK_LAYER_TAP(keycode)) {
         return true; // Continue default handling.
     }
 
@@ -1036,52 +1028,36 @@ bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t cap
         return true;
     }
 
-    if (record->event.pressed) {
-        const uint8_t mods     = get_mods();
-        const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+    if (!record->event.pressed) {
+        return false;
+    }
 
-        const bool is_shifted    = all_mods & MOD_MASK_SHIFT;
-        const bool is_controlled = all_mods & MOD_MASK_CTRL;
-        const bool is_alted      = all_mods & MOD_MASK_ALT;
+    if (is_caps_word_on() || get_xcase_state() != XCASE_OFF || num_word_enabled()) {
+        caps_word_off();
+        disable_xcase();
+        disable_num_word();
+        return false;
+    }
 
-        if (is_shifted && is_controlled) {
-            // caps lock
-            caps_word_off();
-            disable_xcase();
-            disable_num_word();
-            clear_all_mods();
-            tap_code(KC_CAPS_LOCK);
-            set_mods(mods);
-        } else if (is_controlled) {
-            // num word
-            caps_word_off();
-            disable_xcase();
-            clear_all_mods();
-            toggle_num_word();
-            set_mods(mods);
-        } else if (is_shifted) {
-            // https://github.com/andrewjrae/kyria-keymap/#x-case
-            caps_word_off();
-            disable_num_word();
-            if (get_xcase_state() != XCASE_OFF) {
-                disable_xcase();
-            } else {
-                enable_xcase_with(OSM(MOD_LSFT));
-            }
-        } else if (is_alted) {
-            caps_word_off();
-            disable_num_word();
-            if (get_xcase_state() != XCASE_OFF) {
-                disable_xcase();
-            } else {
-                enable_xcase();
-            }
-        } else {
-            // caps word
-            disable_xcase();
-            disable_num_word();
-            caps_word_toggle();
-        }
+    const uint8_t mods     = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    const bool is_shifted    = all_mods & MOD_MASK_SHIFT;
+    const bool is_controlled = all_mods & MOD_MASK_CTRL;
+    const bool is_alted      = all_mods & MOD_MASK_ALT;
+
+    if (is_shifted && is_controlled) {
+        clear_all_mods();
+        tap_code(KC_CAPS_LOCK);
+        set_mods(mods);
+    } else if (is_controlled) {
+        toggle_num_word();
+    } else if (is_shifted) {
+        enable_xcase_with(OSM(MOD_LSFT));
+    } else if (is_alted) {
+        enable_xcase();
+    } else {
+        caps_word_toggle();
     }
 
     return false;
@@ -1166,12 +1142,12 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
 
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.

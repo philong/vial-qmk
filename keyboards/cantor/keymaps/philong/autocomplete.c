@@ -165,8 +165,7 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
         }
 
         const char **words;
-        size_t words_len;
-
+        size_t       words_len;
         if (start_letter == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
             words     = c_cedilla_words;
             words_len = c_cedilla_words_len;
@@ -174,7 +173,6 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
             words     = autocomplete_data[index];
             words_len = MAX_AUTOCOMPLETE;
         }
-
         found_index = autocomplete_search(words, words_len, start_index, prefix_word, prefix_word_len, result);
 
         if (found_index >= 0) {
