@@ -31,7 +31,7 @@ static void reset_word(void) {
 }
 
 static bool is_allowed_in_buffer(uint16_t keycode) {
-    return keycode < KC_CAPS_LOCK;
+    return keycode < KC_CAPS_LOCK && keycode != KC_ENTER;
 }
 
 // __attribute__((weak)) const char keycode_to_char[KC_CAPS_LOCK] PROGMEM = {
@@ -268,7 +268,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
     }
 
     // let through anything above that's normal keyboard keycode or a mod
-    if (IS_MODIFIER_KEYCODE(keycode) || keycode == KC_ESCAPE) {
+    if (IS_MODIFIER_KEYCODE(keycode)) {
         return true;
     }
 
@@ -280,6 +280,11 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
                 return true;
             }
             keycode = keycode & 0xFF;
+    }
+
+    if (keycode == KC_ESCAPE) {
+        reset_word();
+        return true;
     }
 
     if (keycode == autocomplete_keycode) {
