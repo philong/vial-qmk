@@ -8,7 +8,7 @@
 
 #include "autocomplete_data.h"
 
-#define MAX_WORD_LENGTH 20
+#define MAX_WORD_LENGTH 31
 
 static char    current_word[MAX_WORD_LENGTH + 1];      // Stores the current word being typed
 static uint8_t current_word_mods[MAX_WORD_LENGTH + 1]; // Stores the mods in the current word
