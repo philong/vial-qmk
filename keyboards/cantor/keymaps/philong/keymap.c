@@ -971,6 +971,8 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 // }
 // static const size_t num_end_keycodes = sizeof(end_keycodes) / sizeof(end_keycodes[0]);
 
+static uint8_t end_keys_saved_mods = 0;
+
 bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
     if (!IS_QK_LAYER_TAP(keycode)) {
         return true; // Continue default handling.
@@ -997,11 +999,12 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
         }
 
         if (record->event.pressed) {
+            end_keys_saved_mods = all_mods;
             set_mods(all_mods | MOD_BIT(KC_LSFT));
             register_code16(KC_1);
-            set_mods(all_mods);
         } else {
             unregister_code16(KC_1);
+            set_mods(end_keys_saved_mods);
         }
         return false; // Skip default handling.
     }
