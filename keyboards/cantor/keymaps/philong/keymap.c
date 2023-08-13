@@ -145,8 +145,11 @@ bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
 }
 static const uint16_t END_KEY_LAYER = 0;
 
+#ifdef VIAL_KEYBOARD_UID
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    // Increase the tapping term a little for slower ring and pinky fingers.
+#else
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+#endif
     uint16_t tap_keycode;
 
     if (IS_QK_LAYER_TAP(keycode)) {
@@ -162,6 +165,7 @@ uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     }
 
     switch (tap_keycode) {
+        // Increase the tapping term for slower ring and pinky fingers.
         case CM_Q:
         case CM_W:
         case CM_A:
