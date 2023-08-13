@@ -78,4 +78,3 @@ enum user_keycode {
     #define QK_REPEAT_KEY U_REPEAT
     #define QK_ALT_REPEAT_KEY U_ALT_REPEAT
 #endif
-
