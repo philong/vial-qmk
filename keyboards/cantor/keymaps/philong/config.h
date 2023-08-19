@@ -18,9 +18,6 @@
 
 #ifdef CONSOLE_ENABLE
     #define VIAL_INSECURE
-    #undef NKRO_ENABLE
-    #undef MOUSEKEY_ENABLE
-    #undef EXTRAKEY_ENABLE
 #endif
 
 // QMK 0.19.0 keycode parsing macros currently missing from Vial

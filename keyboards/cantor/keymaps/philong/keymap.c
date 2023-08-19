@@ -3,10 +3,6 @@
 
 #include QMK_KEYBOARD_H
 
-#ifdef CONSOLE_ENABLE
-#    include "print.h"
-#endif
-
 #include "via.h"
 #include "qmk_settings.h"
 
