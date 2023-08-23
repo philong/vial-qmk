@@ -96,6 +96,7 @@ static bool sentence_primed         = false;
 static bool dynamic_macro_recording = false;
 static bool oneshot_mods_enabled    = false;
 static bool oneshot_layer_enabled   = false;
+static layer_state_t locked_layers = 0;
 
 void clear_all_mods(void) {
     clear_mods();
@@ -112,12 +113,12 @@ bool oneshot_active(void) {
     return oneshot_mods_enabled || oneshot_layer_enabled;
 }
 
-bool layer_active(void) {
-    return layer_state != 0 || default_layer_state != 0;
+bool layer_locked(void) {
+    return locked_layers != 0;
 }
 
 bool led_enabled_user(void) {
-    return is_caps_word_on() || get_xcase_state() != XCASE_OFF || num_word_enabled() || layer_active() || sentence_primed || dynamic_macro_recording || oneshot_active();
+    return is_caps_word_on() || get_xcase_state() != XCASE_OFF || num_word_enabled() || layer_locked() || sentence_primed || dynamic_macro_recording || oneshot_active();
 }
 
 void update_led(void) {
@@ -311,21 +312,6 @@ void caps_word_set_user(bool active) {
 
 void xcase_set_user(enum xcase_state state) {
     update_led();
-}
-
-static layer_state_t locked_layers = 0;
-
-layer_state_t layer_state_set_user(layer_state_t state) {
-    if (!state) {
-        locked_layers = 0;
-    }
-    update_led();
-    return state;
-}
-
-layer_state_t default_layer_state_set_user(layer_state_t state) {
-    update_led();
-    return state;
 }
 
 bool led_update_user(led_t led_state) {
@@ -797,6 +783,7 @@ bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
 
 void layer_lock_set_user(layer_state_t state) {
     locked_layers = state;
+    update_led();
 }
 
 bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t layer_lock_keycode) {
