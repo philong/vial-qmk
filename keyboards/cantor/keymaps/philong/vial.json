@@ -171,6 +171,10 @@
         {"shortName": "OS\nRGui",
          "title": "Oneshot RGui",
          "name": "U_OS_RGUI"
+        },
+        {"shortName": "Toggle\nAC",
+         "title": "Toggle Autocorrect",
+         "name": "U_AC_TOGG"
         }
     ],
     "matrix": {
