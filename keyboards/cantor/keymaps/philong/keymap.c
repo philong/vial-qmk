@@ -13,7 +13,7 @@
 #include "features/select_word.h"
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
-#ifdef KEYCODES_V5
+#ifndef AUTOCORRECT_ENABLE
 #    include "features/autocorrection.h"
 #endif
 #ifdef MOUSEKEY_ENABLE
@@ -391,7 +391,7 @@ bool sentence_case_check_ending(const uint16_t *buffer) {
 }
 
 // Colemak
-#ifdef KEYCODES_V5
+#ifndef AUTOCORRECT_ENABLE
 bool autocorrection_is_letter(uint16_t keycode) {
     return is_alpha(keycode);
 }
@@ -1114,7 +1114,9 @@ void keyboard_post_init_user(void) {
 void eeconfig_init_user(void) { // EEPROM is getting reset!
     user_config.raw        = 0;
     user_config.colemak_fr = false;
+#ifdef AUTOCORRECT_ENABLE
     autocorrect_enable();
+#endif
     eeconfig_update_user(user_config.raw);
 }
 
@@ -1313,7 +1315,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-#ifdef KEYCODES_V5
+#ifndef AUTOCORRECT_ENABLE
     if (!process_autocorrection(keycode, record)) {
         return false;
     }

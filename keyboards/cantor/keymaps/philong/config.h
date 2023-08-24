@@ -17,7 +17,9 @@
 #define UNICODE_KEY_LNX LCTL(LSFT(KC_I))
 
 #ifdef CONSOLE_ENABLE
-    #define VIAL_INSECURE
+    #ifndef VIAL_INSECURE
+        #define VIAL_INSECURE
+    #endif
 #endif
 
 // QMK 0.19.0 keycode parsing macros currently missing from Vial

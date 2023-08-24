@@ -1,6 +1,7 @@
 VIA_ENABLE  = yes    # Enable VIA
 VIAL_ENABLE = yes    # Enable VIAL
 
+# VIAL_INSECURE = yes
 # CONSOLE_ENABLE = yes
 # UNICODE_ENABLE = yes
 AUTO_SHIFT_ENABLE = yes
