@@ -78,13 +78,22 @@ static size_t find_last_word_pos(const char *buffer) {
     return pos + 1;
 }
 
-static bool has_upper(const char *str, const size_t len) {
-    for (int i = 0; str[i] != '\0' || i < len; ++i) {
+static bool has_upper(const char *str, const size_t max_len) {
+    for (size_t i = 0; str[i] != '\0' && i < max_len; ++i) {
         if (isupper((unsigned char)str[i])) {
             return true;
         }
     }
     return false;
+}
+
+static bool is_all_upper(const char *str, const size_t max_len) {
+    for (size_t i = 0; str[i] != '\0' && i < max_len; ++i) {
+        if (!isupper((unsigned char)str[i])) {
+            return false;
+        }
+    }
+    return true;
 }
 
 static int word_cmp(const char *word, const char *prefix_word, const size_t prefix_word_len) {
@@ -334,7 +343,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
             const bool shifted = (all_mods && MOD_MASK_SHIFT) || is_caps_word_on();
             char      *result;
 
-            if (shifted) {
+            if (shifted || (strlen(token) > 1 && is_all_upper(token, MAX_WORD_LENGTH))) {
                 char result_upper[MAX_WORD_LENGTH + 1];
                 strcpy(result_upper, autocomplete_result);
                 convert_to_uppercase(result_upper);
