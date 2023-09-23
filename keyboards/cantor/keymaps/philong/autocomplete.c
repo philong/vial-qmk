@@ -123,16 +123,6 @@ static ssize_t autocomplete_search_min(const char **words, const size_t max_size
     return -1;
 }
 
-static ssize_t autocomplete_search(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result) {
-    for (ssize_t min_completion = 1; min_completion >= 0; --min_completion) {
-        const ssize_t index = autocomplete_search_min(words, max_size, start_index, prefix_word, prefix_word_len, result, min_completion);
-        if (index >= 0) {
-            return index;
-        }
-    }
-    return -1;
-}
-
 static bool is_end_of_sentence(const char *str) {
     int length = strlen(str);
 
@@ -192,10 +182,15 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
             words     = autocomplete_data[index];
             words_len = MAX_AUTOCOMPLETE;
         }
-        found_index = autocomplete_search(words, words_len, start_index, prefix_word, prefix_word_len, result);
 
-        if (found_index >= 0) {
-            return found_index;
+        for (ssize_t min_completion = 1; min_completion >= 0; --min_completion) {
+            found_index = autocomplete_search_min(words, words_len, start_index, prefix_word, prefix_word_len, result, min_completion);
+            if (found_index >= 0) {
+                if (found_index == last_autocomplete.index && min_completion == 1) {
+                    continue;
+                }
+                return found_index;
+            }
         }
     }
 
