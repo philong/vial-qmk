@@ -108,10 +108,10 @@
 #define MK_MOMENTARY_ACCEL
 #define MOUSEKEY_DELAY 0
 
-#define MK_C_OFFSET_UNMOD 4
+#define MK_C_OFFSET_UNMOD 12
 #define MK_C_INTERVAL_UNMOD 16
 
-#define MK_C_OFFSET_0 16
+#define MK_C_OFFSET_0 4
 #define MK_C_INTERVAL_0 16
 
 #define MK_C_OFFSET_1 24

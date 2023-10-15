@@ -880,7 +880,7 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT, NULL, NULL},
     {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
     {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
-    {U_USERNAME, "philong", "Phi-Long Do", "philong.do@gmail.com", "p.do@axelor.com"},
+    {U_USERNAME, "philong", "Phi-Long", "philong.do@gmail.com", "p.do@axelor.com"},
 };
 
 const size_t NUM_USER_MACROS = sizeof(USER_MACROS) / sizeof(*USER_MACROS);
