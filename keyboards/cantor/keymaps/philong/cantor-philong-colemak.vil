@@ -816,29 +816,29 @@
         [
             "KC_LBRACKET",
             "KC_RBRACKET",
-            "M5",
             "KC_NO",
+            "M5",
             200
         ],
         [
             "LSFT(KC_9)",
             "LSFT(KC_0)",
-            "M6",
             "KC_NO",
+            "M6",
             200
         ],
         [
             "LSFT(KC_LBRACKET)",
             "LSFT(KC_RBRACKET)",
-            "M7",
             "KC_NO",
+            "M7",
             200
         ],
         [
             "LSFT(KC_COMMA)",
             "LSFT(KC_DOT)",
-            "M8",
             "KC_NO",
+            "M8",
             200
         ],
         [
