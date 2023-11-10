@@ -6,9 +6,9 @@
             [
                 "USER03",
                 "KC_Q",
-                "KC_W",
-                "KC_E",
-                "KC_R",
+                "LCAG_T(KC_W)",
+                "LSG_T(KC_E)",
+                "LCG_T(KC_R)",
                 "KC_T"
             ],
             [
@@ -17,7 +17,7 @@
                 "LALT_T(KC_S)",
                 "LSFT_T(KC_D)",
                 "LCTL_T(KC_F)",
-                "KC_G"
+                "ALL_T(KC_G)"
             ],
             [
                 "USER35",
@@ -37,14 +37,14 @@
             ],
             [
                 "KC_Y",
-                "KC_U",
-                "KC_I",
-                "KC_O",
+                "RCG_T(KC_U)",
+                "LSG_T(KC_I)",
+                "LCAG_T(KC_O)",
                 "LT0(KC_P)",
                 "USER04"
             ],
             [
-                "KC_H",
+                "ALL_T(KC_H)",
                 "RCTL_T(KC_J)",
                 "RSFT_T(KC_K)",
                 "LALT_T(KC_L)",
@@ -1047,7 +1047,7 @@
             "TD(4)"
         ],
         [
-            "KC_H",
+            "ALL_T(KC_H)",
             "RCTL_T(KC_J)",
             "KC_NO",
             "KC_NO",
@@ -1055,13 +1055,13 @@
         ],
         [
             "KC_Y",
-            "KC_U",
+            "RCG_T(KC_U)",
             "KC_NO",
             "KC_NO",
             "KC_EQUAL"
         ],
         [
-            "KC_H",
+            "ALL_T(KC_H)",
             "RCTL_T(KC_J)",
             "RSFT_T(KC_K)",
             "KC_NO",
@@ -1069,13 +1069,13 @@
         ],
         [
             "LCTL_T(KC_F)",
-            "KC_G",
+            "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
             "TD(1)"
         ],
         [
-            "KC_R",
+            "LCG_T(KC_R)",
             "KC_T",
             "KC_NO",
             "KC_NO",
@@ -1091,7 +1091,7 @@
         [
             "LSFT_T(KC_D)",
             "LCTL_T(KC_F)",
-            "KC_G",
+            "ALL_T(KC_G)",
             "KC_NO",
             "TD(3)"
         ],
@@ -1124,7 +1124,7 @@
             "USER06"
         ],
         [
-            "KC_I",
+            "LSG_T(KC_I)",
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
@@ -1145,9 +1145,9 @@
             "USER15"
         ],
         [
-            "KC_U",
-            "KC_I",
-            "KC_O",
+            "RCG_T(KC_U)",
+            "LSG_T(KC_I)",
+            "LCAG_T(KC_O)",
             "KC_NO",
             "USER21"
         ],
@@ -1166,9 +1166,9 @@
             "USER40"
         ],
         [
-            "KC_W",
-            "KC_E",
-            "KC_R",
+            "LCAG_T(KC_W)",
+            "LSG_T(KC_E)",
+            "LCG_T(KC_R)",
             "KC_NO",
             "M13"
         ],
@@ -1187,7 +1187,7 @@
             "USER32"
         ],
         [
-            "KC_O",
+            "LCAG_T(KC_O)",
             "LALT_T(KC_L)",
             "KC_NO",
             "KC_NO",
@@ -1222,8 +1222,8 @@
             "USER35"
         ],
         [
-            "KC_E",
-            "KC_R",
+            "LSG_T(KC_E)",
+            "LCG_T(KC_R)",
             "KC_T",
             "KC_NO",
             "USER27"
@@ -1237,8 +1237,8 @@
         ],
         [
             "KC_Y",
-            "KC_U",
-            "KC_I",
+            "RCG_T(KC_U)",
+            "LSG_T(KC_I)",
             "KC_NO",
             "USER13"
         ],
@@ -1271,14 +1271,14 @@
             "USER42"
         ],
         [
-            "KC_R",
+            "LCG_T(KC_R)",
             "LCTL_T(KC_F)",
             "KC_NO",
             "KC_NO",
             "USER05"
         ],
         [
-            "KC_E",
+            "LSG_T(KC_E)",
             "LSFT_T(KC_D)",
             "KC_NO",
             "KC_NO",
@@ -1292,14 +1292,14 @@
             "KC_NO"
         ],
         [
-            "KC_W",
+            "LCAG_T(KC_W)",
             "LALT_T(KC_S)",
             "KC_NO",
             "KC_NO",
             "USER29"
         ],
         [
-            "KC_U",
+            "RCG_T(KC_U)",
             "RCTL_T(KC_J)",
             "KC_NO",
             "KC_NO",
@@ -1321,14 +1321,14 @@
         ],
         [
             "KC_T",
-            "KC_G",
+            "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
             "USER06"
         ],
         [
             "KC_Y",
-            "KC_H",
+            "ALL_T(KC_H)",
             "KC_NO",
             "KC_NO",
             "USER06"
