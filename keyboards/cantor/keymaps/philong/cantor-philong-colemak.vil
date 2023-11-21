@@ -1341,11 +1341,11 @@
             "USER04"
         ],
         [
+            "LGUI_T(KC_A)",
+            "KC_Z",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "USER00"
         ],
         [
             "KC_NO",
