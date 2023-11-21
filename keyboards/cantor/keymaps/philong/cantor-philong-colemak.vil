@@ -1125,7 +1125,7 @@
         ],
         [
             "RCG_T(KC_U)",
-            "LSG_T(KC_I)",
+            "SGUI_T(KC_I)",
             "LCAG_T(KC_O)",
             "KC_NO",
             "USER21"
@@ -1146,7 +1146,7 @@
         ],
         [
             "LCAG_T(KC_W)",
-            "LSG_T(KC_E)",
+            "SGUI_T(KC_E)",
             "LCG_T(KC_R)",
             "KC_NO",
             "M13"
@@ -1201,7 +1201,7 @@
             "USER35"
         ],
         [
-            "LSG_T(KC_E)",
+            "SGUI_T(KC_E)",
             "LCG_T(KC_R)",
             "KC_T",
             "KC_NO",
@@ -1217,7 +1217,7 @@
         [
             "KC_Y",
             "RCG_T(KC_U)",
-            "LSG_T(KC_I)",
+            "SGUI_T(KC_I)",
             "KC_NO",
             "USER13"
         ],
@@ -1282,14 +1282,14 @@
             "LCTL_T(KC_F)",
             "KC_NO",
             "KC_NO",
-            "USER05"
+            "KC_QUOTE"
         ],
         [
             "RCG_T(KC_U)",
             "RCTL_T(KC_J)",
             "KC_NO",
             "KC_NO",
-            "USER05"
+            "KC_QUOTE"
         ],
         [
             "LT5(KC_BSPACE)",
@@ -1297,48 +1297,48 @@
             "KC_NO",
             "KC_NO",
             "USER06"
-        ],      
+        ],
         [
             "KC_T",
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER33"
         ],
         [
             "KC_Y",
             "ALL_T(KC_H)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER33"
         ],
         [
-            "LSG_T(KC_E)",
+            "SGUI_T(KC_E)",
             "LSFT_T(KC_D)",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "LSFT(KC_QUOTE)"
         ],
         [
-            "LSG_T(KC_I)",
+            "SGUI_T(KC_I)",
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "LSFT(KC_QUOTE)"
         ],
         [
+            "ALL_T(KC_G)",
+            "KC_B",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "USER03"
         ],
         [
+            "ALL_T(KC_H)",
+            "KC_N",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "USER04"
         ],
         [
             "KC_NO",
