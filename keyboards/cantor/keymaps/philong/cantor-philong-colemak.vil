@@ -503,7 +503,7 @@
                 "KC_MPRV",
                 "KC_MNXT",
                 "KC_SLEP",
-                "KC_ACL2"
+                "KC_TRNS"
             ],
             [
                 "KC_VOLD",
@@ -511,15 +511,15 @@
                 "KC_RSHIFT",
                 "KC_LALT",
                 "KC_RGUI",
-                "KC_ACL1"
+                "KC_TRNS"
             ],
             [
                 "KC_MUTE",
-                "KC_WSCH",
-                "KC_WBAK",
-                "KC_WFWD",
-                "KC_WREF",
-                "KC_ACL0"
+                "KC_RALT",
+                "KC_ACL0",
+                "KC_ACL1",
+                "KC_ACL2",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
