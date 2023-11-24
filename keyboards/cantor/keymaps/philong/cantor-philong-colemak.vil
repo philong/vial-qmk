@@ -1261,7 +1261,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_QUOTE)"
+            "KC_GRAVE"
         ],
         [
             "USER05",
