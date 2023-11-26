@@ -774,6 +774,21 @@ uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
     }
 }
 
+// Disable streak detection for layer taps and shift mod-taps
+uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
+    if (IS_QK_LAYER_TAP(tap_hold_keycode)) {
+        return 0;
+    }
+
+    const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
+
+    if ((mod & MOD_LSFT) != 0 || (mod & MOD_RSFT) != 0) {
+        return 0;
+    }
+
+    return 100;
+}
+
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
     // Doubled tap-hold holds issue while recording a dynamic macro
     // https://getreuer.info/posts/keyboards/achordion/index.html#compatibility
