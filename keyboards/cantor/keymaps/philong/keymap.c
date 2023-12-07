@@ -782,11 +782,11 @@ uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
 
     const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
 
-    if ((mod & MOD_LSFT) != 0 || (mod & MOD_RSFT) != 0) {
+    if (mod & MOD_MASK_SHIFT) {
         return 0;
     }
 
-    return 100;
+    return 160;
 }
 
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
