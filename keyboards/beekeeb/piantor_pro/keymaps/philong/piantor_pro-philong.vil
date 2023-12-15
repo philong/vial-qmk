@@ -268,28 +268,28 @@
         ],
         [
             [
-                "KC_EQUAL",
-                "KC_9",
-                "KC_8",
+                "USER00",
+                "LT0(KC_P)",
                 "KC_7",
-                "LT0(KC_SLASH)",
-                "USER00"
+                "KC_8",
+                "KC_9",
+                "KC_EQUAL"
             ],
             [
-                "KC_MINUS",
-                "LCTL_T(KC_6)",
-                "LSFT_T(KC_5)",
+                "KC_TRNS",
+                "LGUI_T(KC_DOT)",
                 "LALT_T(KC_4)",
-                "LGUI_T(KC_COMMA)",
-                "KC_TRNS"
+                "LSFT_T(KC_5)",
+                "LCTL_T(KC_6)",
+                "KC_MINUS"
             ],
             [
-                "TD(4)",
-                "RALT_T(KC_3)",
+                "KC_TRNS",
+                "KC_BSLASH",
+                "KC_1",
                 "LSFT_T(KC_2)",
-                "LT0(KC_1)",
-                "LT0(KC_DOT)",
-                "KC_TRNS"
+                "RALT_T(KC_3)",
+                "TD(4)"
             ],
             [
                 -1,
