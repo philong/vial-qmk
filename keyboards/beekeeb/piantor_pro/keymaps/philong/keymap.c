@@ -1017,6 +1017,26 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
         return false; // Skip default handling.
     }
 
+    if (tap_keycode == KC_F23) {
+        if (record->tap.count == 0) { // Key is being held.
+            if (record->event.pressed) {
+                clear_all_mods();
+                tap_code16(KC_END);
+                set_mods(all_mods);
+            }
+        }
+
+        if (record->event.pressed) {
+            end_keys_saved_mods = all_mods;
+            set_mods(all_mods | MOD_BIT(KC_LSFT));
+            register_code16(CM_SCLN);
+        } else {
+            unregister_code16(CM_SCLN);
+            set_mods(end_keys_saved_mods);
+        }
+        return false; // Skip default handling.
+    }
+
     if (record->tap.count == 0) { // Key is being held.
         if (record->event.pressed) {
             clear_all_mods();
