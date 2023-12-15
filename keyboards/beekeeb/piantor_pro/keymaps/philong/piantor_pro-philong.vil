@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "uid": 8273589916185925000,
+    "uid": 5749009932414629000,
     "layout": [
         [
             [
@@ -1077,7 +1077,7 @@
         [],
         []
     ],
-    "layout_options": -1,
+    "layout_options": 1,
     "macro": [
         [
             [
@@ -1713,7 +1713,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "USER25"
+            "LSFT(KC_P)"
         ],
         [
             "RSFT_T(KC_K)",
@@ -1895,7 +1895,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "KC_GRAVE"
+            "KC_P"
         ],
         [
             "LALT_T(KC_S)",

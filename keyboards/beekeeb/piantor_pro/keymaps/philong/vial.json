@@ -8,6 +8,7 @@
         "cols": 6
     },
     "layouts": {
+        "labels": ["36 keys"],
         "keymap": [
             [
                 {
@@ -53,7 +54,7 @@
                 {
                     "y": -0.35
                 },
-                "0,0",
+                "0,0\n\n\n0,0",
                 "0,1",
                 {
                     "x": 1
@@ -67,7 +68,7 @@
                     "x": 1
                 },
                 "4,1",
-                "4,0"
+                "4,0\n\n\n0,0"
             ],
             [
                 {
@@ -103,7 +104,7 @@
                 {
                     "y": -0.35
                 },
-                "1,0",
+                "1,0\n\n\n0,0",
                 "1,1",
                 {
                     "x": 1
@@ -117,7 +118,7 @@
                     "x": 1
                 },
                 "5,1",
-                "5,0"
+                "5,0\n\n\n0,0"
             ],
             [
                 {
@@ -153,13 +154,13 @@
                 {
                     "y": -0.35
                 },
-                "2,0",
+                "2,0\n\n\n0,0",
                 "2,1",
                 {
                     "x": 11.5
                 },
                 "6,1",
-                "6,0"
+                "6,0\n\n\n0,0"
             ],
             [
                 {
@@ -239,7 +240,11 @@
             "title": "Join Lines",
             "name": "U_JOIN_LN"
         },
-        { "shortName": "Repeat", "title": "Repeat", "name": "U_REPEAT" },
+        {
+            "shortName": "Repeat",
+            "title": "Repeat",
+            "name": "U_REPEAT"
+        },
         {
             "shortName": "Alt\nRepeat",
             "title": "Alternate Repeat",
@@ -260,20 +265,36 @@
             "title": "Parent Directory",
             "name": "U_UP_DIRECTORY"
         },
-        { "shortName": ".", "title": "Dot", "name": "U_DOT" },
-        { "shortName": "...", "title": "Three Dots", "name": "U_THREE_DOTS" },
+        {
+            "shortName": ".",
+            "title": "Dot",
+            "name": "U_DOT"
+        },
+        {
+            "shortName": "...",
+            "title": "Three Dots",
+            "name": "U_THREE_DOTS"
+        },
         {
             "shortName": "::",
             "title": "Double Colon",
             "name": "U_DOUBLE_COLON"
         },
-        { "shortName": "==", "title": "Equal", "name": "U_EQUAL" },
+        {
+            "shortName": "==",
+            "title": "Equal",
+            "name": "U_EQUAL"
+        },
         {
             "shortName": "===",
             "title": "Strict Equal",
             "name": "U_STRICT_EQUAL"
         },
-        { "shortName": "!=", "title": "Not Equal", "name": "U_NOT_EQUAL" },
+        {
+            "shortName": "!=",
+            "title": "Not Equal",
+            "name": "U_NOT_EQUAL"
+        },
         {
             "shortName": "!==",
             "title": "Strict Not Equal",
@@ -289,7 +310,11 @@
             "title": "Greater Than Or Equal",
             "name": "U_GREATER_THAN_OR_EQUAL"
         },
-        { "shortName": "->", "title": "Arrow", "name": "U_ARROW" },
+        {
+            "shortName": "->",
+            "title": "Arrow",
+            "name": "U_ARROW"
+        },
         {
             "shortName": "=>",
             "title": "Double Arrow",
@@ -300,13 +325,21 @@
             "title": "And Operator",
             "name": "U_AND_OPERATOR"
         },
-        { "shortName": "||", "title": "Or Operator", "name": "U_OR__OPERATOR" },
+        {
+            "shortName": "||",
+            "title": "Or Operator",
+            "name": "U_OR__OPERATOR"
+        },
         {
             "shortName": "--",
             "title": "Double Minus",
             "name": "U_DOUBLE_MINUS"
         },
-        { "shortName": "++", "title": "Double Plus", "name": "U_DOUBLE_PLUS" },
+        {
+            "shortName": "++",
+            "title": "Double Plus",
+            "name": "U_DOUBLE_PLUS"
+        },
         {
             "shortName": "//",
             "title": "Double Slash",
@@ -317,8 +350,16 @@
             "title": "Double Question",
             "name": "U_DOUBLE_QUESTION"
         },
-        { "shortName": "<<", "title": "Left Shift", "name": "U_LEFT_SHIFT" },
-        { "shortName": ">>", "title": "Right Shift", "name": "U_RIGHT_SHIFT" },
+        {
+            "shortName": "<<",
+            "title": "Left Shift",
+            "name": "U_LEFT_SHIFT"
+        },
+        {
+            "shortName": ">>",
+            "title": "Right Shift",
+            "name": "U_RIGHT_SHIFT"
+        },
         {
             "shortName": "\"\"",
             "title": "Double Quote",
