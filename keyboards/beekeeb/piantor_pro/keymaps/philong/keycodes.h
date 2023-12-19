@@ -73,6 +73,7 @@ enum user_keycode {
     U_OS_RALT,
     U_OS_RGUI,
     U_AC_TOGG,
+    U_QUOP,
 };
 
 #ifndef QK_REPEAT_KEY

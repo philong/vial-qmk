@@ -429,6 +429,11 @@
             "shortName": "Toggle\nAC",
             "title": "Toggle Autocorrect",
             "name": "U_AC_TOGG"
+        },
+        {
+            "shortName": "Quop",
+            "title": "Quopostrokey",
+            "name": "U_QUOP"
         }
     ]
 }

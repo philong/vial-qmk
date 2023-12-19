@@ -37,7 +37,7 @@
             ],
             [
                 "USER04",
-                "LT0(KC_QUOTE)",
+                "USER43",
                 "LCAG_T(KC_O)",
                 "SGUI_T(KC_I)",
                 "RCG_T(KC_U)",
@@ -169,7 +169,7 @@
             ],
             [
                 "KC_TRNS",
-                "LT0(KC_P)",
+                "KC_P",
                 "KC_9",
                 "KC_8",
                 "KC_7",
@@ -235,7 +235,7 @@
             ],
             [
                 "KC_TRNS",
-                "LT0(KC_F23)",
+                "LSFT(KC_P)",
                 "TD(1)",
                 "LSFT(KC_8)",
                 "LSFT(KC_7)",
@@ -1211,8 +1211,42 @@
                 "KC_LEFT"
             ]
         ],
-        [],
-        [],
+        [
+            [
+                "text",
+                "```"
+            ],
+            [
+                "down",
+                "KC_LSHIFT"
+            ],
+            [
+                "tap",
+                "KC_ENTER"
+            ],
+            [
+                "up",
+                "KC_LSHIFT"
+            ],
+            [
+                "text",
+                "```"
+            ],
+            [
+                "tap",
+                "KC_UP"
+            ]
+        ],
+        [
+            [
+                "text",
+                "``"
+            ],
+            [
+                "tap",
+                "KC_LEFT"
+            ]
+        ],
         [],
         [
             [
@@ -1783,7 +1817,7 @@
             "LALT_T(KC_S)",
             "KC_NO",
             "KC_NO",
-            "USER29"
+            "M10"
         ],
         [
             "KC_Q",
@@ -1825,7 +1859,7 @@
             "RCTL_T(KC_J)",
             "KC_NO",
             "KC_NO",
-            "KC_QUOTE"
+            "USER05"
         ],
         [
             "LT5(KC_BSPACE)",
@@ -1860,7 +1894,7 @@
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_QUOTE)"
+            "USER06"
         ],
         [
             "ALL_T(KC_G)",
@@ -1891,7 +1925,7 @@
             "USER09"
         ],
         [
-            "LT0(KC_QUOTE)",
+            "USER43",
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
@@ -1902,7 +1936,7 @@
             "KC_X",
             "KC_NO",
             "KC_NO",
-            "RALT(KC_0)"
+            "M9"
         ],
         [
             "KC_NO",
