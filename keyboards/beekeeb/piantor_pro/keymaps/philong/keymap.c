@@ -127,6 +127,14 @@ bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
 }
 static const uint16_t END_KEY_LAYER = 0;
 
+static uint16_t get_base_tapping_term(void) {
+#ifdef VIAL_KEYBOARD_UID
+    return QS.tapping_term;
+#else
+    return TAPPING_TERM;
+#endif
+}
+
 #ifdef VIAL_KEYBOARD_UID
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 #else
@@ -137,13 +145,13 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     if (IS_QK_LAYER_TAP(keycode)) {
         const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
         if (layer == END_KEY_LAYER) {
-            return QS.tapping_term;
+            return get_base_tapping_term();
         }
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
     } else if (IS_QK_MOD_TAP(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     } else {
-        return QS.tapping_term;
+        return get_base_tapping_term();
     }
 
     switch (tap_keycode) {
@@ -160,10 +168,10 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case CM_O:
         case CM_DOT:
         case CM_SLSH:
-            return QS.tapping_term + 15;
+            return get_base_tapping_term() + 15;
 
         default:
-            return QS.tapping_term;
+            return get_base_tapping_term();
     }
 }
 
@@ -741,6 +749,10 @@ static bool is_outer_key(keyrecord_t *record) {
     }
 }
 
+static bool is_end_key(uint16_t keycode) {
+    return IS_QK_LAYER_TAP(keycode) && QK_LAYER_TAP_GET_LAYER(keycode) == END_KEY_LAYER;
+}
+
 // The return value is true to consider the tap-hold key held or false to consider it tapped.
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
     if (!IS_KEYEVENT(tap_hold_record->event) || !IS_KEYEVENT(other_record->event)) {
@@ -755,7 +767,7 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, ui
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-    if (IS_QK_LAYER_TAP(tap_hold_keycode) && QK_LAYER_TAP_GET_LAYER(tap_hold_keycode) == END_KEY_LAYER) {
+    if (is_end_key(tap_hold_keycode)) {
         return 0;
     }
 
@@ -1367,6 +1379,77 @@ bool process_nav_override(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+// Based on https://getreuer.info/posts/keyboards/macros3/index.html#quopostrokey
+static bool process_quopostrokey(uint16_t keycode, keyrecord_t *record) {
+    static bool within_word = false;
+    static uint16_t pressed_keycode = KC_NO;
+
+    if (keycode == U_QUOP) {
+        if (record->event.pressed) {
+            const uint8_t mods     = get_mods();
+            const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+            if ((all_mods & MOD_BIT(KC_RALT))) {
+                pressed_keycode = CM_0;
+                register_code(pressed_keycode);
+                return true;
+            }
+
+            if (all_mods & MOD_MASK_SHIFT) {
+                pressed_keycode = CM_QUOT;
+                register_code(pressed_keycode);
+                return true;
+            }
+
+            if (all_mods & MOD_MASK_CTRL) {
+                clear_all_mods();
+                pressed_keycode = CM_QUOT;
+                register_code(pressed_keycode);
+                set_mods(mods);
+                return true;
+            }
+
+            if (within_word) {
+                pressed_keycode = CM_QUOT;
+                register_code(pressed_keycode);
+                return true;
+            } else {
+                SEND_STRING("\"\"" SS_TAP(X_LEFT));
+            }
+        } else if (pressed_keycode != KC_NO) {
+            unregister_code(pressed_keycode);
+            pressed_keycode = KC_NO;
+            return true;
+        }
+
+        return false;
+    }
+
+    switch (keycode) { // Unpack tapping keycode for tap-hold keys.
+#ifndef NO_ACTION_TAPPING
+        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
+            if (record->tap.count == 0) {
+                return true;
+            }
+            keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+            break;
+#   ifndef NO_ACTION_LAYER
+        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+            if (record->tap.count == 0) {
+                return true;
+            }
+            keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+            break;
+#    endif // NO_ACTION_LAYER
+#endif     // NO_ACTION_TAPPING
+    }
+
+    // Determine whether the key is a letter.
+    within_word = is_alpha(keycode);
+
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion_user(keycode, record)) {
         return false;
@@ -1387,6 +1470,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_joinln(keycode, record, U_JOIN_LN)) {
+        return false;
+    }
+    if (!process_quopostrokey(keycode, record)) {
         return false;
     }
     if (!process_sentence_case(keycode, record)) {
