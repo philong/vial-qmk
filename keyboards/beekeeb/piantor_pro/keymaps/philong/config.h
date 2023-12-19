@@ -10,6 +10,9 @@
 #define BOOTMAGIC_LITE_ROW_RIGHT 4
 #define BOOTMAGIC_LITE_COLUMN_RIGHT 1
 
+#define OUTER_COL_LEFT 0
+#define OUTER_COL_RIGHT 0
+
 /* default layer count */
 #define DYNAMIC_KEYMAP_LAYER_COUNT 16
 
