@@ -467,7 +467,7 @@
         [
             [
                 "USER00",
-                "KC_MYCM",
+                "USER45",
                 "KC_WH_L",
                 "KC_MS_U",
                 "KC_WH_R",
@@ -1873,7 +1873,7 @@
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "USER44"
         ],
         [
             "KC_Y",
@@ -2066,7 +2066,7 @@
             "trigger_mods": 2,
             "negative_mod_mask": 0,
             "suppressed_mods": 2,
-            "options": 135
+            "options": 7
         },
         {
             "trigger": "TD(0)",
@@ -2108,9 +2108,9 @@
             "trigger": "LT2(KC_SPACE)",
             "replacement": "KC_ESCAPE",
             "layers": 65535,
-            "trigger_mods": 32,
+            "trigger_mods": 2,
             "negative_mod_mask": 0,
-            "suppressed_mods": 32,
+            "suppressed_mods": 2,
             "options": 135
         },
         {

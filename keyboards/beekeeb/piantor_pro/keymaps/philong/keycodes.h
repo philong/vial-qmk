@@ -74,6 +74,8 @@ enum user_keycode {
     U_OS_RGUI,
     U_AC_TOGG,
     U_QUOP,
+    U_HAPPY,
+    U_JIGGLE,
 };
 
 #ifndef QK_REPEAT_KEY
