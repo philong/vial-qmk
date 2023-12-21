@@ -79,11 +79,109 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 
+
+struct user_macro {
+    const enum user_keycode keycode;
+    const char             *string;
+    const char             *shifted_string;
+    const char             *controlled_string;
+    const char             *shifted_controlled_string;
+};
+
+const char CURRENT_DIRECTORY[] PROGMEM     = "./";
+const char UP_DIRECTORY[] PROGMEM          = "../";
+const char DOT[] PROGMEM                   = ".";
+const char THREE_DOTS[] PROGMEM            = "...";
+const char DOUBLE_COLON[] PROGMEM          = "::";
+const char EQUAL[] PROGMEM                 = "==";
+const char STRICT_EQUAL[] PROGMEM          = "===";
+const char NOT_EQUAL[] PROGMEM             = "!=";
+const char STRICT_NOT_EQUAL[] PROGMEM      = "!==";
+const char LOWER_THAN_OR_EQUAL[] PROGMEM   = "<=";
+const char GREATER_THAN_OR_EQUAL[] PROGMEM = ">=";
+const char ARROW[] PROGMEM                 = "->";
+const char DOUBLE_ARROW[] PROGMEM          = "=>";
+const char LEFT_ARROW[] PROGMEM            = "<-";
+const char DOUBLE_LEFT_ARROW[] PROGMEM     = "<==";
+const char AND_OPERATOR[] PROGMEM          = "&&";
+const char OR_OPERATOR[] PROGMEM           = "||";
+const char DOUBLE_MINUS[] PROGMEM          = "--";
+const char DOUBLE_PLUS[] PROGMEM           = "++";
+const char DOUBLE_SLASH[] PROGMEM          = "//";
+const char DOUBLE_QUESTION[] PROGMEM       = "??";
+const char LEFT_SHIFT[] PROGMEM            = "<<";
+const char RIGHT_SHIFT[] PROGMEM           = ">>";
+const char DOUBLE_QUOTE[] PROGMEM          = "\"\"" SS_TAP(X_LEFT);
+const char SINGLE_QUOTE[] PROGMEM          = "''" SS_TAP(X_LEFT);
+const char BACKTICK[] PROGMEM              = "``" SS_TAP(X_LEFT);
+const char FSTRING[] PROGMEM               = "f\"\"" SS_TAP(X_LEFT);
+const char DIAMOND[] PROGMEM               = "<>";
+const char ADD_ASSIGN[] PROGMEM            = "+=";
+const char SUB_ASSIGN[] PROGMEM            = "-=";
+const char DOUBLE_UNDERSCORE[] PROGMEM     = "__";
+const char IN_UNDERSCORES[] PROGMEM        = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
+const char DOUBLE_BACKTICK[] PROGMEM       = "``" SS_TAP(X_RGHT);
+const char TRIPLE_BACKTICK[] PROGMEM       = "```" SS_LSFT(SS_TAP(X_ENT)) "```" SS_TAP(X_UP);
+const char DOUBLE_DOTS[] PROGMEM           = "..";
+
+// keycode, normal, shift, control, control+shift
+const struct user_macro USER_MACROS[] PROGMEM = {
+    {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY, THREE_DOTS, DOUBLE_COLON},
+    {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY, THREE_DOTS, DOUBLE_COLON},
+    {U_DOT, DOT, THREE_DOTS, NULL, NULL},
+    {U_THREE_DOTS, THREE_DOTS, DOUBLE_COLON, CURRENT_DIRECTORY, UP_DIRECTORY},
+    {U_DOUBLE_COLON, DOUBLE_COLON, THREE_DOTS, CURRENT_DIRECTORY, UP_DIRECTORY},
+    {U_EQUAL, EQUAL, DOUBLE_PLUS, STRICT_EQUAL, ADD_ASSIGN},
+    {U_STRICT_EQUAL, STRICT_EQUAL, EQUAL, NULL, NULL},
+    {U_NOT_EQUAL, NOT_EQUAL, DIAMOND, STRICT_NOT_EQUAL, STRICT_NOT_EQUAL},
+    {U_STRICT_NOT_EQUAL, STRICT_NOT_EQUAL, NOT_EQUAL, NULL, NULL},
+    {U_LOWER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, NULL, NULL},
+    {U_GREATER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, NULL, NULL},
+    {U_ARROW, ARROW, DOUBLE_ARROW, LEFT_ARROW, DOUBLE_LEFT_ARROW},
+    {U_DOUBLE_ARROW, DOUBLE_ARROW, ARROW, DOUBLE_LEFT_ARROW, LEFT_ARROW},
+    {U_AND_OPERATOR, AND_OPERATOR, OR_OPERATOR, DOUBLE_QUESTION, NULL},
+    {U_OR_OPERATOR, OR_OPERATOR, AND_OPERATOR, DOUBLE_QUESTION, NULL},
+    {U_DOUBLE_MINUS, DOUBLE_MINUS, DOUBLE_UNDERSCORE, IN_UNDERSCORES, SUB_ASSIGN},
+    {U_DOUBLE_SLASH, DOUBLE_SLASH, DOUBLE_QUESTION, NULL, NULL},
+    {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH, NULL, NULL},
+    {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT, NULL, NULL},
+    {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
+    {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
+    {U_DOUBLE_BACKTICK, DOUBLE_BACKTICK, TRIPLE_BACKTICK, NULL, NULL},
+    {U_DOUBLE_DOTS, DOUBLE_DOTS, NULL, NULL, NULL},
+    {U_USERNAME, "philong", "Phi-Long", "philong.do@gmail.com", "p.do@axelor.com"},
+};
+
+const size_t NUM_USER_MACROS = sizeof (USER_MACROS) / sizeof (*USER_MACROS);
+
 static bool sentence_primed         = false;
 static bool dynamic_macro_recording = false;
 static bool oneshot_mods_enabled    = false;
 static bool oneshot_layer_enabled   = false;
 static layer_state_t locked_layers = 0;
+
+typedef union {
+    uint32_t raw;
+    struct {
+        bool colemak_fr : 1;
+    };
+} user_config_t;
+
+user_config_t user_config;
+
+void keyboard_post_init_user(void) {
+    user_config.raw = eeconfig_read_user();
+}
+
+void eeconfig_init_user(void) { // EEPROM is getting reset!
+    set_unicode_input_mode(UNICODE_MODE_LINUX);
+    user_config.raw        = 0;
+    user_config.colemak_fr = false;
+#ifdef AUTOCORRECT_ENABLE
+    autocorrect_enable();
+#endif
+    eeconfig_update_user(user_config.raw);
+}
 
 void clear_all_mods(void) {
     clear_mods();
@@ -223,6 +321,7 @@ bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
         // case QK_ALT_REPEAT_KEY:
         case U_REPEAT:
         case U_ALT_REPEAT:
+        case KC_KP_ENTER:
             // case KC_ENT:
             // case xxxxxxx:
             // Don't disable for above keycodes
@@ -592,6 +691,20 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
             return combine_keycode(KC_ESCAPE, mods);
         case KC_ESCAPE:
             return combine_keycode(KC_ENTER, mods);
+        case KC_DOT:
+            return U_DOUBLE_DOTS;
+        case KC_1:
+            if (shifted) {
+                return U_EQUAL;
+            } else {
+                return KC_0;
+            }
+        case KC_0:
+            return KC_1;
+        case KC_EQUAL:
+            return U_EQUAL;
+        case KC_F24:
+            return U_EQUAL;
     }
 
     // Colemak
@@ -712,6 +825,16 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
         bool result = process_repeat_key_with_alt(alt_repeat_keycode, record, repeat_keycode, alt_repeat_keycode);
         set_mods(mods);
         return result;
+    }
+
+    switch (keycode) {
+        case U_DOUBLE_DOTS:
+            if (get_repeat_key_count() < -1) {
+                if (record->event.pressed) {
+                    SEND_STRING(THREE_DOTS);
+                    return false;
+                }
+            }
     }
 
     return process_repeat_key_with_alt(keycode, record, U_REPEAT, U_ALT_REPEAT);
@@ -840,73 +963,6 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t lay
     return process_layer_lock(keycode, record, layer_lock_keycode);
 }
 
-struct user_macro {
-    const enum user_keycode keycode;
-    const char             *string;
-    const char             *shifted_string;
-    const char             *controlled_string;
-    const char             *shifted_controlled_string;
-};
-
-const char CURRENT_DIRECTORY[] PROGMEM     = "./";
-const char UP_DIRECTORY[] PROGMEM          = "../";
-const char DOT[] PROGMEM                   = ".";
-const char THREE_DOTS[] PROGMEM            = "...";
-const char DOUBLE_COLON[] PROGMEM          = "::";
-const char EQUAL[] PROGMEM                 = "==";
-const char STRICT_EQUAL[] PROGMEM          = "===";
-const char NOT_EQUAL[] PROGMEM             = "!=";
-const char STRICT_NOT_EQUAL[] PROGMEM      = "!==";
-const char LOWER_THAN_OR_EQUAL[] PROGMEM   = "<=";
-const char GREATER_THAN_OR_EQUAL[] PROGMEM = ">=";
-const char ARROW[] PROGMEM                 = "->";
-const char DOUBLE_ARROW[] PROGMEM          = "=>";
-const char AND_OPERATOR[] PROGMEM          = "&&";
-const char OR_OPERATOR[] PROGMEM           = "||";
-const char DOUBLE_MINUS[] PROGMEM          = "--";
-const char DOUBLE_PLUS[] PROGMEM           = "++";
-const char DOUBLE_SLASH[] PROGMEM          = "//";
-const char DOUBLE_QUESTION[] PROGMEM       = "??";
-const char LEFT_SHIFT[] PROGMEM            = "<<";
-const char RIGHT_SHIFT[] PROGMEM           = ">>";
-const char DOUBLE_QUOTE[] PROGMEM          = "\"\"" SS_TAP(X_LEFT);
-const char SINGLE_QUOTE[] PROGMEM          = "''" SS_TAP(X_LEFT);
-const char BACKTICK[] PROGMEM              = "``" SS_TAP(X_LEFT);
-const char FSTRING[] PROGMEM               = "f\"\"" SS_TAP(X_LEFT);
-const char DIAMOND[] PROGMEM               = "<>";
-const char ADD_ASSIGN[] PROGMEM            = "+=";
-const char SUB_ASSIGN[] PROGMEM            = "-=";
-const char DOUBLE_UNDERSCORE[] PROGMEM     = "__";
-const char IN_UNDERSCORES[] PROGMEM        = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
-
-// keycode, normal, shift, control, control+shift
-const struct user_macro USER_MACROS[] PROGMEM = {
-    {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY, NULL, NULL},
-    {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY, NULL, NULL},
-    {U_DOT, DOT, THREE_DOTS, NULL, NULL},
-    {U_THREE_DOTS, THREE_DOTS, DOUBLE_COLON, NULL, NULL},
-    {U_DOUBLE_COLON, DOUBLE_COLON, THREE_DOTS, NULL, NULL},
-    {U_EQUAL, EQUAL, DOUBLE_PLUS, STRICT_EQUAL, ADD_ASSIGN},
-    {U_STRICT_EQUAL, STRICT_EQUAL, EQUAL, NULL, NULL},
-    {U_NOT_EQUAL, NOT_EQUAL, DIAMOND, STRICT_NOT_EQUAL, STRICT_NOT_EQUAL},
-    {U_STRICT_NOT_EQUAL, STRICT_NOT_EQUAL, NOT_EQUAL, NULL, NULL},
-    {U_LOWER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, NULL, NULL},
-    {U_GREATER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, NULL, NULL},
-    {U_ARROW, ARROW, DOUBLE_ARROW, NULL, NULL},
-    {U_DOUBLE_ARROW, DOUBLE_ARROW, ARROW, NULL, NULL},
-    {U_AND_OPERATOR, AND_OPERATOR, OR_OPERATOR, NULL, NULL},
-    {U_OR_OPERATOR, OR_OPERATOR, AND_OPERATOR, NULL, NULL},
-    {U_DOUBLE_MINUS, DOUBLE_MINUS, DOUBLE_UNDERSCORE, IN_UNDERSCORES, SUB_ASSIGN},
-    {U_DOUBLE_SLASH, DOUBLE_SLASH, DOUBLE_QUESTION, NULL, NULL},
-    {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH, NULL, NULL},
-    {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT, NULL, NULL},
-    {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
-    {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
-    {U_USERNAME, "philong", "Phi-Long", "philong.do@gmail.com", "p.do@axelor.com"},
-};
-
-const size_t NUM_USER_MACROS = sizeof(USER_MACROS) / sizeof(*USER_MACROS);
-
 bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) {
         return true;
@@ -973,6 +1029,7 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
             return false;
         case U_CG_TOGG:
             process_magic(CG_TOGG, record);
+            set_unicode_input_mode(keymap_config.swap_lctl_lgui ? UNICODE_MODE_MACOS : UNICODE_MODE_LINUX);
             return false;
         case U_AC_TOGG:
             process_magic(AC_TOGG, record);
@@ -1139,28 +1196,6 @@ bool process_select_word_user(uint16_t keycode, keyrecord_t *record, uint16_t se
     }
 
     return false;
-}
-
-typedef union {
-    uint32_t raw;
-    struct {
-        bool colemak_fr : 1;
-    };
-} user_config_t;
-
-user_config_t user_config;
-
-void keyboard_post_init_user(void) {
-    user_config.raw = eeconfig_read_user();
-}
-
-void eeconfig_init_user(void) { // EEPROM is getting reset!
-    user_config.raw        = 0;
-    user_config.colemak_fr = false;
-#ifdef AUTOCORRECT_ENABLE
-    autocorrect_enable();
-#endif
-    eeconfig_update_user(user_config.raw);
 }
 
 // bool send_key_with_ralt(char *key, char *dead_ralt_key, uint8_t mods, bool shifted) {
@@ -1509,61 +1544,184 @@ static uint8_t simple_rand(void) {
   return (uint8_t)(random >> 8);
 }
 
-// https://getreuer.info/posts/keyboards/macros3/index.html#random-emojis
-bool process_happy(uint16_t keycode, keyrecord_t *record) {
-    if (keycode != U_HAPPY) {
+// Based on https://getreuer.info/posts/keyboards/macros3/index.html#random-emojis
+void send_approve(void) {
+    static const char *emojis[] = {
+        "🌞", // Sun with Face
+        "👍", // Thumbs Up
+        "👏", // Clapping Hands
+        "🙌", // Raising Hands
+        "💪", // Flexed Biceps
+        "🤝", // Handshake
+        "🎉", // Party Popper
+        "✨", // Sparkles
+        "🌟", // Plowing Star
+        "💯", // Hundred Points
+        "👌", // OK Hand
+        "👾", // Alien Monster
+    };
+    const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+
+    // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
+    uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
+
+    // Don't pick the same emoji twice in a row.
+    static uint8_t last_index = 0;
+    if (index >= last_index) {
+        ++index;
+    }
+    last_index = index;
+
+    // Produce the emoji.
+    send_unicode_string(emojis[index]);
+}
+
+void send_face(void) {
+    static const char *emojis[] = {
+        "😀", // Grinning Face
+        "😃", // Grinning Face with Big Eyes
+        "😄", // Grinning Face with Smiling Eyes
+        "😁", // Beaming Face with Smiling Eyes
+        "😆", // Grinning Squinting Face
+        "😅", // Grinning Face with Sweat
+        "🤣", // Rolling on the Floor Laughing
+        "😂", // Face with Tears of Joy
+        "🙂", // Slightly Smiling Face
+        "🙃", // Upside-Down Face
+        "😉", // Winking Face
+        "😊", // Smiling Face with Smiling Eyes
+        "😇", // Smiling Face with Halo
+        "🥰", // Smiling Face with Hearts
+        "😍", // Smiling Face with Heart-Eyes
+        "🤩", // Star-Struck
+        // "😘", // Face Blowing a Kiss
+        // "😗", // Kissing Face
+        // "😚", // Kissing Face with Closed Eyes
+        // "😙", // Kissing Face with Smiling Eyes
+    };
+    const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+
+    // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
+    uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
+
+    // Don't pick the same emoji twice in a row.
+    static uint8_t last_index = 0;
+    if (index >= last_index) {
+        ++index;
+    }
+    last_index = index;
+
+    // Produce the emoji.
+    send_unicode_string(emojis[index]);
+}
+
+void send_please(void) {
+    static const char *emojis[] = {
+        "🙏", // Folded Hands
+        "🙇", // Person Bowing
+        "🥺", // Pleading Face
+        "😳", // Flushed Face
+        "😭", // Loudly Crying Face
+        "😱", // Face Screaming in Fear
+        "🙈", // See-No-Evil Monkey
+        "🙊", // Speak-No-Evil Monkey
+        "🤭", // Face with Hand Over Mouth
+    };
+    const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+
+    // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
+    uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
+
+    // Don't pick the same emoji twice in a row.
+    static uint8_t last_index = 0;
+    if (index >= last_index) {
+        ++index;
+    }
+    last_index = index;
+
+    // Produce the emoji.
+    send_unicode_string(emojis[index]);
+}
+
+void send_food(void) {
+    static const char *emojis[] = {
+        "🍔", // Hamburger
+        "🍟", // French Fries
+        "🍕", // Pizza
+        "🌭", // Hot Dog
+        "🥪", // Sandwich
+        "🌮", // Taco
+        "🌯", // Burrito
+        "🥙", // Stuffed Flatbread
+        "🍳", // Cooking (Egg in a pan)
+        "🥘", // Shallow Pan of Food (often Paella)
+        "🍲", // Pot of Food (could be stew or soup)
+        "🍛", // Curry Rice
+        "🍜", // Steaming Bowl (noodles)
+        "🍝", // Spaghetti
+        "🍠", // Roasted Sweet Potato
+        "🍢", // Oden
+        "🍣", // Sushi
+        "🍤", // Fried Shrimp
+        "🍥", // Fish Cake with Swirl
+        "🥮", // Moon Cake
+        "🍱", // Bento Box
+        "🍚", // Cooked Rice
+        "🍘", // Rice Cracker
+        "🍙", // Rice Ball
+        "🍧", // Shaved Ice
+        "🍨", // Ice Cream
+        "🍩", // Doughnut
+        "🍪", // Cookie
+        "🎂", // Birthday Cake
+        "🍰", // Shortcake
+        "🧁", // Cupcake
+        "🥧", // Pie
+        "🍫", // Chocolate Bar
+        "🍬", // Candy
+        "🍭", // Lollipop
+        "🍮", // Custard
+        "🍯", // Honey Pot
+        "🥗", // Green Salad
+    };
+    const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+
+    // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
+    uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
+
+    // Don't pick the same emoji twice in a row.
+    static uint8_t last_index = 0;
+    if (index >= last_index) {
+        ++index;
+    }
+    last_index = index;
+
+    // Produce the emoji.
+    send_unicode_string(emojis[index]);
+}
+
+bool process_emoji(uint16_t keycode, keyrecord_t *record) {
+    if (keycode != U_EMOJI) {
         return true;
     }
 
     if (record->event.pressed) {
-        static const char *emojis[]   = {
-            "🌞", // Sun with Face
-            "👾", // Alien Monster
-            "👍", // Thumbs Up
-            "👏", // Clapping Hands
-            "🙌", // Raising Hands
-            "💪", // Flexed Biceps
-            "🤝", // Handshake
-            "🎉", // Party Popper
-            "✨", // Sparkles
-            "🌟", // Plowing Star
-            "💯", // Hundred Points
-            "👌", // OK Hand
-            "😀", // Grinning Face
-            "😃", // Grinning Face with Big Eyes
-            "😄", // Grinning Face with Smiling Eyes
-            "😁", // Beaming Face with Smiling Eyes
-            "😆", // Grinning Squinting Face
-            "😅", // Grinning Face with Sweat
-            "🤣", // Rolling on the Floor Laughing
-            "😂", // Face with Tears of Joy
-            "🙂", // Slightly Smiling Face
-            "🙃", // Upside-Down Face
-            "😉", // Winking Face
-            "😊", // Smiling Face with Smiling Eyes
-            "😇", // Smiling Face with Halo
-            "🥰", // Smiling Face with Hearts
-            "😍", // Smiling Face with Heart-Eyes
-            "🤩", // Star-Struck
-            // "😘", // Face Blowing a Kiss
-            // "😗", // Kissing Face
-            // "😚", // Kissing Face with Closed Eyes
-            // "😙", // Kissing Face with Smiling Eyes
-        };
-        const int          NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+        const uint8_t mods     = get_mods();
+        const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+        const bool is_shifted    = all_mods & MOD_MASK_SHIFT;
+        const bool is_controled    = all_mods & MOD_MASK_CTRL;
 
-        // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
-        uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
-
-        // Don't pick the same emoji twice in a row.
-        static uint8_t last_index = 0;
-        if (index >= last_index) {
-            ++index;
+        clear_all_mods();
+        if (is_controled && is_shifted) {
+            send_food();
+        } else if (is_controled) {
+            send_please();
+        } else if (is_shifted) {
+            send_face();
+        } else {
+            send_approve();
         }
-        last_index = index;
-
-        // Produce the emoji.
-        send_unicode_string(emojis[index]);
+        set_mods(mods);
     }
 
     return false;
@@ -1599,7 +1757,9 @@ void process_mouse_jiggler(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#if defined(MOUSEKEY_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
     process_mouse_jiggler(keycode, record);
+#endif
     if (!process_achordion_user(keycode, record)) {
         return false;
     }
@@ -1627,7 +1787,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_quopostrokey(keycode, record)) {
         return false;
     }
-    if (!process_happy(keycode, record)) {
+    if (!process_emoji(keycode, record)) {
         return false;
     }
     if (!process_sentence_case(keycode, record)) {
