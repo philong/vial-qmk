@@ -3,6 +3,10 @@
 
 #include QMK_KEYBOARD_H
 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
 #include "via.h"
 #include "qmk_settings.h"
 #include "process_magic.h"
@@ -122,7 +126,6 @@ const char DOUBLE_UNDERSCORE[] PROGMEM     = "__";
 const char IN_UNDERSCORES[] PROGMEM        = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
 const char DOUBLE_BACKTICK[] PROGMEM       = "``" SS_TAP(X_RGHT);
 const char TRIPLE_BACKTICK[] PROGMEM       = "```" SS_LSFT(SS_TAP(X_ENT)) "```" SS_TAP(X_UP);
-const char DOUBLE_DOTS[] PROGMEM           = "..";
 
 // keycode, normal, shift, control, control+shift
 const struct user_macro USER_MACROS[] PROGMEM = {
@@ -148,7 +151,6 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
     {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
     {U_DOUBLE_BACKTICK, DOUBLE_BACKTICK, TRIPLE_BACKTICK, NULL, NULL},
-    {U_DOUBLE_DOTS, DOUBLE_DOTS, NULL, NULL, NULL},
     {U_USERNAME, "philong", "Phi-Long", "philong.do@gmail.com", "p.do@axelor.com"},
 };
 
@@ -159,6 +161,8 @@ static bool dynamic_macro_recording = false;
 static bool oneshot_mods_enabled    = false;
 static bool oneshot_layer_enabled   = false;
 static layer_state_t locked_layers = 0;
+
+static bool quopostrokey_is_quote = false;
 
 typedef union {
     uint32_t raw;
@@ -680,31 +684,160 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     const bool alted      = mods & MOD_MASK_ALT;
     const bool guied      = mods & MOD_MASK_GUI;
 
+    if (shifted) {
+        switch (tap_keycode) {
+            case CM_GRV:
+                tap_keycode = CM_TILD; // ~
+                break;
+            case CM_1:
+                tap_keycode = CM_EXLM; // !
+                break;
+            case CM_2:
+                tap_keycode = CM_AT; // @
+                break;
+            case CM_3:
+                tap_keycode = CM_HASH; // #
+                break;
+            case CM_4:
+                tap_keycode = CM_DLR; // $
+                break;
+            case CM_5:
+                tap_keycode = CM_PERC; // %
+                break;
+            case CM_6:
+                tap_keycode = CM_CIRC; // ^
+                break;
+            case CM_7:
+                tap_keycode = CM_AMPR; // &
+                break;
+            case CM_8:
+                tap_keycode = CM_ASTR; // *
+                break;
+            case CM_9:
+                tap_keycode = CM_LPRN; // (
+                break;
+            case CM_0:
+            case TD(4):
+                tap_keycode = CM_RPRN; // )
+                break;
+            case CM_MINS:
+                tap_keycode = CM_UNDS; // _
+                break;
+            case CM_EQL:
+                tap_keycode = CM_PLUS; // +
+                break;
+            case CM_SCLN:
+                tap_keycode = CM_COLN; // :
+                break;
+            case CM_LBRC:
+                tap_keycode = CM_LCBR; // {
+                break;
+            case CM_RBRC:
+                tap_keycode = CM_RCBR; // }
+                break;
+            case CM_BSLS:
+                tap_keycode = CM_PIPE; // |
+                break;
+            case CM_QUOT:
+                tap_keycode = CM_DQUO; // "
+                break;
+            case CM_COMM:
+                tap_keycode = CM_LABK; // <
+                break;
+            case CM_DOT:
+                tap_keycode = CM_RABK; // >
+                break;
+            case CM_SLSH:
+                tap_keycode = CM_QUES; // ?
+                break;
+        }
+    }
+
     switch (tap_keycode) {
         case U_SEL_WORD:
             return shifted ? S(KC_UP) : C(S(KC_LEFT));
         case U_JOIN_LN:
             return shifted ? U_JOIN_LN : S(U_JOIN_LN);
+        case U_QUOP:
+            return quopostrokey_is_quote ? CM_DQUO : CM_QUOT;
         case KC_SPACE:
             return combine_keycode(KC_BACKSPACE, mods);
         case KC_ENTER:
             return combine_keycode(KC_ESCAPE, mods);
         case KC_ESCAPE:
             return combine_keycode(KC_ENTER, mods);
-        case KC_DOT:
-            return U_DOUBLE_DOTS;
-        case KC_1:
-            if (shifted) {
-                return U_EQUAL;
-            } else {
-                return KC_0;
-            }
-        case KC_0:
-            return KC_1;
-        case KC_EQUAL:
+        case CM_GRV:
+            return CM_GRV; // ``
+        case CM_1...CM_0:
+        case TD(4):
+            return CM_1; // 00, 000
+        case CM_MINS:
+            return U_DOUBLE_MINUS;
+        case CM_EQL:
             return U_EQUAL;
-        case KC_F24:
-            return U_EQUAL;
+        case CM_SCLN:
+            return CM_SCLN; // Comment
+        case CM_LBRC:
+        case TD(0):
+            return CM_LBRC; // []
+        case CM_RBRC:
+            return KC_SPACE;
+        case CM_BSLS:
+            return CM_BSLS;
+        case CM_QUOT:
+            return CM_QUOT; // ''
+        case CM_COMM:
+            return KC_SPACE;
+        case CM_DOT:
+            return CM_DOT; // ./, ../
+        case CM_SLSH:
+            return CM_SLSH; // //
+        case CM_TILD:
+            return CM_TILD;
+        case CM_EXLM:
+        case KC_F24: // !
+            return CM_EQL;
+        case CM_AT:
+            return CM_AT; // gmail.com
+        case CM_HASH:
+            return CM_HASH;
+        case CM_DLR:
+            return CM_DLR; // {}
+        case CM_PERC:
+            return CM_PERC;
+        case CM_CIRC:
+            return CM_2;
+        case CM_AMPR:
+            return CM_AMPR; // &&
+        case CM_ASTR:
+            return CM_ASTR; // *text*
+        case CM_LPRN:
+        case TD(1):
+            return CM_LPRN; // ()
+        case CM_RPRN:
+            return KC_SPACE;
+        case CM_UNDS:
+            return CM_UNDS; // _text_
+        case CM_PLUS:
+            return CM_EQL;
+        case CM_COLN:
+        case KC_F23: // :
+            return CM_COLN; // "text",
+        case CM_LCBR:
+        case TD(2):
+            return CM_LCBR; // {}
+        case CM_RCBR:
+            return KC_ENTER;
+        case CM_PIPE:
+            return CM_PIPE; // ||
+        case CM_DQUO:
+            return CM_DQUO; // ""
+        case CM_LABK:
+            return CM_EQL;
+        case CM_RABK:
+            return CM_EQL;
+        case CM_QUES:
+            return CM_QUES; // c ? a : b
     }
 
     // Colemak
@@ -815,6 +948,13 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t *record, uint8_t *reme
     return !is_oneshot_trigger(keycode);
 }
 
+bool ends_with_two_digits(const char *str) {
+    if (str == NULL) { return false; }
+    const size_t len = strlen(str);
+    return len >= 2 && isdigit((unsigned char)str[len - 1])
+            && isdigit((unsigned char)str[len - 2]);
+}
+
 // Shift+QK_REPEAT_KEY -> QK_ALT_REPEAT_KEY
 bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uint16_t repeat_keycode, uint16_t alt_repeat_keycode) {
     const uint8_t mods     = get_mods();
@@ -827,14 +967,207 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
         return result;
     }
 
-    switch (keycode) {
-        case U_DOUBLE_DOTS:
-            if (get_repeat_key_count() < -1) {
-                if (record->event.pressed) {
-                    SEND_STRING(THREE_DOTS);
+    if (record->event.pressed) {
+        switch (keycode) {
+            case CM_GRV:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("`" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() == -2) {
+                    SEND_STRING("````" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() == -3) {
+                    SEND_STRING(SS_LSFT(SS_TAP(X_ENT)) SS_TAP(X_UP) SS_TAP(X_END));
+                    return false;
+                } else if (get_repeat_key_count() <= -4) {
+                    SEND_STRING(SS_LSFT(SS_TAP(X_ENT)));
                     return false;
                 }
-            }
+                break;
+            case CM_1:
+                if (get_repeat_key_count() == -1) {
+                    const char* word = get_current_word();
+                    if (ends_with_two_digits(word)) {
+                        SEND_STRING("000");
+                    } else {
+                        SEND_STRING("00");
+                    }
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("000");
+                    return false;
+                }
+                break;
+            case CM_SCLN:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING(" // ");
+                    return false;
+                }
+                break;
+            case CM_LBRC:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("]" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("[]" SS_TAP(X_LEFT));
+                    return false;
+                }
+                break;
+            case CM_BSLS:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("n");
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("\\n");
+                    return false;
+                }
+                break;
+            case CM_QUOT:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("'" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() == -2) {
+                    SEND_STRING("''''" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() == -3) {
+                    SEND_STRING(SS_LSFT(SS_TAP(X_ENT)) SS_TAP(X_UP) SS_TAP(X_END));
+                    return false;
+                } else if (get_repeat_key_count() <= -4) {
+                    SEND_STRING(SS_LSFT(SS_TAP(X_ENT)));
+                    return false;
+                }
+                break;
+            case CM_DOT:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING(CURRENT_DIRECTORY);
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING(UP_DIRECTORY);
+                    return false;
+                }
+                break;
+            case CM_SLSH:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("/ ");
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING(SS_TAP(X_ENT) "// ");
+                    return false;
+                }
+                break;
+            case CM_TILD:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("/");
+                    return false;
+                }
+                break;
+            case CM_AT:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("gmail.com");
+                    return false;
+                }
+                break;
+            case CM_HASH:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING(" ");
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING(SS_TAP(X_ENT) "# ");
+                    return false;
+                }
+                break;
+            case CM_DLR:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("{}" SS_TAP(X_LEFT));
+                    return false;
+                }
+                break;
+            case CM_PERC:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("s");
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("%n");
+                    return false;
+                }
+                break;
+            case CM_AMPR:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("& ");
+                    return false;
+                }
+                break;
+            case CM_ASTR:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("*" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("**" SS_TAP(X_LEFT));
+                    return false;
+                }
+                break;
+            case CM_LPRN:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING(")" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("()" SS_TAP(X_LEFT));
+                    return false;
+                }
+                break;
+            case CM_UNDS:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("_" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("__" SS_TAP(X_LEFT));
+                    return false;
+                }
+                break;
+            case CM_COLN:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING(" \"\"," SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+                    return false;
+                }
+                break;
+            case CM_LCBR:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("}" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() < -1) {
+                    SEND_STRING("{}" SS_TAP(X_LEFT));
+                    return false;
+                }
+                break;
+            case CM_PIPE:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("| ");
+                    return false;
+                }
+                break;
+            case CM_DQUO:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("\"" SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() == -2) {
+                    SEND_STRING("\"\"\"\"" SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+                    return false;
+                } else if (get_repeat_key_count() == -3) {
+                    SEND_STRING(SS_LSFT(SS_TAP(X_ENT)) SS_TAP(X_UP) SS_TAP(X_END));
+                    return false;
+                } else if (get_repeat_key_count() <= -4) {
+                    SEND_STRING(SS_LSFT(SS_TAP(X_ENT)));
+                    return false;
+                }
+                break;
+            case CM_QUES:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING("  : "
+                        SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT));
+                    return false;             
+                }
+                break;
+        }
     }
 
     return process_repeat_key_with_alt(keycode, record, U_REPEAT, U_ALT_REPEAT);
@@ -995,20 +1328,22 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
         if (macro.keycode != tap_keycode) {
             continue;
         }
-        if (macro.shifted_controlled_string && is_shifted && is_controlled) {
+        if (is_shifted && is_controlled && macro.shifted_controlled_string) {
             clear_all_mods();
             send_string_P(macro.shifted_controlled_string);
             set_mods(mods);
-        } else if (macro.controlled_string && is_controlled) {
+        } else if (is_controlled && macro.controlled_string) {
             clear_all_mods();
             send_string_P(macro.controlled_string);
             set_mods(mods);
-        } else if (macro.shifted_string && is_shifted) {
+        } else if (is_shifted && macro.shifted_string) {
             clear_all_mods();
             send_string_P(macro.shifted_string);
             set_mods(mods);
         } else {
+            clear_all_mods();
             send_string_P(macro.string);
+            set_mods(mods);
         }
         return false;
     }
@@ -1066,6 +1401,7 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
+    // !
     if (tap_keycode == KC_F24) {
         if (record->tap.count == 0) { // Key is being held.
             if (record->event.pressed) {
@@ -1086,6 +1422,7 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
         return false; // Skip default handling.
     }
 
+    // :
     if (tap_keycode == KC_F23) {
         if (record->tap.count == 0) { // Key is being held.
             if (record->event.pressed) {
@@ -1198,14 +1535,6 @@ bool process_select_word_user(uint16_t keycode, keyrecord_t *record, uint16_t se
     return false;
 }
 
-// bool send_key_with_ralt(char *key, char *dead_ralt_key, uint8_t mods, bool shifted) {
-//     clear_all_mods();
-//     SEND_STRING(SS_RALT(dead_ralt_key));
-//     SEND_STRING(shifted ? SS_LSFT(key) : key);
-//     set_mods(mods);
-//     return false;
-// }
-
 bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_keycode) {
     if (!record->event.pressed) {
         return true;
@@ -1317,36 +1646,6 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
         default:
             return true;
     }
-
-    // switch (tap_keycode) {
-    //     // grave
-    //     case CM_A:
-    //         return send_key_with_ralt("a", "r", mods, shifted);
-    //     case CM_P:
-    //         return send_key_with_ralt("e", "r", mods, shifted);
-    //     case CM_L:
-    //         return send_key_with_ralt("u", "r", mods, shifted);
-    //     // circonflexe
-    //     case CM_Q:
-    //         return send_key_with_ralt("a", "x", mods, shifted);
-    //     case CM_F:
-    //         return send_key_with_ralt("e", "x", mods, shifted);
-    //     case CM_I:
-    //         return send_key_with_ralt("i", "x", mods, shifted);
-    //     case CM_O:
-    //         return send_key_with_ralt("o", "x", mods, shifted);
-    //     case CM_U:
-    //         return send_key_with_ralt("u", "x", mods, shifted);
-    //     // tréma
-    //     case CM_W:
-    //         return send_key_with_ralt("e", "d", mods, shifted);
-    //     case CM_Y:
-    //         return send_key_with_ralt("i", "d", mods, shifted);
-    //     case CM_SCLN:
-    //         return send_key_with_ralt("u", "d", mods, shifted);
-    //     default:
-    //         return true;
-    // }
 }
 
 static bool right_pressed = false;
@@ -1414,9 +1713,17 @@ bool process_nav_override(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+bool within_word(void) {
+    const uint8_t current_word_length = get_current_word_length();
+    if (!current_word_length) {
+        return false;
+    }
+    const char c = get_current_word()[current_word_length - 1];
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '\'';
+}
+
 // Based on https://getreuer.info/posts/keyboards/macros3/index.html#quopostrokey
 static bool process_quopostrokey(uint16_t keycode, keyrecord_t *record) {
-    static bool within_word = false;
     static uint16_t pressed_keycode = KC_NO;
 
     if (keycode == U_QUOP) {
@@ -1427,12 +1734,14 @@ static bool process_quopostrokey(uint16_t keycode, keyrecord_t *record) {
             if ((all_mods & MOD_BIT(KC_RALT))) {
                 pressed_keycode = CM_0;
                 register_code(pressed_keycode);
+                quopostrokey_is_quote = false;
                 return true;
             }
 
             if (all_mods & MOD_MASK_SHIFT) {
                 pressed_keycode = CM_QUOT;
                 register_code(pressed_keycode);
+                quopostrokey_is_quote = true;
                 return true;
             }
 
@@ -1440,17 +1749,22 @@ static bool process_quopostrokey(uint16_t keycode, keyrecord_t *record) {
                 clear_all_mods();
                 pressed_keycode = CM_QUOT;
                 register_code(pressed_keycode);
+                quopostrokey_is_quote = false;
                 set_mods(mods);
                 return true;
             }
 
-            if (within_word) {
-                pressed_keycode = CM_QUOT;
-                register_code(pressed_keycode);
-                return true;
-            } else {
+            if (!within_word()) {
                 SEND_STRING("\"\"" SS_TAP(X_LEFT));
+                quopostrokey_is_quote = true;
+                return false;
+            } else {
+                quopostrokey_is_quote = false;
             }
+
+            pressed_keycode = CM_QUOT;
+            register_code(pressed_keycode);
+            return true;
         } else if (pressed_keycode != KC_NO) {
             unregister_code(pressed_keycode);
             pressed_keycode = KC_NO;
@@ -1459,28 +1773,6 @@ static bool process_quopostrokey(uint16_t keycode, keyrecord_t *record) {
 
         return false;
     }
-
-    switch (keycode) { // Unpack tapping keycode for tap-hold keys.
-#ifndef NO_ACTION_TAPPING
-        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
-            if (record->tap.count == 0) {
-                return true;
-            }
-            keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
-            break;
-#   ifndef NO_ACTION_LAYER
-        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
-            if (record->tap.count == 0) {
-                return true;
-            }
-            keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-            break;
-#    endif // NO_ACTION_LAYER
-#endif     // NO_ACTION_TAPPING
-    }
-
-    // Determine whether the key is a letter.
-    within_word = is_alpha(keycode);
 
     return true;
 }

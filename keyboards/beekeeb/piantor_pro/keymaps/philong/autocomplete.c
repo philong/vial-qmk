@@ -47,9 +47,16 @@ __attribute__((weak)) char autocomplete_keycode_to_char(uint16_t keycode) {
     return keycode >= KC_CAPS_LOCK ? ' ' : keycode_to_char[keycode];
 }
 
+static char get_shifted_char(const char c) {
+    if (c == '\'') {
+        return '\"';
+    }
+    return toupper(c);
+}
+
 static char keycode_to_case_char(uint16_t keycode, bool shifted) {
     const char c = autocomplete_keycode_to_char(keycode);
-    return shifted ? toupper(c) : c;
+    return shifted ? get_shifted_char(c) : c;
 }
 
 static size_t find_last_word_pos(const char *buffer) {
@@ -276,7 +283,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
     // Reset if word tracking becomes uncertain.
-    if ((all_mods & MOD_MASK_CG) || (all_mods & MOD_BIT(KC_LEFT_ALT))) {
+    if (((all_mods & MOD_MASK_CG) || (all_mods & MOD_BIT(KC_LEFT_ALT))) && keycode != U_QUOP) {
         reset_word();
         return true;
     }
@@ -403,4 +410,15 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
     }
 
     return true;
+}
+
+char* get_current_word(void) {
+    if (!current_word_length) {
+        return NULL;
+    }
+    return current_word;
+}
+
+uint8_t get_current_word_length(void) {
+    return current_word_length;
 }

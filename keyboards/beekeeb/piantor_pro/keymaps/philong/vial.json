@@ -449,11 +449,6 @@
             "shortName": "``",
             "title": "Double Backtick",
             "name": "U_DOUBLE_BACKTICK"
-        },
-        {
-            "shortName": "..",
-            "title": "Double Dots",
-            "name": "U_DOUBLE_DOTS"
         }
     ]
 }
