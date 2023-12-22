@@ -2100,7 +2100,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_num_word(keycode, record)) {
         return false;
     }
-    if (!process_autocomplete(keycode, record, U_AUTOCOMPLETE)) {
+    if (!process_autocomplete(keycode, record)) {
         return false;
     }
     if (!process_nav_override(keycode, record)) {

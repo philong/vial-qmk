@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autocomplete_keycode);
+bool process_autocomplete(uint16_t keycode, keyrecord_t *record);
 
 char* get_current_word(void);
 

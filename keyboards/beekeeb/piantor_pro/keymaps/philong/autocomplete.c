@@ -146,7 +146,7 @@ static bool is_end_of_sentence(const char *str) {
     }
 }
 
-static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, char *result) {
+static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, const int num_skips, char *result) {
     result[0]                    = '\0';
     const size_t prefix_word_len = strlen(prefix_word);
     size_t       start_index;
@@ -170,6 +170,7 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
     }
 
     ssize_t found_index = -1;
+    int     skips       = num_skips;
 
     // Suggestion loop
     for (int i = 0; i < 2; ++i) {
@@ -194,6 +195,11 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
             found_index = autocomplete_search_min(words, words_len, start_index, prefix_word, prefix_word_len, result, min_completion);
             if (found_index >= 0) {
                 if (found_index == last_autocomplete.index && min_completion == 1) {
+                    continue;
+                }
+                if (skips > 0) {
+                    --skips;
+                    start_index = found_index + 1;
                     continue;
                 }
                 return found_index;
@@ -274,7 +280,7 @@ static void convert_to_uppercase(char *str) {
     }
 }
 
-bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autocomplete_keycode) {
+bool process_autocomplete(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) {
         return true;
     }
@@ -312,7 +318,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         return true;
     }
 
-    if (keycode == autocomplete_keycode) {
+    if (keycode == U_AUTOCOMPLETE || keycode == U_AUTOCOMPLETE2) {
         // Autocomplete the word based on the current input
 
         if (last_autocomplete.index >= 0) {
@@ -325,6 +331,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
             SEND_STRING(backspace_str);
         }
 
+        const int   num_skips   = keycode == U_AUTOCOMPLETE2 ? 1 : 0;
         size_t      position    = 0;
         const char *token       = current_word;
         ssize_t     found_index = -1;
@@ -332,7 +339,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         while (1) {
             const uint8_t *word_mods = current_word_mods + position;
 
-            if ((found_index = autocomplete(token, word_mods, autocomplete_result)) >= 0) {
+            if ((found_index = autocomplete(token, word_mods, num_skips, autocomplete_result)) >= 0) {
                 break;
             }
 
@@ -412,7 +419,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
     return true;
 }
 
-char* get_current_word(void) {
+char *get_current_word(void) {
     if (!current_word_length) {
         return NULL;
     }
