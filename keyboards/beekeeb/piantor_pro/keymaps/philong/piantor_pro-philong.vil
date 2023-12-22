@@ -1081,94 +1081,32 @@
     "macro": [
         [
             [
-                "down",
-                "KC_LCTRL"
-            ],
-            [
-                "delay",
-                5
-            ],
-            [
                 "tap",
-                "KC_Z"
-            ],
-            [
-                "up",
-                "KC_LCTRL"
+                "LCTL(KC_Z)"
             ]
         ],
         [
             [
-                "down",
-                "KC_LCTRL"
-            ],
-            [
-                "delay",
-                5
-            ],
-            [
                 "tap",
-                "KC_X"
-            ],
-            [
-                "up",
-                "KC_LCTRL"
+                "LCTL(KC_X)"
             ]
         ],
         [
             [
-                "down",
-                "KC_LCTRL"
-            ],
-            [
-                "delay",
-                5
-            ],
-            [
                 "tap",
-                "KC_C"
-            ],
-            [
-                "up",
-                "KC_LCTRL"
+                "LCTL(KC_C)"
             ]
         ],
         [
             [
-                "down",
-                "KC_LCTRL"
-            ],
-            [
-                "delay",
-                5
-            ],
-            [
                 "tap",
-                "KC_V"
-            ],
-            [
-                "up",
-                "KC_LCTRL"
+                "LCTL(KC_V)"
             ]
         ],
         [
             [
-                "down",
-                "KC_LSHIFT",
-                "KC_LCTRL"
-            ],
-            [
-                "delay",
-                5
-            ],
-            [
                 "tap",
-                "KC_Z"
-            ],
-            [
-                "up",
-                "KC_LSHIFT",
-                "KC_LCTRL"
+                "C_S(KC_Z)"
             ]
         ],
         [
@@ -1267,40 +1205,7 @@
                 "KC_ENTER"
             ]
         ],
-        [
-            [
-                "tap",
-                "KC_END"
-            ],
-            [
-                "down",
-                "KC_LSHIFT"
-            ],
-            [
-                "tap",
-                "KC_HOME"
-            ],
-            [
-                "up",
-                "KC_LSHIFT"
-            ],
-            [
-                "text",
-                "admin"
-            ],
-            [
-                "tap",
-                "KC_TAB"
-            ],
-            [
-                "text",
-                "admin"
-            ],
-            [
-                "tap",
-                "KC_ENTER"
-            ]
-        ],
+        [],
         [],
         [],
         [],
@@ -1844,7 +1749,7 @@
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "USER44"
+            "USER33"
         ],
         [
             "KC_Y",
@@ -1907,7 +1812,7 @@
             "KC_X",
             "KC_NO",
             "KC_NO",
-            "USER46"
+            "USER44"
         ],
         [
             "KC_NO",
