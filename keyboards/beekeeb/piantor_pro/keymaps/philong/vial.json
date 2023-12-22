@@ -449,6 +449,11 @@
             "shortName": "``",
             "title": "Double Backtick",
             "name": "U_DOUBLE_BACKTICK"
+        },
+        {
+            "shortName": "Auto\nComp2",
+            "title": "Autocomplete 2",
+            "name": "U_AUTOCOMPLETE2"
         }
     ]
 }
