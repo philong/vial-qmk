@@ -89,6 +89,10 @@
 
 #define SENTENCE_CASE_TIMEOUT 2000
 
+#define TAP_CODE_DELAY 12
+
+#define SS_TAP_CODE_DELAY SS_DELAY(TAP_CODE_DELAY)
+
 #include "ignore.extras.h"
 
 #ifndef DMACRO1_TEXT1
