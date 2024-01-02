@@ -1225,6 +1225,10 @@ uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
         return 0;
     }
 
+    if (IS_QK_LAYER_TAP(tap_hold_keycode)) {
+        return 100;
+    }
+
     switch (tap_hold_keycode) {
         case MT_F:
             return 100;
@@ -1533,17 +1537,21 @@ bool process_select_word_user(uint16_t keycode, keyrecord_t *record, uint16_t se
     return false;
 }
 
+void send_char_shifted(char key) {
+    SEND_STRING(SS_DOWN(X_LSFT));
+    send_char(key);
+    SEND_STRING(SS_UP(X_LSFT));
+}
+
 bool send_key_with_ralt(char key, char dead_ralt_key, uint8_t mods, bool shifted) {
     clear_all_mods();
     SEND_STRING(SS_DOWN(X_RALT));
     send_char(dead_ralt_key);
     SEND_STRING(SS_UP(X_RALT) SS_TAP_CODE_DELAY);
     if (shifted) {
-        SEND_STRING(SS_DOWN(X_LSFT));
-    }
-    send_char(key);
-    if (shifted) {
-        SEND_STRING(SS_UP(X_LSFT));
+        send_char_shifted(key);
+    } else {
+        send_char(key);
     }
     set_mods(mods);
     return false;
