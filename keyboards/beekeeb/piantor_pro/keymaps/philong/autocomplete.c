@@ -302,7 +302,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case QK_MOD_TAP ... QK_MOD_TAP_MAX:
         case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
-        case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+        // case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
             if (record->tap.count == 0) {
                 return true;
             }
