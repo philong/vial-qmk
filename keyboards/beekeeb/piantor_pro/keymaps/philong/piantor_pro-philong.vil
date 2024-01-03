@@ -1728,14 +1728,14 @@
             "LCTL_T(KC_F)",
             "KC_NO",
             "KC_NO",
-            "USER47"
+            "USER06"
         ],
         [
             "RCG_T(KC_U)",
             "RCTL_T(KC_J)",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "USER06"
         ],
         [
             "LT5(KC_BSPACE)",
@@ -1763,14 +1763,14 @@
             "LSFT_T(KC_D)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER47"
         ],
         [
             "SGUI_T(KC_I)",
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER33"
         ],
         [
             "ALL_T(KC_G)",
@@ -1798,7 +1798,7 @@
             "LT0(KC_DOT)",
             "KC_NO",
             "KC_NO",
-            "USER09"
+            "USER11"
         ],
         [
             "USER43",
