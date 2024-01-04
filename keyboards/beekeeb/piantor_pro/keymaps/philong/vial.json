@@ -454,6 +454,11 @@
             "shortName": "Auto\nComp2",
             "title": "Autocomplete 2",
             "name": "U_AUTOCOMPLETE2"
+        },
+        {
+            "shortName": "Auto\nComp3",
+            "title": "Autocomplete 3",
+            "name": "U_AUTOCOMPLETE3"
         }
     ]
 }

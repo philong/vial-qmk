@@ -78,6 +78,7 @@ enum user_keycode {
     U_JIGGLE,
     U_DOUBLE_BACKTICK,
     U_AUTOCOMPLETE2,
+    U_AUTOCOMPLETE3,
 };
 
 #ifndef QK_REPEAT_KEY
