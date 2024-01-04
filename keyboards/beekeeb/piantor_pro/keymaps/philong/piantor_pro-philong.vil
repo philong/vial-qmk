@@ -1518,21 +1518,21 @@
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "TD(1)"
+            "USER33"
         ],
         [
             "LCG_T(KC_R)",
             "KC_T",
             "KC_NO",
             "KC_NO",
-            "TD(0)"
+            "USER47"
         ],
         [
             "RALT_T(KC_V)",
             "KC_B",
             "KC_NO",
             "KC_NO",
-            "TD(2)"
+            "USER48"
         ],
         [
             "LSFT_T(KC_D)",
@@ -1728,14 +1728,14 @@
             "LCTL_T(KC_F)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "LSFT(KC_0)"
         ],
         [
             "RCG_T(KC_U)",
             "RCTL_T(KC_J)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "KC_LBRACKET"
         ],
         [
             "LT5(KC_BSPACE)",
@@ -1756,21 +1756,21 @@
             "ALL_T(KC_H)",
             "KC_NO",
             "KC_NO",
-            "USER05"
+            "USER06"
         ],
         [
             "SGUI_T(KC_E)",
             "LSFT_T(KC_D)",
             "KC_NO",
             "KC_NO",
-            "USER47"
+            "LSFT(KC_9)"
         ],
         [
             "SGUI_T(KC_I)",
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "KC_RBRACKET"
         ],
         [
             "ALL_T(KC_G)",
@@ -2005,7 +2005,7 @@
             "trigger_mods": 34,
             "negative_mod_mask": 0,
             "suppressed_mods": 34,
-            "options": 135
+            "options": 7
         },
         {
             "trigger": "LSFT(KC_LBRACKET)",

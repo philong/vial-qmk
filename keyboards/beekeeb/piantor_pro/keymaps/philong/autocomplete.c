@@ -110,7 +110,8 @@ static int word_cmp(const char *word, const char *prefix_word, const size_t pref
     return strncasecmp(word, prefix_word, prefix_word_len);
 }
 
-static ssize_t autocomplete_search_min(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result, const size_t min_completion) {
+static ssize_t autocomplete_search_min(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result, const size_t min_completion, const int num_skips) {
+    int skips = num_skips;
     for (size_t index = start_index; index < max_size; ++index) {
         const char *word = words[index];
         if (word == NULL) {
@@ -118,6 +119,11 @@ static ssize_t autocomplete_search_min(const char **words, const size_t max_size
         }
         const size_t word_len = strlen(word);
         if (word_len > prefix_word_len + min_completion && word_cmp(word, prefix_word, prefix_word_len) == 0) {
+            if (skips > 0) {
+                --skips;
+                continue;
+            }
+
             // Set remaining characters to complete the word
             const char  *remaining = word + prefix_word_len;
             const size_t len       = strlen(remaining);
@@ -170,7 +176,6 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
     }
 
     ssize_t found_index = -1;
-    int     skips       = num_skips;
 
     // Suggestion loop
     for (int i = 0; i < 2; ++i) {
@@ -192,14 +197,9 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
         }
 
         for (ssize_t min_completion = 1; min_completion >= 0; --min_completion) {
-            found_index = autocomplete_search_min(words, words_len, start_index, prefix_word, prefix_word_len, result, min_completion);
+            found_index = autocomplete_search_min(words, words_len, start_index, prefix_word, prefix_word_len, result, min_completion, num_skips);
             if (found_index >= 0) {
                 if (found_index == last_autocomplete.index && min_completion == 1) {
-                    continue;
-                }
-                if (skips > 0) {
-                    --skips;
-                    start_index = found_index + 1;
                     continue;
                 }
                 return found_index;
@@ -302,7 +302,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case QK_MOD_TAP ... QK_MOD_TAP_MAX:
         case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
-        // case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+            // case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
             if (record->tap.count == 0) {
                 return true;
             }
@@ -318,7 +318,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record) {
         return true;
     }
 
-    if (keycode == U_AUTOCOMPLETE || keycode == U_AUTOCOMPLETE2) {
+    if (keycode == U_AUTOCOMPLETE || keycode == U_AUTOCOMPLETE2 || keycode == U_AUTOCOMPLETE3) {
         // Autocomplete the word based on the current input
 
         if (last_autocomplete.index >= 0) {
@@ -331,7 +331,22 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record) {
             SEND_STRING(backspace_str);
         }
 
-        const int   num_skips   = keycode == U_AUTOCOMPLETE2 ? 1 : 0;
+        int num_skips;
+
+        switch (keycode) {
+            case U_AUTOCOMPLETE:
+                num_skips = 0;
+                break;
+            case U_AUTOCOMPLETE2:
+                num_skips = 1;
+                break;
+            case U_AUTOCOMPLETE3:
+                num_skips = 2;
+                break;
+            default:
+                return true;
+        }
+
         size_t      position    = 0;
         const char *token       = current_word;
         ssize_t     found_index = -1;
