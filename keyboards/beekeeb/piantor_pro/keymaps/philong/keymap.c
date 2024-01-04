@@ -953,18 +953,27 @@ bool ends_with_two_digits(const char *str) {
             && isdigit((unsigned char)str[len - 2]);
 }
 
-// Shift+QK_REPEAT_KEY -> QK_ALT_REPEAT_KEY
 bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uint16_t repeat_keycode, uint16_t alt_repeat_keycode) {
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
-    if (keycode == repeat_keycode && (all_mods & MOD_MASK_SHIFT)) {
-        clear_all_mods();
-        bool result = process_repeat_key_with_alt(alt_repeat_keycode, record, repeat_keycode, alt_repeat_keycode);
-        set_mods(mods);
-        return result;
+    if ((all_mods & MOD_MASK_SHIFT)) {
+        if (keycode == repeat_keycode) {
+            // Shift + QK_REPEAT_KEY -> QK_ALT_REPEAT_KEY
+            clear_all_mods();
+            bool result = process_repeat_key_with_alt(alt_repeat_keycode, record, repeat_keycode, alt_repeat_keycode);
+            set_mods(mods);
+            return result;
+        } else if (keycode == alt_repeat_keycode) {
+            // Shift + QK_ALT_REPEAT_KEY -> QK_REPEAT_KEY
+            clear_all_mods();
+            bool result = process_repeat_key_with_alt(repeat_keycode, record, repeat_keycode, alt_repeat_keycode);
+            set_mods(mods);
+            return result;
+        }
     }
 
+    // Custom alt repeat key
     if (record->event.pressed) {
         switch (keycode) {
             case CM_GRV:
