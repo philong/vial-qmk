@@ -1991,7 +1991,7 @@
         },
         {
             "trigger": "LSFT(KC_9)",
-            "replacement": "LSFT(KC_0)",
+            "replacement": "LSFT(KC_COMMA)",
             "layers": 65535,
             "trigger_mods": 34,
             "negative_mod_mask": 0,
@@ -1999,13 +1999,13 @@
             "options": 135
         },
         {
-            "trigger": "KC_LBRACKET",
-            "replacement": "KC_RBRACKET",
+            "trigger": "LSFT(KC_0)",
+            "replacement": "LSFT(KC_DOT)",
             "layers": 65535,
             "trigger_mods": 34,
             "negative_mod_mask": 0,
             "suppressed_mods": 34,
-            "options": 7
+            "options": 135
         },
         {
             "trigger": "LSFT(KC_LBRACKET)",
