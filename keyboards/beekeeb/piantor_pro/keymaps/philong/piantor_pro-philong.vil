@@ -1728,14 +1728,14 @@
             "LCTL_T(KC_F)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_0)"
+            "KC_RBRACKET"
         ],
         [
             "RCG_T(KC_U)",
             "RCTL_T(KC_J)",
             "KC_NO",
             "KC_NO",
-            "KC_LBRACKET"
+            "LSFT(KC_9)"
         ],
         [
             "LT5(KC_BSPACE)",
@@ -1763,14 +1763,14 @@
             "LSFT_T(KC_D)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_9)"
+            "KC_LBRACKET"
         ],
         [
             "SGUI_T(KC_I)",
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
-            "KC_RBRACKET"
+            "LSFT(KC_0)"
         ],
         [
             "ALL_T(KC_G)",
