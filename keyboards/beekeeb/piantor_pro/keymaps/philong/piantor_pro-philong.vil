@@ -532,8 +532,8 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
+                "RESET",
+                "RESET",
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
@@ -564,8 +564,8 @@
                 "KC_TRNS"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
+                "RESET",
+                "RESET",
                 "KC_TRNS",
                 "KC_TRNS",
                 "USER42",
