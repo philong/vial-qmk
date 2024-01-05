@@ -36,5 +36,8 @@ static const char *autocomplete_data[ALPHABET_SIZE][MAX_AUTOCOMPLETE] PROGMEM = 
     {"zip", "zero", "zone", "zoom", "zsh", NULL},
 };
 
+static const char  *start_words[] PROGMEM = {"The", "I'm", "How", NULL};
+static const size_t start_words_len       = sizeof(start_words) / sizeof(start_words[0]);
+
 static const char  *c_cedilla_words[] PROGMEM = {"ca va ?", "ca va, et toi ?", "ca va, merci.", NULL};
 static const size_t c_cedilla_words_len       = sizeof(c_cedilla_words) / sizeof(c_cedilla_words[0]);
