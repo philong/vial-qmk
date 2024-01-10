@@ -459,6 +459,11 @@
             "shortName": "Auto\nComp3",
             "title": "Autocomplete 3",
             "name": "U_AUTOCOMPLETE3"
+        },
+        {
+            "shortName": "Elem",
+            "title": "Element",
+            "name": "U_ELEMENT"
         }
     ]
 }
