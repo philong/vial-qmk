@@ -126,6 +126,9 @@ const char DOUBLE_UNDERSCORE[] PROGMEM     = "__";
 const char IN_UNDERSCORES[] PROGMEM        = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
 const char DOUBLE_BACKTICK[] PROGMEM       = "``" SS_TAP(X_RGHT);
 const char TRIPLE_BACKTICK[] PROGMEM       = "```" SS_LSFT(SS_TAP(X_ENT)) "```" SS_TAP(X_UP);
+const char ELEMENT[] PROGMEM               = "<>" SS_TAP(X_LEFT);
+const char ELEMENT_SELF_CLOSED[] PROGMEM   = "</>" SS_TAP(X_LEFT) SS_TAP(X_LEFT);
+const char ELEMENT_WITH_CLOSE[] PROGMEM     = "<></>" SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT) SS_TAP(X_LEFT);
 
 // keycode, normal, shift, control, control+shift
 const struct user_macro USER_MACROS[] PROGMEM = {
@@ -151,6 +154,7 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
     {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
     {U_DOUBLE_BACKTICK, DOUBLE_BACKTICK, TRIPLE_BACKTICK, NULL, NULL},
+    {U_ELEMENT, ELEMENT, ELEMENT_SELF_CLOSED, ELEMENT_WITH_CLOSE, NULL},
     {U_USERNAME, "philong", "Phi-Long", "philong.do@gmail.com", "p.do@axelor.com"},
 };
 

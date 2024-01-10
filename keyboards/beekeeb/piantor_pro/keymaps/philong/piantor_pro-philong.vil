@@ -1539,7 +1539,7 @@
             "LCTL_T(KC_F)",
             "ALL_T(KC_G)",
             "KC_NO",
-            "TD(3)"
+            "USER49"
         ],
         [
             "LT2(KC_SPACE)",
