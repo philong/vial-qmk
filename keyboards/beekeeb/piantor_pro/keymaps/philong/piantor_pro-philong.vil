@@ -493,9 +493,9 @@
                 -1,
                 -1,
                 -1,
-                "LT8(KC_ESCAPE)",
-                "KC_TRNS",
-                "KC_TRNS"
+                "LT8(KC_BTN3)",
+                "KC_BTN1",
+                "KC_BTN2"
             ],
             [
                 "KC_TRNS",
