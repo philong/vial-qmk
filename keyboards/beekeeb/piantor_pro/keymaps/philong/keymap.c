@@ -541,7 +541,10 @@ char sentence_case_press_user(uint16_t keycode, keyrecord_t *record, uint8_t mod
                 return ' '; // Space key.
 
             case KC_QUOT:
+            case U_QUOP:
                 return '\''; // Quote key.
+            case KC_F24:
+                return '.'; // Exclamation key.
         }
     }
 
