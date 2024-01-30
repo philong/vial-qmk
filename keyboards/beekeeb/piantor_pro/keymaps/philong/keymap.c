@@ -1264,12 +1264,6 @@ uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
 }
 
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
-    // Doubled tap-hold holds issue while recording a dynamic macro
-    // https://getreuer.info/posts/keyboards/achordion/index.html#compatibility
-    if (dynamic_macro_recording) {
-        return true;
-    }
-
     return process_achordion(keycode, record);
 }
 

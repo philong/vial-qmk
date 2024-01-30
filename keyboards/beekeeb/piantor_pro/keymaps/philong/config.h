@@ -85,6 +85,8 @@
 
 #define SS_TAP_CODE_DELAY SS_DELAY(TAP_CODE_DELAY)
 
+#define DYNAMIC_MACRO_DELAY TAP_CODE_DELAY
+
 #include "ignore.extras.h"
 
 #ifndef DMACRO1_TEXT1
