@@ -16,9 +16,6 @@
 /* default layer count */
 #define DYNAMIC_KEYMAP_LAYER_COUNT 16
 
-#ifndef UNICODE_MODE_LINUX
-    #define UNICODE_MODE_LINUX UC_LNX
-#endif
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX, UNICODE_MODE_WINCOMPOSE, UNICODE_MODE_MACOS
 
 // Colemak
@@ -28,10 +25,6 @@
     #ifndef VIAL_INSECURE
         #define VIAL_INSECURE
     #endif
-#endif
-
-#ifndef QK_KB_0
-  #define QK_KB_0 USER00
 #endif
 
 // https://precondition.github.io/home-row-mods#getting-started-with-home-row-mods-on-qmk
