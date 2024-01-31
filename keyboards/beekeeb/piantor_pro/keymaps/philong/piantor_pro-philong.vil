@@ -129,7 +129,7 @@
                 -1,
                 -1,
                 -1,
-                "KC_TRNS",
+                "KC_0",
                 "KC_TRNS",
                 "KC_TRNS"
             ]
@@ -195,7 +195,7 @@
                 -1,
                 -1,
                 -1,
-                "KC_DELETE",
+                "KC_0",
                 "KC_BSPACE",
                 "KC_KP_ENTER"
             ]
@@ -295,7 +295,7 @@
                 -1,
                 -1,
                 -1,
-                "KC_TRNS",
+                "KC_0",
                 "KC_TRNS",
                 "KC_TRNS"
             ],
