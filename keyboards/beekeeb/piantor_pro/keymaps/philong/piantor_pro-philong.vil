@@ -1987,7 +1987,7 @@
             "trigger_mods": 2,
             "negative_mod_mask": 0,
             "suppressed_mods": 2,
-            "options": 135
+            "options": 7
         },
         {
             "trigger": "LSFT(KC_9)",
