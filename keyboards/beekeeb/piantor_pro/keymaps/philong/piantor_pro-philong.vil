@@ -1518,21 +1518,21 @@
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "USER03"
         ],
         [
             "LCG_T(KC_R)",
             "KC_T",
             "KC_NO",
             "KC_NO",
-            "USER48"
+            "USER33"
         ],
         [
             "RALT_T(KC_V)",
             "KC_B",
             "KC_NO",
             "KC_NO",
-            "USER47"
+            "USER04"
         ],
         [
             "LSFT_T(KC_D)",
@@ -1749,7 +1749,7 @@
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "USER05"
+            "USER06"
         ],
         [
             "KC_Y",
@@ -1777,14 +1777,14 @@
             "KC_B",
             "KC_NO",
             "KC_NO",
-            "USER03"
+            "USER05"
         ],
         [
             "ALL_T(KC_H)",
             "KC_N",
             "KC_NO",
             "KC_NO",
-            "USER04"
+            "USER05"
         ],
         [
             "LGUI_T(KC_A)",
