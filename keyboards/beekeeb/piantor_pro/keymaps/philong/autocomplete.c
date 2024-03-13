@@ -152,20 +152,20 @@ static bool is_end_of_sentence(const char *str) {
     }
 }
 
-static __ssize_t autocomplete_run(const char **words, const size_t words_len, size_t *start_index, const char *prefix_word, const size_t prefix_word_len, char *result, const int num_skips) {
+static __ssize_t autocomplete_run(const char **words, const size_t words_len, size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result, const int num_skips) {
     ssize_t found_index = -1;
 
     // Suggestion loop
     for (int i = 0; i < 2; ++i) {
         if (i != 0) {
-            if (*start_index == 0) {
+            if (start_index == 0) {
                 break;
             }
-            *start_index = 0;
+            start_index = 0;
         }
 
         for (ssize_t min_completion = 1; min_completion >= 0; --min_completion) {
-            found_index = autocomplete_search_min(words, words_len, *start_index, prefix_word, prefix_word_len, result, min_completion, num_skips);
+            found_index = autocomplete_search_min(words, words_len, start_index, prefix_word, prefix_word_len, result, min_completion, num_skips);
             if (found_index >= 0) {
                 if (found_index == last_autocomplete.index && min_completion == 1) {
                     continue;
@@ -182,14 +182,14 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
     result[0]                    = '\0';
     const size_t prefix_word_len = strlen(prefix_word);
     size_t       start_index;
-    // bool         initial_run;
+    bool         initial_run;
 
     if (last_autocomplete.index >= 0) {
         start_index = last_autocomplete.index + 1;
-        // initial_run = false;
+        initial_run = false;
     } else {
         start_index = 0;
-        // initial_run = true;
+        initial_run = true;
     }
 
     const char **words;
@@ -215,7 +215,19 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
         }
     }
 
-    ssize_t found_index = autocomplete_run(words, words_len, &start_index, prefix_word, prefix_word_len, result, num_skips);
+    ssize_t found_index;
+
+    if (initial_run && prefix_word_len > 1) {
+        char         initial_word[prefix_word_len];
+        const size_t initial_word_len = prefix_word_len - 1;
+        strncpy(initial_word, prefix_word, initial_word_len);
+        found_index = autocomplete_run(words, words_len, start_index, initial_word, initial_word_len, result, num_skips);
+        if (found_index >= 0) {
+            found_index = autocomplete_run(words, words_len, found_index + 1, prefix_word, prefix_word_len, result, 0);
+        }
+    } else {
+        found_index = autocomplete_run(words, words_len, start_index, prefix_word, prefix_word_len, result, num_skips);
+    }
 
     if (found_index >= 0) {
         return found_index;
