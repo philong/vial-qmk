@@ -222,10 +222,10 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
         const size_t initial_word_len = prefix_word_len - 1;
         strncpy(initial_word, prefix_word, initial_word_len);
         initial_word[initial_word_len] = '\0';
-        found_index = autocomplete_run(words, words_len, start_index, initial_word, initial_word_len, result, num_skips);
+        found_index = autocomplete_run(words, words_len, start_index, initial_word, initial_word_len, result, 0);
         if (found_index >= 0) {
             result[0]   = '\0';
-            found_index = autocomplete_run(words, words_len, found_index + 1, prefix_word, prefix_word_len, result, 0);
+            found_index = autocomplete_run(words, words_len, found_index + 1, prefix_word, prefix_word_len, result, num_skips);
         }
     } else {
         found_index = autocomplete_run(words, words_len, start_index, prefix_word, prefix_word_len, result, num_skips);
