@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "uid": 5749009932414629000,
+    "uid": "5749009932414628425",
     "layout": [
         [
             [
@@ -1537,7 +1537,7 @@
             "KC_T",
             "KC_NO",
             "KC_NO",
-            "USER48"
+            "USER33"
         ],
         [
             "RALT_T(KC_V)",
@@ -1691,14 +1691,14 @@
             "LT2(KC_SPACE)",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "USER35"
         ],
         [
             "KC_N",
             "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "USER47"
+            "USER40"
         ],
         [
             "LCAG_T(KC_W)",
