@@ -1081,32 +1081,114 @@
     "macro": [
         [
             [
+                "down",
+                "KC_LCTRL"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
                 "tap",
-                "LCTL(KC_Z)"
+                "KC_Z"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
+                "up",
+                "KC_LCTRL"
             ]
         ],
         [
             [
+                "down",
+                "KC_LCTRL"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
                 "tap",
-                "LCTL(KC_X)"
+                "KC_X"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
+                "up",
+                "KC_LCTRL"
             ]
         ],
         [
             [
+                "down",
+                "KC_LCTRL"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
                 "tap",
-                "LCTL(KC_C)"
+                "KC_C"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
+                "up",
+                "KC_LCTRL"
             ]
         ],
         [
             [
+                "down",
+                "KC_LCTRL"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
                 "tap",
-                "LCTL(KC_V)"
+                "KC_V"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
+                "up",
+                "KC_LCTRL"
             ]
         ],
         [
             [
+                "down",
+                "KC_LCTRL",
+                "KC_LSHIFT"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
                 "tap",
-                "C_S(KC_Z)"
+                "KC_Z"
+            ],
+            [
+                "delay",
+                12
+            ],
+            [
+                "down",
+                "KC_LCTRL",
+                "KC_LSHIFT"
             ]
         ],
         [
@@ -1698,7 +1780,7 @@
             "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "USER40"
+            "USER39"
         ],
         [
             "LCAG_T(KC_W)",
@@ -1715,18 +1797,18 @@
             "USER46"
         ],
         [
+            "RALT_T(KC_V)",
+            "LT4(KC_ESCAPE)",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "USER34"
         ],
         [
+            "RALT_T(KC_M)",
+            "LT7(KC_DELETE)",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "USER40"
         ],
         [
             "LT5(KC_BSPACE)",
