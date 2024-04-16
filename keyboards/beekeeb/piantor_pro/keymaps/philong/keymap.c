@@ -152,7 +152,7 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT, NULL, NULL},
     {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
     {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
-    {U_DOUBLE_BACKTICK, DOUBLE_BACKTICK, TRIPLE_BACKTICK, NULL, NULL},
+    {U_DOUBLE_BACKTICK, DOUBLE_BACKTICK, TRIPLE_BACKTICK, TRIPLE_BACKTICK, NULL},
     {U_ELEMENT, ELEMENT, ELEMENT_SELF_CLOSED, ELEMENT_WITH_CLOSE, NULL},
     {U_USERNAME, "philong", "Phi-Long", "philong.do@gmail.com", "p.do@axelor.com"},
 };
@@ -627,7 +627,7 @@ bool process_joinln(uint16_t keycode, keyrecord_t *record, uint16_t joinln_keyco
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
-    if (all_mods & MOD_MASK_SHIFT) {
+    if (all_mods & MOD_MASK_SHIFT || all_mods & MOD_MASK_CTRL) {
         clear_all_mods();
 
         // Split current line
@@ -1248,6 +1248,7 @@ uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
 }
 
 // Disable streak detection for layer taps and shift mod-taps
+/* Default achordion_streak_continue is enough.
 uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
     if (IS_QK_LAYER_TAP(tap_hold_keycode)) {
         return 0;
@@ -1261,6 +1262,7 @@ uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
 
     return 160;
 }
+*/
 
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
     return process_achordion(keycode, record);
@@ -1535,12 +1537,14 @@ bool process_select_word_user(uint16_t keycode, keyrecord_t *record, uint16_t se
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
-    if (all_mods & MOD_MASK_SHIFT) {
+    if (all_mods & MOD_MASK_SHIFT || all_mods & MOD_MASK_CTRL) {
+        clear_all_mods();
         if (repeat_key_count > 0) {
-            SEND_STRING(SS_TAP(X_DOWN));
+            SEND_STRING(SS_LSFT(SS_TAP(X_DOWN)));
         } else {
-            SEND_STRING(SS_TAP(X_UP));
+            SEND_STRING(SS_LSFT(SS_TAP(X_UP)));
         }
+        set_mods(mods);
     } else {
         if (repeat_key_count > 0) {
             SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RGHT))));
