@@ -1,9 +1,12 @@
 /* keyboard uid */
-#define VIAL_KEYBOARD_UID {0x49, 0x32, 0xC4, 0xEF, 0x12, 0x96, 0xC8, 0x4F}
+#define VIAL_KEYBOARD_UID \
+    { 0x49, 0x32, 0xC4, 0xEF, 0x12, 0x96, 0xC8, 0x4F }
 
 // 36 keys
-#define VIAL_UNLOCK_COMBO_ROWS { 0, 4 }
-#define VIAL_UNLOCK_COMBO_COLS { 1, 1 }
+#define VIAL_UNLOCK_COMBO_ROWS \
+    { 0, 4 }
+#define VIAL_UNLOCK_COMBO_COLS \
+    { 1, 1 }
 
 #define BOOTMAGIC_LITE_ROW 0
 #define BOOTMAGIC_LITE_COLUMN 1
@@ -22,9 +25,9 @@
 #define UNICODE_KEY_LNX LCTL(LSFT(KC_I))
 
 #ifdef CONSOLE_ENABLE
-    #ifndef VIAL_INSECURE
-        #define VIAL_INSECURE
-    #endif
+#    ifndef VIAL_INSECURE
+#        define VIAL_INSECURE
+#    endif
 #endif
 
 // https://precondition.github.io/home-row-mods#getting-started-with-home-row-mods-on-qmk
@@ -32,7 +35,7 @@
 // Configure the global tapping term (default: 200ms)
 #define TAPPING_TERM 175
 #ifndef TAPPING_TERM_PER_KEY
-    #define TAPPING_TERM_PER_KEY
+#    define TAPPING_TERM_PER_KEY
 #endif
 
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
@@ -43,7 +46,7 @@
 #define ACHORDION_STREAK
 
 #ifndef AUTO_SHIFT_NO_SETUP
-    #define AUTO_SHIFT_NO_SETUP
+#    define AUTO_SHIFT_NO_SETUP
 #endif
 #define NO_AUTO_SHIFT_ALPHA
 // #define AUTO_SHIFT_MODIFIERS
@@ -90,14 +93,14 @@
 #include "ignore.extras.h"
 
 #ifndef DMACRO1_TEXT1
-    #define DMACRO1_TEXT1 ""
+#    define DMACRO1_TEXT1 ""
 #endif
 #ifndef DMACRO1_TEXT2
-    #define DMACRO1_TEXT2 ""
+#    define DMACRO1_TEXT2 ""
 #endif
 #ifndef DMACRO2_TEXT1
-    #define DMACRO2_TEXT1 ""
+#    define DMACRO2_TEXT1 ""
 #endif
 #ifndef DMACRO2_TEXT2
-    #define DMACRO2_TEXT2 ""
+#    define DMACRO2_TEXT2 ""
 #endif
