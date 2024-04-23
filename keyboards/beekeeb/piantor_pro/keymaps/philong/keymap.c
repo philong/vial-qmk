@@ -1247,22 +1247,59 @@ uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
     }
 }
 
-// Disable streak detection for layer taps and shift mod-taps
-/* Default achordion_streak_continue is enough.
-uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
-    if (IS_QK_LAYER_TAP(tap_hold_keycode)) {
-        return 0;
+bool achordion_streak_continue(uint16_t keycode) {
+    // If any mods other than shift are held, continue the streak
+    if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) return false;
+    // This function doesn't get called for holds, so convert to tap version of keycodes
+    if (IS_QK_MOD_TAP(keycode)) keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    if (IS_QK_LAYER_TAP(keycode)) keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    // Regular letters and punctuation continue the streak
+    if (is_alpha(keycode)) return true;
+    switch (keycode) {
+    case KC_DOT:
+    case KC_COMMA:
+    case KC_QUOTE:
+    case KC_SPACE:
+    case U_QUOP:
+        return true;
     }
-
-    const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
-
-    if (mod & MOD_MASK_SHIFT) {
-        return 0;
-    }
-
-    return 160;
+    // All other keys end the streak
+    return false;
 }
-*/
+
+// Disable streak detection for layer taps and shift mod-taps
+uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
+    // const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
+
+    // if (mod & (MOD_MASK_SHIFT || MOD_MASK_CTRL || MOD_MASK_ALT || MOD_MASK_GUI)) {
+    //     return 0;
+    // }
+
+    uint16_t keycode = tap_hold_keycode;
+
+    if (IS_QK_LAYER_TAP(keycode)) {
+        return 0;
+        // keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    }
+
+    if (IS_QK_MOD_TAP(keycode)) {
+        keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    }
+
+    switch (keycode) {
+        case CM_A:
+        case CM_R:
+        case CM_S:
+        case CM_T:
+        case CM_N:
+        case CM_E:
+        case CM_I:
+        case CM_O:
+            return 0;
+    }
+
+    return 200;
+}
 
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
     return process_achordion(keycode, record);
