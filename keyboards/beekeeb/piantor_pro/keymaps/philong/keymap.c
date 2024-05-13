@@ -843,48 +843,63 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     if (controlled || alted || guied) {
         switch (tap_keycode) {
             // F B
-            case KC_E:
-                return combine_keycode(KC_B, mods);
-            case KC_B:
-                return combine_keycode(KC_E, mods);
+            case CM_F:
+                return combine_keycode(CM_B, mods);
+            case CM_B:
+                return combine_keycode(CM_F, mods);
             // D U
-            case KC_G:
-                return combine_keycode(KC_I, mods);
-            case KC_I:
-                return combine_keycode(KC_G, mods);
+            case CM_D:
+                return combine_keycode(CM_U, mods);
+            case CM_U:
+                return combine_keycode(CM_D, mods);
             // N P
-            case KC_J:
-                return combine_keycode(KC_R, mods);
-            case KC_R:
-                return combine_keycode(KC_J, mods);
+            case CM_N:
+                return combine_keycode(CM_P, mods);
+            case CM_P:
+                return combine_keycode(CM_N, mods);
             // A E
-            case KC_A:
-                return combine_keycode(KC_K, mods);
-            case KC_K:
-                return combine_keycode(KC_A, mods);
+            case CM_A:
+                return combine_keycode(CM_E, mods);
+            case CM_E:
+                return combine_keycode(CM_A, mods);
+            // O I
+            case CM_O:
+                return combine_keycode(CM_I, mods);
+            case CM_I:
+                return combine_keycode(CM_O, mods);
             // J K
-            case KC_Y:
-                return combine_keycode(KC_N, mods);
-            case KC_N:
-                return combine_keycode(KC_Y, mods);
+            case CM_J:
+                return combine_keycode(CM_K, mods);
+            case CM_K:
+                return combine_keycode(CM_J, mods);
             // H L
-            case KC_H:
-                return combine_keycode(KC_U, mods);
-            case KC_U:
-                return combine_keycode(KC_H, mods);
+            case CM_H:
+                return combine_keycode(CM_L, mods);
+            case CM_L:
+                return combine_keycode(CM_H, mods);
+            // W B
+            case CM_W:
+                return combine_keycode(CM_B, mods);
         }
     } else {
+        // Double letter instead of vim support
         switch (tap_keycode) {
-            // J K
-            case KC_Y:
-                return combine_keycode(KC_N, mods);
-            case KC_N:
-                return combine_keycode(KC_Y, mods);
-            // H L
-            case KC_H:
-                return combine_keycode(KC_U, mods);
-            case KC_U:
-                return combine_keycode(KC_H, mods);
+            case CM_F:
+            case CM_B:
+            case CM_D:
+            case CM_U:
+            case CM_N:
+            case CM_P:
+            case CM_A:
+            case CM_E:
+            case CM_O:
+            case CM_I:
+            case CM_J:
+            case CM_K:
+            case CM_H:
+            case CM_L:
+            case CM_W:
+                return combine_keycode(tap_keycode, mods);
         }
     }
 
