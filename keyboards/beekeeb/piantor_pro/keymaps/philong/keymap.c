@@ -1357,6 +1357,8 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t lay
     // Layer overrides
     if (keycode == layer_lock_keycode && record->event.pressed) {
         switch (get_highest_layer(layer_state)) {
+            case 0:
+                return false;
             case 2:
                 layer_off(2);
                 layer_on(9);
