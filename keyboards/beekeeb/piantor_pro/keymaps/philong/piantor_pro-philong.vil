@@ -103,7 +103,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_TRNS",
+                "TD(10)",
                 "KC_9",
                 "KC_8",
                 "KC_7",
@@ -1808,7 +1808,7 @@
             "KC_B",
             "KC_NO",
             "KC_NO",
-            "USER05"
+            "OSL(3)"
         ],
         [
             "ALL_T(KC_H)",
@@ -1836,7 +1836,7 @@
             "KC_X",
             "KC_NO",
             "KC_NO",
-            "USER44"
+            "TD(2)"
         ],
         [
             "LCAG_T(KC_O)",
@@ -1864,7 +1864,7 @@
             "LALT_T(KC_S)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_9)"
+            "TD(1)"
         ],
         [
             "SGUI_T(KC_E)",
@@ -1885,7 +1885,7 @@
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER02"
         ],
         [
             "KC_Y",
@@ -1906,7 +1906,7 @@
             "RSFT_T(KC_K)",
             "KC_NO",
             "KC_NO",
-            "KC_LBRACKET"
+            "TD(0)"
         ],
         [
             "LCAG_T(KC_O)",
