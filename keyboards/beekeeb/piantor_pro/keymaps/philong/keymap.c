@@ -302,6 +302,15 @@ bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
     if (!num_word_enabled()) return true;
 
     switch (keycode) {
+        case TD(10):
+            if (record->event.pressed) {
+                disable_num_word();
+                tap_code16(CM_SCLN);
+            }
+            return false;
+    }
+
+    switch (keycode) {
         case QK_MOD_TAP ... QK_MOD_TAP_MAX:
         case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
         case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
@@ -1325,50 +1334,6 @@ void layer_lock_set_user(layer_state_t state) {
     update_led();
 }
 
-bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t layer_lock_keycode) {
-    // Unlock all layers if any layer is locked (ensures key has toggle effect).
-    if (keycode == layer_lock_keycode && locked_layers != 0 && record->event.pressed) {
-        layer_lock_all_off();
-        update_led();
-        return false;
-    }
-
-    // Disable tap-hold holds if any layer is locked.
-    if (locked_layers != 0) {
-        if (IS_QK_MOD_TAP(keycode)) {
-            const uint16_t tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
-            if (record->event.pressed) {
-                register_code(tap_keycode);
-            } else {
-                unregister_code(tap_keycode);
-            }
-            return false;
-        } else if (IS_QK_LAYER_TAP(keycode)) {
-            const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-            if (record->event.pressed) {
-                register_code(tap_keycode);
-            } else {
-                unregister_code(tap_keycode);
-            }
-            return false;
-        }
-    }
-
-    // Layer overrides
-    if (keycode == layer_lock_keycode && record->event.pressed) {
-        switch (get_highest_layer(layer_state)) {
-            case 0:
-                return false;
-            case 2:
-                layer_off(2);
-                layer_on(9);
-                break;
-        }
-    }
-
-    return process_layer_lock(keycode, record, layer_lock_keycode);
-}
-
 bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) {
         return true;
@@ -2038,31 +2003,86 @@ void send_food(void) {
     send_unicode_string(emojis[index]);
 }
 
+void send_emoji(void) {
+    const uint8_t mods         = get_mods();
+    const uint8_t all_mods     = mods | get_weak_mods() | get_oneshot_mods();
+    const bool    is_shifted   = all_mods & MOD_MASK_SHIFT;
+    const bool    is_controled = all_mods & MOD_MASK_CTRL;
+
+    clear_all_mods();
+    if (is_controled && is_shifted) {
+        send_food();
+    } else if (is_controled) {
+        send_please();
+    } else if (is_shifted) {
+        send_face();
+    } else {
+        send_approve();
+    }
+    set_mods(mods);
+}
+
 bool process_emoji(uint16_t keycode, keyrecord_t *record) {
     if (keycode != U_EMOJI) {
         return true;
     }
 
     if (record->event.pressed) {
-        const uint8_t mods         = get_mods();
-        const uint8_t all_mods     = mods | get_weak_mods() | get_oneshot_mods();
-        const bool    is_shifted   = all_mods & MOD_MASK_SHIFT;
-        const bool    is_controled = all_mods & MOD_MASK_CTRL;
-
-        clear_all_mods();
-        if (is_controled && is_shifted) {
-            send_food();
-        } else if (is_controled) {
-            send_please();
-        } else if (is_shifted) {
-            send_face();
-        } else {
-            send_approve();
-        }
-        set_mods(mods);
+        send_emoji();
     }
 
     return false;
+}
+
+bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t layer_lock_keycode) {
+    uint8_t current_layer = get_highest_layer(layer_state);
+
+    if (keycode == layer_lock_keycode && current_layer == 0) {
+        if (record->event.pressed) {
+            send_emoji();
+        }
+        return false;
+    }
+
+    // Unlock all layers if any layer is locked (ensures key has toggle effect).
+    if (keycode == layer_lock_keycode && locked_layers != 0 && record->event.pressed) {
+        layer_lock_all_off();
+        update_led();
+        return false;
+    }
+
+    // Disable tap-hold holds if any layer is locked.
+    if (locked_layers != 0) {
+        if (IS_QK_MOD_TAP(keycode)) {
+            const uint16_t tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+            if (record->event.pressed) {
+                register_code(tap_keycode);
+            } else {
+                unregister_code(tap_keycode);
+            }
+            return false;
+        } else if (IS_QK_LAYER_TAP(keycode)) {
+            const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+            if (record->event.pressed) {
+                register_code(tap_keycode);
+            } else {
+                unregister_code(tap_keycode);
+            }
+            return false;
+        }
+    }
+
+    // Layer overrides
+    if (keycode == layer_lock_keycode && record->event.pressed) {
+        switch (current_layer) {
+            case 2:
+                layer_off(2);
+                layer_on(9);
+                break;
+        }
+    }
+
+    return process_layer_lock(keycode, record, layer_lock_keycode);
 }
 
 // https://getreuer.info/posts/keyboards/macros3/index.html#a-mouse-jiggler
