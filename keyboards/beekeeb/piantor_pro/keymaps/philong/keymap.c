@@ -2169,6 +2169,33 @@ void process_mouse_jiggler(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+bool num_layer_override(uint16_t keycode, keyrecord_t *record) {
+    const uint8_t current_layer = get_highest_layer(layer_state);
+
+    if (current_layer == _NUM || current_layer == _NUM2) {
+        // Three dots -> single dot
+        if (keycode == U_THREE_DOTS) {
+            if (record->event.pressed) {
+                register_code16(KC_DOT);
+            } else {
+                unregister_code16(KC_DOT);
+            }
+            return false;
+        }
+        // Comma
+        if (keycode == U_OS_RSFT) {
+            if (record->event.pressed) {
+                register_code16(KC_COMMA);
+            } else {
+                unregister_code16(KC_COMMA);
+            }
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #if defined(MOUSEKEY_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
     process_mouse_jiggler(keycode, record);
@@ -2183,6 +2210,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_colemak_fr(keycode, record, U_CM_TOGG)) {
+        return false;
+    }
+    if (!num_layer_override(keycode, record)) {
         return false;
     }
     if (!process_oneshot(keycode, record)) {
