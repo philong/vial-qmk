@@ -1,6 +1,6 @@
 {
     "version": 1,
-    "uid": "5749009932414628425",
+    "uid": 5749009932414628425,
     "layout": [
         [
             [
@@ -1857,7 +1857,7 @@
             "LGUI_T(KC_A)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_GRAVE)"
+            "USER01"
         ],
         [
             "LCAG_T(KC_W)",
@@ -1885,7 +1885,7 @@
             "ALL_T(KC_G)",
             "KC_NO",
             "KC_NO",
-            "USER02"
+            "OSL(4)"
         ],
         [
             "KC_Y",
@@ -1920,7 +1920,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "LT0(KC_F23)"
+            "USER02"
         ],
         [
             "KC_NO",
