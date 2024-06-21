@@ -1266,10 +1266,6 @@ static bool is_end_key(uint16_t keycode) {
 
 // The return value is true to consider the tap-hold key held or false to consider it tapped.
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
-    if (!IS_KEYEVENT(tap_hold_record->event) || !IS_KEYEVENT(other_record->event)) {
-        return true;
-    }
-
     if (is_outer_key(tap_hold_record) || is_outer_key(other_record)) {
         return true;
     }
