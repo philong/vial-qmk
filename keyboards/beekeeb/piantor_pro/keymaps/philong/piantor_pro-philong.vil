@@ -1920,7 +1920,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "USER02"
+            "KC_QUOTE"
         ],
         [
             "KC_NO",
