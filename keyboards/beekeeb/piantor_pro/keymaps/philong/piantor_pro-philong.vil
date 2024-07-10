@@ -195,7 +195,7 @@
                 -1,
                 -1,
                 -1,
-                "KC_0",
+                "KC_DELETE",
                 "KC_BSPACE",
                 "KC_KP_ENTER"
             ]
@@ -657,7 +657,7 @@
                 -1,
                 -1,
                 -1,
-                "KC_0",
+                "KC_DELETE",
                 "KC_BSPACE",
                 "KC_KP_ENTER"
             ]
