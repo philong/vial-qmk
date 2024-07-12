@@ -111,7 +111,7 @@
             ],
             [
                 "KC_TRNS",
-                "TD(4)",
+                "TD(9)",
                 "KC_6",
                 "KC_5",
                 "KC_4",
@@ -1231,7 +1231,45 @@
                 "KC_LEFT"
             ]
         ],
-        [],
+        [
+            [
+                "tap",
+                "KC_GRAVE",
+                "KC_GRAVE",
+                "KC_GRAVE"
+            ],
+            [
+                "down",
+                "KC_LSHIFT"
+            ],
+            [
+                "tap",
+                "KC_ENTER"
+            ],
+            [
+                "up",
+                "KC_LSHIFT"
+            ],
+            [
+                "tap",
+                "KC_GRAVE",
+                "KC_GRAVE",
+                "KC_GRAVE",
+                "KC_UP"
+            ],
+            [
+                "down",
+                "KC_LSHIFT"
+            ],
+            [
+                "tap",
+                "KC_ENTER"
+            ],
+            [
+                "up",
+                "KC_LSHIFT"
+            ]
+        ],
         [
             [
                 "text",
@@ -1857,7 +1895,7 @@
             "LGUI_T(KC_A)",
             "KC_NO",
             "KC_NO",
-            "USER01"
+            "M9"
         ],
         [
             "LCAG_T(KC_W)",
