@@ -464,6 +464,21 @@
             "shortName": "Elem",
             "title": "Element",
             "name": "U_ELEMENT"
+        },
+        {
+            "shortName": "__",
+            "title": "Double Underscore",
+            "name": "U_DOUBLE_UNDERSCORE"
+        },
+        {
+            "shortName": "+=",
+            "title": "Add Assign",
+            "name": "U_ADD_ASSIGN"
+        },
+        {
+            "shortName": "-=",
+            "title": "Sub Assign",
+            "name": "U_SUB_ASSIGN"
         }
     ]
 }
