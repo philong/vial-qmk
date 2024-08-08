@@ -771,15 +771,15 @@
             ],
             [
                 "KC_TRNS",
-                "USER02",
+                "USER11",
                 "LSFT(KC_0)",
                 "TD(1)",
                 "USER23",
-                "0x7e32"
+                "USER50"
             ],
             [
                 "KC_TRNS",
-                "USER08",
+                "USER09",
                 "LSFT(KC_RBRACKET)",
                 "TD(2)",
                 "USER15",
@@ -797,9 +797,9 @@
         [
             [
                 "KC_TRNS",
-                "USER11",
-                "USER27",
-                "USER28",
+                "USER46",
+                "USER52",
+                "USER51",
                 "USER26",
                 "USER33"
             ],
@@ -813,7 +813,7 @@
             ],
             [
                 "KC_TRNS",
-                "USER09",
+                "USER02",
                 "USER17",
                 "USER18",
                 "USER22",
@@ -1692,7 +1692,7 @@
             "LT11(KC_V)",
             "KC_NO",
             "KC_NO",
-            "USER40"
+            "OSL(11)"
         ],
         [
             "KC_N",
@@ -1720,7 +1720,7 @@
             "LT12(KC_M)",
             "KC_NO",
             "KC_NO",
-            "USER40"
+            "OSL(12)"
         ],
         [
             "LCAG_T(KC_W)",
@@ -1867,14 +1867,14 @@
             "RALT_T(KC_DOT)",
             "KC_NO",
             "KC_NO",
-            "USER11"
+            "USER40"
         ],
         [
             "LALT_T(KC_S)",
             "RALT_T(KC_X)",
             "KC_NO",
             "KC_NO",
-            "TD(2)"
+            "USER40"
         ],
         [
             "LCAG_T(KC_O)",
@@ -2087,7 +2087,7 @@
         },
         {
             "trigger": "TD(1)",
-            "replacement": "LSFT(KC_0)",
+            "replacement": "LSFT(KC_COMMA)",
             "layers": 65535,
             "trigger_mods": 34,
             "negative_mod_mask": 0,
@@ -2101,7 +2101,7 @@
             "trigger_mods": 34,
             "negative_mod_mask": 0,
             "suppressed_mods": 34,
-            "options": 135
+            "options": 7
         },
         {
             "trigger": "TD(3)",
@@ -2110,7 +2110,7 @@
             "trigger_mods": 34,
             "negative_mod_mask": 0,
             "suppressed_mods": 34,
-            "options": 135
+            "options": 7
         },
         {
             "trigger": "LT2(KC_SPACE)",
