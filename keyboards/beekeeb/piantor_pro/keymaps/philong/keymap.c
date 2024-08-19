@@ -182,6 +182,7 @@ typedef union {
     uint32_t raw;
     struct {
         bool colemak_fr : 1;
+        bool punctuation_mod: 1;
     };
 } user_config_t;
 
@@ -195,6 +196,7 @@ void eeconfig_init_user(void) { // EEPROM is getting reset!
     set_unicode_input_mode(UNICODE_MODE_LINUX);
     user_config.raw        = 0;
     user_config.colemak_fr = true;
+    user_config.punctuation_mod = true;
 #ifdef AUTOCORRECT_ENABLE
     autocorrect_enable();
 #endif
@@ -1698,6 +1700,97 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
     }
 }
 
+bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t toggle_keycode) {
+    if (!record->event.pressed) {
+        return true;
+    }
+
+    if (keycode == toggle_keycode) {
+        user_config.punctuation_mod ^= 1;
+        eeconfig_update_user(user_config.raw);
+        return false;
+    }
+
+    if (!user_config.punctuation_mod) {
+        return true;
+    }
+
+    uint16_t tap_keycode;
+
+    if (IS_QK_LAYER_TAP(keycode)) {
+        if (record->tap.count == 0) {
+            return true;
+        } // Key is being held.
+        tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_QK_MOD_TAP(keycode)) {
+        if (record->tap.count == 0) {
+            return true;
+        } // Key is being held.
+        tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else {
+        tap_keycode = keycode;
+    }
+
+    static short int comma_primed = 0;
+    static short int dot_primed = 0;
+
+    if (is_alpha(tap_keycode) || tap_keycode == U_QUOP) {
+        const bool shifted_ralted = (comma_primed == 2 && dot_primed == 1)
+            || (comma_primed == 1 && dot_primed == 2);
+        const bool shifted = (comma_primed == 1 && dot_primed == 0) || shifted_ralted;
+        const bool ralted = (comma_primed == 1 && dot_primed == 1) || shifted_ralted;
+
+        if (!shifted && !ralted) {
+            comma_primed = 0;
+            dot_primed = 0;
+            return true;
+        }
+
+        char backspace_str[4];
+        const size_t total = comma_primed + dot_primed; 
+        memset(backspace_str, '\b', total);
+        backspace_str[total] = '\0';
+        SEND_STRING_DELAY(backspace_str, 2);
+        comma_primed = 0;
+        dot_primed = 0;
+
+        if (shifted) {
+            set_oneshot_mods(get_oneshot_mods() | MOD_BIT(KC_LSFT));
+        }
+
+        if (ralted) {
+            set_oneshot_mods(get_oneshot_mods() | MOD_BIT(KC_RALT));
+        }
+
+        return true;
+    }
+
+    const uint8_t mods     = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    if (all_mods) {
+        tap_keycode = combine_keycode(tap_keycode, all_mods);
+    }
+
+    switch (tap_keycode) {
+        case CM_COMM:
+            ++comma_primed;
+            break;
+        case CM_DOT:
+            ++dot_primed;
+            break;
+        default:
+            if (comma_primed > 0) {
+                comma_primed = 0;
+            }
+            if (dot_primed > 0) {
+                dot_primed = 0;
+            }
+    }
+
+    return true;
+}
+
 static bool right_pressed = false;
 static bool down_pressed  = false;
 static bool left_pressed  = false;
@@ -2301,6 +2394,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_colemak_fr(keycode, record, U_CM_TOGG)) {
+        return false;
+    }
+    if (!process_punctuation_mod(keycode, record, U_PUNCTUATION_MOD_TOGG)) {
         return false;
     }
     if (!num_layer_override(keycode, record)) {
