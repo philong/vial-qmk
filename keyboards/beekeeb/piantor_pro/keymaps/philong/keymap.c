@@ -1731,28 +1731,31 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
         tap_keycode = keycode;
     }
 
-    static short int comma_primed = 0;
-    static short int dot_primed = 0;
+    static short comma_count = 0;
+    static short dot_count = 0;
+    static uint16_t last_keycode = KC_NO;
 
     if (is_alpha(tap_keycode) || tap_keycode == U_QUOP) {
-        const bool shifted_ralted = (comma_primed == 2 && dot_primed == 1)
-            || (comma_primed == 1 && dot_primed == 2);
-        const bool shifted = (comma_primed == 1 && dot_primed == 0) || shifted_ralted;
-        const bool ralted = (comma_primed == 1 && dot_primed == 1) || shifted_ralted;
+        last_keycode = KC_NO;
+
+        const bool shifted_ralted = (comma_count == 2 && dot_count == 1)
+            || (comma_count == 1 && dot_count == 2);
+        const bool shifted = (comma_count == 1 && dot_count == 0) || shifted_ralted;
+        const bool ralted = (comma_count == 1 && dot_count == 1) || shifted_ralted;
 
         if (!shifted && !ralted) {
-            comma_primed = 0;
-            dot_primed = 0;
+            comma_count = 0;
+            dot_count = 0;
             return true;
         }
 
         char backspace_str[4];
-        const size_t total = comma_primed + dot_primed; 
+        const size_t total = comma_count + dot_count;
         memset(backspace_str, '\b', total);
         backspace_str[total] = '\0';
         SEND_STRING_DELAY(backspace_str, 2);
-        comma_primed = 0;
-        dot_primed = 0;
+        comma_count = 0;
+        dot_count = 0;
 
         if (shifted) {
             set_oneshot_mods(get_oneshot_mods() | MOD_BIT(KC_LSFT));
@@ -1774,19 +1777,29 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
 
     switch (tap_keycode) {
         case CM_COMM:
-            ++comma_primed;
+            ++comma_count;
+
+            // ,, -> ,
+            if (last_keycode == CM_COMM && comma_count == 2 && dot_count == 0) {
+                last_keycode = KC_NO;
+                comma_count = 0;
+                dot_count = 0;
+                return false;
+            }
             break;
         case CM_DOT:
-            ++dot_primed;
+            ++dot_count;
             break;
         default:
-            if (comma_primed > 0) {
-                comma_primed = 0;
+            if (comma_count > 0) {
+                comma_count = 0;
             }
-            if (dot_primed > 0) {
-                dot_primed = 0;
+            if (dot_count > 0) {
+                dot_count = 0;
             }
     }
+
+    last_keycode = tap_keycode;
 
     return true;
 }
