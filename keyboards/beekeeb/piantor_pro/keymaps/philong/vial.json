@@ -479,6 +479,11 @@
             "shortName": "-=",
             "title": "Sub Assign",
             "name": "U_SUB_ASSIGN"
+        },
+        {
+            "shortName": "Toggle\n,. Mod",
+            "title": "Toggle Punctuation Mod",
+            "name": "U_PUNCTUATION_MOD_TOGG"
         }
     ]
 }
