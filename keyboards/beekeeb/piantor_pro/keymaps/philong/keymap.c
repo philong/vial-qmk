@@ -1734,6 +1734,7 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
     static short comma_count = 0;
     static short dot_count = 0;
     static uint16_t last_keycode = KC_NO;
+    static fast_timer_t timer = 0;
 
     if (is_alpha(tap_keycode) || tap_keycode == U_QUOP) {
         last_keycode = KC_NO;
@@ -1743,7 +1744,7 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
         const bool shifted = (comma_count == 1 && dot_count == 0) || shifted_ralted;
         const bool ralted = (comma_count == 1 && dot_count == 1) || shifted_ralted;
 
-        if (!shifted && !ralted) {
+        if ((!shifted && !ralted) || timer_elapsed_fast(timer) > ONESHOT_TIMEOUT) {
             comma_count = 0;
             dot_count = 0;
             return true;
@@ -1777,6 +1778,7 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
 
     switch (tap_keycode) {
         case CM_COMM:
+            timer = timer_read_fast();
             ++comma_count;
 
             // ,, -> ,
@@ -1788,6 +1790,7 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
             }
             break;
         case CM_DOT:
+            timer = timer_read_fast();
             ++dot_count;
             break;
         default:
