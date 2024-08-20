@@ -1308,8 +1308,8 @@ uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
 }
 
 bool achordion_streak_continue(uint16_t keycode) {
-    // If any mods other than shift are held, continue the streak
-    if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) return false;
+    // If any mods other than shift or AltGr are held, don't continue the streak
+    if (get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) return false;
     // This function doesn't get called for holds, so convert to tap version of keycodes
     if (IS_QK_MOD_TAP(keycode)) keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     if (IS_QK_LAYER_TAP(keycode)) keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
@@ -1328,24 +1328,21 @@ bool achordion_streak_continue(uint16_t keycode) {
 }
 
 // Disable streak detection for layer taps and shift mod-taps
-uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
-    // const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
-
-    // if (mod & (MOD_MASK_SHIFT || MOD_MASK_CTRL || MOD_MASK_ALT || MOD_MASK_GUI)) {
-    //     return 0;
-    // }
-
+uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next_keycode) {
     uint16_t keycode = tap_hold_keycode;
 
     if (IS_QK_LAYER_TAP(keycode)) {
-        return 0;
-        // keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    }
-
-    if (IS_QK_MOD_TAP(keycode)) {
+        // Disable streak detection on thumb LT keys.
+        if (QK_LAYER_TAP_GET_LAYER(keycode) < 11) {
+            return 0;
+        }
+        keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_QK_MOD_TAP(keycode)) {
         keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     }
 
+    // No streak for whole home-row-mod keys?
+    // Example case this solves: fast typing code then Ctrl+Shift+I to format
     switch (keycode) {
         case CM_A:
         case CM_R:
@@ -1356,6 +1353,41 @@ uint16_t achordion_streak_timeout(uint16_t tap_hold_keycode) {
         case CM_I:
         case CM_O:
             return 0;
+    }
+
+    if (IS_QK_MOD_TAP(next_keycode)) {
+        next_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(next_keycode);
+    } else if (IS_QK_LAYER_TAP(next_keycode)) {
+        next_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(next_keycode);
+    }
+
+    // No streak for some AltGr producing accented characters
+    switch (tap_hold_keycode) {
+        case RALT_T(CM_X):
+            switch (next_keycode) {
+                case CM_E:
+                case CM_I:
+                case CM_O:
+                case CM_L:
+                case CM_U:
+                case CM_Y:
+                case U_QUOP:
+                    return 0;
+            }
+            break;
+        case RALT_T(CM_DOT):
+            switch (next_keycode) {
+                case CM_A:
+                case CM_Q:
+                case CM_W:
+                case CM_F:
+                case CM_P:
+                case CM_Z:
+                case CM_C:
+                case CM_V:
+                    return 0;
+            }
+            break;
     }
 
     return 200;
