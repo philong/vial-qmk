@@ -24,7 +24,7 @@
                 "KC_Z",
                 "RALT_T(KC_X)",
                 "LSFT_T(KC_C)",
-                "LT11(KC_V)",
+                "RALT_T(KC_V)",
                 "KC_B"
             ],
             [
@@ -56,7 +56,7 @@
                 "LT0(KC_SLASH)",
                 "RALT_T(KC_DOT)",
                 "RSFT_T(KC_COMMA)",
-                "LT12(KC_M)",
+                "RALT_T(KC_M)",
                 "KC_N"
             ],
             [
@@ -222,7 +222,7 @@
                 "KC_PAUSE",
                 "RALT_T(KC_F1)",
                 "LSFT_T(KC_F2)",
-                "LT11(KC_F3)",
+                "RALT_T(KC_F3)",
                 "KC_F10"
             ],
             [
@@ -288,7 +288,7 @@
                 "KC_DOT",
                 "RALT_T(KC_1)",
                 "LSFT_T(KC_2)",
-                "LT11(KC_3)",
+                "RALT_T(KC_3)",
                 "TD(4)"
             ],
             [
@@ -684,7 +684,7 @@
                 "KC_DOT",
                 "RALT_T(KC_1)",
                 "LSFT_T(KC_2)",
-                "LT11(KC_3)",
+                "RALT_T(KC_3)",
                 "TD(4)"
             ],
             [
@@ -763,27 +763,27 @@
             ],
             [
                 "KC_TRNS",
-                "USER12",
-                "KC_RBRACKET",
-                "TD(0)",
-                "USER13",
-                "USER14"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "USER11",
-                "LSFT(KC_0)",
-                "TD(1)",
-                "USER23",
-                "USER50"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "USER09",
-                "LSFT(KC_RBRACKET)",
-                "TD(2)",
-                "USER15",
-                "USER16"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 -1,
@@ -797,27 +797,27 @@
         [
             [
                 "KC_TRNS",
-                "USER46",
-                "USER52",
-                "USER51",
-                "USER26",
-                "USER33"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "USER01",
-                "TD(3)",
-                "LSFT(KC_DOT)",
-                "USER21",
-                "USER47"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "USER02",
-                "USER17",
-                "USER18",
-                "USER22",
-                "USER48"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 -1,
@@ -1619,7 +1619,7 @@
     "combo": [
         [
             "KC_N",
-            "LT12(KC_M)",
+            "RALT_T(KC_M)",
             "KC_NO",
             "KC_NO",
             "TD(4)"
@@ -1660,7 +1660,7 @@
             "USER33"
         ],
         [
-            "LT11(KC_V)",
+            "RALT_T(KC_V)",
             "KC_B",
             "KC_NO",
             "KC_NO",
@@ -1689,14 +1689,14 @@
         ],
         [
             "LCTL_T(KC_F)",
-            "LT11(KC_V)",
+            "RALT_T(KC_V)",
             "KC_NO",
             "KC_NO",
-            "OSL(11)"
+            "USER40"
         ],
         [
             "KC_N",
-            "LT12(KC_M)",
+            "RALT_T(KC_M)",
             "RSFT_T(KC_COMMA)",
             "KC_NO",
             "USER15"
@@ -1709,7 +1709,7 @@
             "USER21"
         ],
         [
-            "LT12(KC_M)",
+            "RALT_T(KC_M)",
             "RSFT_T(KC_COMMA)",
             "RALT_T(KC_DOT)",
             "KC_NO",
@@ -1717,10 +1717,10 @@
         ],
         [
             "RCTL_T(KC_J)",
-            "LT12(KC_M)",
+            "RALT_T(KC_M)",
             "KC_NO",
             "KC_NO",
-            "OSL(12)"
+            "USER40"
         ],
         [
             "LCAG_T(KC_W)",
@@ -1732,7 +1732,7 @@
         [
             "RALT_T(KC_X)",
             "LSFT_T(KC_C)",
-            "LT11(KC_V)",
+            "RALT_T(KC_V)",
             "KC_NO",
             "USER30"
         ],
@@ -1759,7 +1759,7 @@
         ],
         [
             "LSFT_T(KC_C)",
-            "LT11(KC_V)",
+            "RALT_T(KC_V)",
             "KC_B",
             "KC_NO",
             "USER17"
@@ -1814,14 +1814,14 @@
             "USER05"
         ],
         [
-            "LT11(KC_V)",
+            "RALT_T(KC_V)",
             "LT10(KC_ESCAPE)",
             "KC_NO",
             "KC_NO",
             "KC_LGUI"
         ],
         [
-            "LT12(KC_M)",
+            "RALT_T(KC_M)",
             "LT7(KC_DELETE)",
             "KC_NO",
             "KC_NO",
