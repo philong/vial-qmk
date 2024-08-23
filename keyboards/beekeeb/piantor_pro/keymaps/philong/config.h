@@ -1,6 +1,11 @@
 /* keyboard uid */
-#define VIAL_KEYBOARD_UID \
-    { 0x49, 0x32, 0xC4, 0xEF, 0x12, 0x96, 0xC8, 0x4F }
+#define VIAL_KEYBOARD_UID {0x72, 0xD1, 0xB2, 0x31, 0x83, 0x84, 0x13, 0xDE}
+
+#define WEAR_LEVELING_LOGICAL_SIZE (8 * 1024)
+#define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
+
+/* default layer count */
+#define DYNAMIC_KEYMAP_LAYER_COUNT 16
 
 // 36 keys
 #define VIAL_UNLOCK_COMBO_ROWS \
@@ -15,9 +20,6 @@
 
 #define OUTER_COL_LEFT 0
 #define OUTER_COL_RIGHT 0
-
-/* default layer count */
-#define DYNAMIC_KEYMAP_LAYER_COUNT 16
 
 #define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX, UNICODE_MODE_WINCOMPOSE, UNICODE_MODE_MACOS
 
