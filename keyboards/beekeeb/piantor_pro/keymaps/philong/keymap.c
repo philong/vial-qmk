@@ -1373,6 +1373,7 @@ uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next
                 case CM_U:
                 case CM_Y:
                 case U_QUOP:
+                case CM_C:
                     return 0;
             }
             break;
@@ -1387,7 +1388,18 @@ uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next
                 case CM_Z:
                 case CM_C:
                 case CM_V:
+                case CM_COMM:
                     return 0;
+            }
+            break;
+        case LSFT_T(CM_C):
+            if (next_keycode == CM_V || next_keycode == CM_X) {
+                return 0;
+            }
+            break;
+        case RSFT_T(CM_COMM):
+            if (next_keycode == CM_M || next_keycode == CM_DOT) {
+                return 0;
             }
             break;
     }
