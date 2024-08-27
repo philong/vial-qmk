@@ -1782,7 +1782,10 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
     static uint16_t last_keycode = KC_NO;
     static fast_timer_t timer = 0;
 
-    if (is_alpha(tap_keycode) || tap_keycode == U_QUOP) {
+    const uint8_t mods     = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    if (!all_mods && (is_alpha(tap_keycode) || tap_keycode == U_QUOP)) {
         last_keycode = KC_NO;
 
         const bool shifted_ralted = (comma_count == 2 && dot_count == 1)
@@ -1814,9 +1817,6 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
 
         return true;
     }
-
-    const uint8_t mods     = get_mods();
-    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
     if (all_mods) {
         tap_keycode = combine_keycode(tap_keycode, all_mods);
