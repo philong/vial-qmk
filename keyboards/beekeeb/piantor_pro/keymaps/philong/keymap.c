@@ -460,17 +460,19 @@ size_t get_dynamic_macro_index(int8_t direction) {
     return -1;
 }
 
-void dynamic_macro_record_start_user(int8_t direction) {
+bool dynamic_macro_record_start_user(int8_t direction) {
     dynamic_macro_recording = true;
     update_led();
+    return true;
 }
 
-void dynamic_macro_record_end_user(int8_t direction) {
+bool dynamic_macro_record_end_user(int8_t direction) {
     dynamic_macro_recording = false;
     update_led();
     size_t index = get_dynamic_macro_index(direction);
-    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
+    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return true;
     dynamic_macro_recorded[index] = true;
+    return true;
 }
 
 // void dynamic_macro_record_key_user(int8_t direction, keyrecord_t *record) {
@@ -479,9 +481,9 @@ void dynamic_macro_record_end_user(int8_t direction) {
 //     dynamic_macro_recorded[index] = true;
 // }
 
-void dynamic_macro_play_user(int8_t direction) {
+bool dynamic_macro_play_user(int8_t direction) {
     size_t index = get_dynamic_macro_index(direction);
-    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
+    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return true;
 
     switch (index) {
         case 0:
@@ -493,6 +495,7 @@ void dynamic_macro_play_user(int8_t direction) {
             SEND_STRING_DELAY(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO2_TEXT1 SS_TAP(X_TAB) SS_TAP_CODE_DELAY, 2);
             SEND_STRING_DELAY(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO2_TEXT2 SS_TAP(X_ENTER), 2);
     }
+    return true;
 }
 
 // Colemak
