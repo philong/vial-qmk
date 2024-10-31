@@ -1407,7 +1407,12 @@ uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next
             break;
     }
 
-    return 200;
+    const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
+    if (mod & MOD_LSFT) {
+        return 100;
+    } else {
+        return 150;
+    }
 }
 
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
