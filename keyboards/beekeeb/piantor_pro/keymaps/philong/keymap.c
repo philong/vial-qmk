@@ -1667,10 +1667,12 @@ void num_word_user(bool enabled) {
     update_led();
 }
 
-bool process_select_word_user(uint16_t keycode, keyrecord_t *record, uint16_t sel_keycode) {
+uint16_t SELECT_WORD_KEYCODE = U_SEL_WORD;
+
+bool process_select_word_user(uint16_t keycode, keyrecord_t *record) {
     const int8_t repeat_key_count = get_repeat_key_count();
 
-    if (repeat_key_count == 0 && !process_select_word(keycode, record, U_SEL_WORD)) {
+    if (repeat_key_count == 0 && !process_select_word(keycode, record)) {
         return false;
     }
 
@@ -2513,7 +2515,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_shift_backspace_delete(keycode, record)) {
         return false;
     }
-    if (!process_select_word_user(keycode, record, U_SEL_WORD)) {
+    if (!process_select_word_user(keycode, record)) {
         return false;
     }
     if (!process_joinln(keycode, record, U_JOIN_LN)) {
