@@ -2572,7 +2572,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-void matrix_scan_user(void) {
+void housekeeping_task_user(void) {
     achordion_task();
     layer_lock_task();
     select_word_task();
