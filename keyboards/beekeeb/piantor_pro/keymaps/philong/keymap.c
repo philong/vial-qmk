@@ -13,7 +13,10 @@
 
 #include "quantum/keymap_extras/sendstring_colemak.h"
 
+#ifdef ACHORDION_ENABLE
 #include "features/achordion.h"
+#endif  // ACHORDION_ENABLE
+
 #include "features/layer_lock.h"
 #include "features/select_word.h"
 #include "features/repeat_key.h"
@@ -82,6 +85,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                   //`--------------------------'  `--------------------------'
   )
 };
+
+#ifdef CHORDAL_HOLD
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
+    LAYOUT_split_3x6_3(
+    //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+         '*',      'L',     'L',     'L',     'L',     'L',                          'R',     'R',     'R',     'R',    'R',     '*',
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+         '*',      'L',     'L',     'L',     'L',     'L',                          'R',     'R',     'R',     'R',    'R',     '*',
+    //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+         '*',      'L',     'L',     'L',     'L',     'L',                          'R',     'R',     'R',     'R',    'R',     '*',
+    //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                              '*',     '*',    '*',         '*',     '*',     '*'
+    //                                    `--------------------------'  `--------------------------'
+    );
+#endif  // CHORDAL_HOLD
 
 struct user_macro {
     const enum user_keycode keycode;
@@ -1244,6 +1262,14 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
     return process_repeat_key_with_alt(keycode, record, U_REPEAT, U_ALT_REPEAT);
 }
 
+#ifdef CHORDAL_HOLD
+// Not needed anymore?
+// The return value is true to consider the tap-hold key held or false to consider it tapped.
+// bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
+    // return get_chordal_hold_default(tap_hold_record, other_record);
+// }
+#endif  // CHORDAL_HOLD
+#ifdef ACHORDION_ENABLE
 static bool on_left_hand(keypos_t pos) {
 #ifdef SPLIT_KEYBOARD
     return pos.row < MATRIX_ROWS / 2;
@@ -1418,6 +1444,7 @@ uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
     return process_achordion(keycode, record);
 }
+#endif  // ACHORDION_ENABLE
 
 void layer_lock_set_user(layer_state_t state) {
     locked_layers = state;
@@ -2491,9 +2518,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #if defined(MOUSEKEY_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
     process_mouse_jiggler(keycode, record);
 #endif
+#ifdef ACHORDION_ENABLE
     if (!process_achordion_user(keycode, record)) {
         return false;
     }
+#endif  // ACHORDION_ENABLE
     if (!process_repeat_key_with_alt_user(keycode, record, U_REPEAT, U_ALT_REPEAT)) {
         return false;
     }
@@ -2575,7 +2604,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void housekeeping_task_user(void) {
+#ifdef ACHORDION_ENABLE
     achordion_task();
+#endif  // ACHORDION_ENABLE
     layer_lock_task();
     select_word_task();
     sentence_case_task();

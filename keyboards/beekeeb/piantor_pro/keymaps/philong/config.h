@@ -45,7 +45,11 @@
 
 #define PERMISSIVE_HOLD
 
-#define ACHORDION_STREAK
+#define CHORDAL_HOLD
+#ifdef ACHORDION_ENABLE
+    #pragma message("Achordion is enabled.")
+    #define ACHORDION_STREAK
+#endif  // ACHORDION_ENABLE
 
 #ifndef AUTO_SHIFT_NO_SETUP
 #    define AUTO_SHIFT_NO_SETUP
