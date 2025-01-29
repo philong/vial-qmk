@@ -90,6 +90,8 @@
 
 #define SS_TAP_CODE_DELAY SS_DELAY(TAP_CODE_DELAY)
 
+#define MAX_DEFERRED_EXECUTORS 16
+
 #include "ignore.extras.h"
 
 #ifndef DMACRO1_TEXT1
