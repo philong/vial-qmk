@@ -1867,14 +1867,14 @@
             "RALT_T(KC_DOT)",
             "KC_NO",
             "KC_NO",
-            "USER40"
+            "USER11"
         ],
         [
             "LALT_T(KC_S)",
             "RALT_T(KC_X)",
             "KC_NO",
             "KC_NO",
-            "USER40"
+            "USER09"
         ],
         [
             "LCAG_T(KC_O)",
