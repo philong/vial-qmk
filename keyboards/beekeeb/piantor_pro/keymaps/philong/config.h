@@ -35,7 +35,7 @@
 // https://precondition.github.io/home-row-mods#getting-started-with-home-row-mods-on-qmk
 
 // Configure the global tapping term (default: 200ms)
-#define TAPPING_TERM 175
+#define TAPPING_TERM 225
 #ifndef TAPPING_TERM_PER_KEY
 #    define TAPPING_TERM_PER_KEY
 #endif
