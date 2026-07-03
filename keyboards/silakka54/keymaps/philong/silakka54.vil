@@ -2746,28 +2746,28 @@
     ],
     "alt_repeat_key": [
         {
-            "keycode": "KC_NO",
-            "alt_keycode": "KC_NO",
+            "keycode": "KC_H",
+            "alt_keycode": "KC_H",
             "allowed_mods": 0,
-            "options": 0
+            "options": 8
         },
         {
-            "keycode": "KC_NO",
-            "alt_keycode": "KC_NO",
+            "keycode": "KC_J",
+            "alt_keycode": "KC_J",
             "allowed_mods": 0,
-            "options": 0
+            "options": 8
         },
         {
-            "keycode": "KC_NO",
-            "alt_keycode": "KC_NO",
+            "keycode": "KC_K",
+            "alt_keycode": "KC_K",
             "allowed_mods": 0,
-            "options": 0
+            "options": 8
         },
         {
-            "keycode": "KC_NO",
-            "alt_keycode": "KC_NO",
+            "keycode": "KC_L",
+            "alt_keycode": "KC_L",
             "allowed_mods": 0,
-            "options": 0
+            "options": 8
         },
         {
             "keycode": "KC_NO",
