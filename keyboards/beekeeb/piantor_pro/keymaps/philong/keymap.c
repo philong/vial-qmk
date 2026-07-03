@@ -1305,10 +1305,6 @@ static bool is_end_key(uint16_t keycode) {
 
 // The return value is true to consider the tap-hold key held or false to consider it tapped.
 bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
-    if (!IS_KEYEVENT(tap_hold_record->event) || !IS_KEYEVENT(other_record->event)) {
-        return true;
-    }
-
     if (is_outer_key(tap_hold_record) || is_outer_key(other_record)) {
         return true;
     }
@@ -1351,10 +1347,8 @@ bool is_tap_flow_key(uint16_t keycode) {
 uint16_t get_tap_flow_term(
     uint16_t keycode, keyrecord_t* record, uint16_t prev_keycode) {
 
-    uint16_t prev_keycode_tap = get_tap_keycode(prev_keycode);
-
-    if (prev_keycode_tap == KC_BSPC || prev_keycode_tap == KC_SPC) {
-        return 0;  // Disable filter when immediately following backspace or space.
+    if (is_outer_key(record)) {
+        return 0;
     }
 
     uint16_t keycode_tap = get_tap_keycode(keycode);
