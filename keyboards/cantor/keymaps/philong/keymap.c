@@ -97,6 +97,7 @@ enum user_keycode {
     U_REV_REPEAT,
     U_CURRENT_DIRECTORY,
     U_UP_DIRECTORY,
+    U_DOT,
     U_THREE_DOTS,
     U_DOUBLE_COLON,
     U_EQUAL,
@@ -722,6 +723,7 @@ struct user_macro {
 
 const char CURRENT_DIRECTORY[] PROGMEM = "./";
 const char UP_DIRECTORY[] PROGMEM = "../";
+const char DOT[] PROGMEM = ".";
 const char THREE_DOTS[] PROGMEM = "...";
 const char DOUBLE_COLON[] PROGMEM = "PP";   // Colemak
 const char EQUAL[] PROGMEM = "==";
@@ -742,6 +744,7 @@ const char DOUBLE_QUESTION[] PROGMEM = "??";
 const struct user_macro USER_MACROS[] PROGMEM = {
     {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY},
     {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY},
+    {U_DOT, DOT, THREE_DOTS},
     {U_THREE_DOTS, THREE_DOTS, DOUBLE_COLON},
     {U_DOUBLE_COLON, DOUBLE_COLON, THREE_DOTS},
     {U_EQUAL, EQUAL, STRICT_EQUAL},
