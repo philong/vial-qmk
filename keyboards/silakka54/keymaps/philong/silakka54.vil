@@ -4,7 +4,7 @@
     "layout": [
         [
             [
-                "LGUI(KC_Q)",
+                "TD(16)",
                 "TD(11)",
                 "TD(12)",
                 "TD(13)",
@@ -12,7 +12,7 @@
                 "TD(15)"
             ],
             [
-                "USER33",
+                "TD(4)",
                 "KC_Q",
                 "LT10(KC_W)",
                 "LT9(KC_E)",
@@ -52,7 +52,7 @@
                 "KC_LEFT"
             ],
             [
-                "USER34",
+                "TD(0)",
                 "KC_P",
                 "LT14(KC_O)",
                 "LT13(KC_I)",
@@ -1782,14 +1782,14 @@
         [
             "KC_LBRACKET",
             "KC_RBRACKET",
-            "KC_NO",
+            "USER34",
             "KC_NO",
             200
         ],
         [
-            "USER27",
+            "LSFT(KC_QUOTE)",
             "LCTL(KC_LALT)",
-            "KC_NO",
+            "USER27",
             "KC_NO",
             200
         ],
@@ -1808,9 +1808,9 @@
             200
         ],
         [
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
+            "LSFT(KC_9)",
+            "LSFT(KC_0)",
+            "USER33",
             "KC_NO",
             200
         ],
@@ -1892,8 +1892,8 @@
             200
         ],
         [
-            "KC_NO",
-            "KC_NO",
+            "LGUI(KC_Q)",
+            "KC_LGUI",
             "KC_NO",
             "KC_NO",
             200
