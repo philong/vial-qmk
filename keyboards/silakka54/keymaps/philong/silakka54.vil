@@ -12,7 +12,7 @@
                 "TD(15)"
             ],
             [
-                "USER02",
+                "USER33",
                 "KC_Q",
                 "LT10(KC_W)",
                 "LT9(KC_E)",
@@ -2335,11 +2335,11 @@
             "MO(18)"
         ],
         [
+            "LSFT_T(KC_D)",
+            "LCTL_T(KC_F)",
+            "LT11(KC_G)",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "USER02"
         ],
         [
             "KC_NO",
