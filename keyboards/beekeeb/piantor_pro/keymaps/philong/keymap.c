@@ -2125,7 +2125,9 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t lay
     // Unlock all layers if any layer is locked (ensures key has toggle effect).
     if (keycode == layer_lock_keycode && locked_layers != 0 && record->event.pressed) {
         layer_lock_all_off();
+        layer_clear();
         update_led();
+        locked_layers = 0;
         return false;
     }
 
