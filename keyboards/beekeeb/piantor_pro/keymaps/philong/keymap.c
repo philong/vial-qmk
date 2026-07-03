@@ -121,6 +121,12 @@ const char FSTRING[] PROGMEM               = "f\"\"" SS_TAP(X_LEFT);
 const char DIAMOND[] PROGMEM               = "<>";
 const char ADD_ASSIGN[] PROGMEM            = "+=";
 const char SUB_ASSIGN[] PROGMEM            = "-=";
+const char MUL_ASSIGN[] PROGMEM            = "*=";
+const char DIV_ASSIGN[] PROGMEM            = "/=";
+const char MOD_ASSIGN[] PROGMEM            = "%=";
+const char AND_ASSIGN[] PROGMEM            = "&=";
+const char OR_ASSIGN[] PROGMEM             = "|=";
+const char XOR_ASSIGN[] PROGMEM            = "^=";
 const char DOUBLE_UNDERSCORE[] PROGMEM     = "__";
 const char IN_UNDERSCORES[] PROGMEM        = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
 const char DOUBLE_BACKTICK[] PROGMEM       = "``" SS_TAP(X_LEFT);
@@ -157,6 +163,8 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
     {U_DOUBLE_BACKTICK, DOUBLE_BACKTICK, TRIPLE_BACKTICK, CODE_BLOCK, NULL},
     {U_ELEMENT, ELEMENT, ELEMENT_SELF_CLOSED, ELEMENT_WITH_CLOSE, NULL},
+    {U_ADD_ASSIGN, ADD_ASSIGN, MUL_ASSIGN, AND_ASSIGN, XOR_ASSIGN}, // += *= &= ^=
+    {U_SUB_ASSIGN, SUB_ASSIGN, DIV_ASSIGN, OR_ASSIGN, MOD_ASSIGN}, // -= /= |= %=
     {U_USERNAME, "philong", "Phi-Long", "philong.do@gmail.com", "p.do@axelor.com"},
 };
 

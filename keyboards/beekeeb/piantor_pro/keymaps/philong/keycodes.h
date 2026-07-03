@@ -81,6 +81,8 @@ enum user_keycode {
     U_AUTOCOMPLETE3,
     U_ELEMENT,
     U_DOUBLE_UNDERSCORE,
+    U_ADD_ASSIGN,
+    U_SUB_ASSIGN,
 };
 
 #ifndef QK_REPEAT_KEY
