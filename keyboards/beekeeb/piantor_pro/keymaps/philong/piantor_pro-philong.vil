@@ -197,7 +197,7 @@
                 -1,
                 "KC_DELETE",
                 "KC_BSPACE",
-                "KC_ENTER"
+                "KC_KP_ENTER"
             ]
         ],
         [
@@ -261,7 +261,7 @@
                 -1,
                 -1,
                 -1,
-                "USER03",
+                "KC_DELETE",
                 "KC_BSPACE",
                 "KC_ENTER"
             ]
@@ -327,9 +327,9 @@
                 -1,
                 -1,
                 -1,
-                "USER04",
+                "LT8(KC_DELETE)",
                 "KC_BSPACE",
-                "KC_KP_ENTER"
+                "KC_ENTER"
             ]
         ],
         [
@@ -493,7 +493,7 @@
                 -1,
                 -1,
                 -1,
-                "KC_BTN3",
+                "LT8(KC_BTN3)",
                 "KC_BTN1",
                 "KC_BTN2"
             ],
@@ -568,7 +568,7 @@
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
-                "KC_TRNS",
+                "USER42",
                 "KC_TRNS"
             ],
             [
@@ -576,7 +576,7 @@
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
-                "KC_TRNS",
+                "MAGIC_TOGGLE_CTL_GUI",
                 "KC_TRNS"
             ],
             [
@@ -584,7 +584,7 @@
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
-                "KC_TRNS",
+                "USER32",
                 "KC_TRNS"
             ],
             [
@@ -1211,40 +1211,11 @@
                 "KC_LEFT"
             ]
         ],
-        [
-            [
-                "text",
-                "```"
-            ],
-            [
-                "down",
-                "KC_LSHIFT"
-            ],
-            [
-                "tap",
-                "KC_ENTER"
-            ],
-            [
-                "up",
-                "KC_LSHIFT"
-            ],
-            [
-                "text",
-                "```"
-            ],
-            [
-                "tap",
-                "KC_UP"
-            ]
-        ],
+        [],
         [
             [
                 "text",
                 "``"
-            ],
-            [
-                "tap",
-                "KC_LEFT"
             ]
         ],
         [],
@@ -1729,25 +1700,25 @@
             "USER30"
         ],
         [
-            "USER01",
-            "KC_QUOTE",
             "KC_NO",
             "KC_NO",
-            "USER32"
+            "KC_NO",
+            "KC_NO",
+            "KC_NO"
         ],
         [
             "LCAG_T(KC_O)",
             "LALT_T(KC_L)",
             "KC_NO",
             "KC_NO",
-            "USER11"
+            "KC_P"
         ],
         [
             "LT0(KC_SLASH)",
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "LT0(KC_F23)"
+            "USER26"
         ],
         [
             "RSFT_T(KC_K)",
@@ -1806,18 +1777,18 @@
             "KC_GRAVE"
         ],
         [
-            "USER03",
-            "USER04",
             "KC_NO",
             "KC_NO",
-            "USER31"
+            "KC_NO",
+            "KC_NO",
+            "KC_NO"
         ],
         [
             "LCAG_T(KC_W)",
             "LALT_T(KC_S)",
             "KC_NO",
             "KC_NO",
-            "M10"
+            "KC_GRAVE"
         ],
         [
             "KC_Q",
@@ -1827,18 +1798,18 @@
             "KC_GRAVE"
         ],
         [
-            "LT0(KC_P)",
-            "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "KC_GRAVE"
+            "KC_NO",
+            "KC_NO",
+            "KC_NO"
         ],
         [
-            "USER05",
-            "KC_QUOTE",
             "KC_NO",
             "KC_NO",
-            "USER42"
+            "KC_NO",
+            "KC_NO",
+            "KC_NO"
         ],
         [
             "LT5(KC_BSPACE)",
@@ -1936,7 +1907,7 @@
             "KC_X",
             "KC_NO",
             "KC_NO",
-            "M9"
+            "USER46"
         ],
         [
             "KC_NO",

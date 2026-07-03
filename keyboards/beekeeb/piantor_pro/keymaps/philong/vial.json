@@ -436,14 +436,24 @@
             "name": "U_QUOP"
         },
         {
-            "shortName": "Happy",
-            "title": "Happy",
-            "name": "U_HAPPY"
+            "shortName": "Emoji",
+            "title": "Emoji",
+            "name": "U_EMOJI"
         },
         {
             "shortName": "Jiggle",
             "title": "Jiggle",
             "name": "U_JIGGLE"
+        },
+        {
+            "shortName": "``",
+            "title": "Double Backtick",
+            "name": "U_DOUBLE_BACKTICK"
+        },
+        {
+            "shortName": "..",
+            "title": "Double Dots",
+            "name": "U_DOUBLE_DOTS"
         }
     ]
 }
