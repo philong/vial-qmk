@@ -964,6 +964,9 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
         case U_CG_TOGG:
             process_magic(CG_TOGG, record);
             return false;
+        case U_AC_TOGG:
+            process_magic(AC_TOGG, record);
+            return false;
     }
 
     return true;
@@ -1124,6 +1127,7 @@ void keyboard_post_init_user(void) {
 void eeconfig_init_user(void) { // EEPROM is getting reset!
     user_config.raw        = 0;
     user_config.colemak_fr = false;
+    autocorrect_enable();
     eeconfig_update_user(user_config.raw);
 }
 
