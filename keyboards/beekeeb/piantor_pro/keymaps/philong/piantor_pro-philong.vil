@@ -1700,7 +1700,7 @@
             "LGUI_T(KC_A)",
             "KC_NO",
             "KC_NO",
-            "KC_GRAVE"
+            "USER46"
         ],
         [
             "KC_NO",
@@ -1805,7 +1805,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "LT0(KC_P)"
+            "LT0(KC_F23)"
         ],
         [
             "LALT_T(KC_S)",
@@ -1815,11 +1815,11 @@
             "USER44"
         ],
         [
+            "LCAG_T(KC_O)",
+            "USER43",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "USER12"
         ],
         [
             "KC_NO",

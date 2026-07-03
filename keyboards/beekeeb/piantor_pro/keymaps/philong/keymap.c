@@ -124,7 +124,7 @@ const char ADD_ASSIGN[] PROGMEM            = "+=";
 const char SUB_ASSIGN[] PROGMEM            = "-=";
 const char DOUBLE_UNDERSCORE[] PROGMEM     = "__";
 const char IN_UNDERSCORES[] PROGMEM        = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
-const char DOUBLE_BACKTICK[] PROGMEM       = "``" SS_TAP(X_RGHT);
+const char DOUBLE_BACKTICK[] PROGMEM        = "``" SS_TAP(X_LEFT);
 const char TRIPLE_BACKTICK[] PROGMEM       = "```" SS_LSFT(SS_TAP(X_ENT)) "```" SS_TAP(X_UP);
 const char ELEMENT[] PROGMEM               = "<>" SS_TAP(X_LEFT);
 const char ELEMENT_SELF_CLOSED[] PROGMEM   = "</>" SS_TAP(X_LEFT) SS_TAP(X_LEFT);
