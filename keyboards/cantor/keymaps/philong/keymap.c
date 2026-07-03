@@ -119,6 +119,8 @@ enum user_keycode {
     U_DOUBLE_PLUS,
     U_DOUBLE_SLASH,
     U_DOUBLE_QUESTION,
+    U_LEFT_SHIFT,
+    U_RIGHT_SHIFT,
     U_USERNAME,
     U_CG_TOGG,
     U_OS_LCTL,
@@ -853,6 +855,8 @@ const char DOUBLE_MINUS[] PROGMEM = "--";
 const char DOUBLE_PLUS[] PROGMEM = "++";
 const char DOUBLE_SLASH[] PROGMEM = "//";
 const char DOUBLE_QUESTION[] PROGMEM = "??";
+const char LEFT_SHIFT[] PROGMEM = "<<";
+const char RIGHT_SHIFT[] PROGMEM = ">>";
 
 const struct user_macro USER_MACROS[] PROGMEM = {
     {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY},
@@ -873,6 +877,8 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_DOUBLE_MINUS, DOUBLE_MINUS, DOUBLE_PLUS},
     {U_DOUBLE_SLASH, DOUBLE_SLASH, DOUBLE_QUESTION},
     {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH},
+    {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT},
+    {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT},
     {U_USERNAME, "philong.do@gmail.com", "p.do@axelor.com"},
 };
 

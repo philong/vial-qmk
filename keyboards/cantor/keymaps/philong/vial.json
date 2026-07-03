@@ -104,6 +104,14 @@
          "title": "Double Question",
          "name": "U_DOUBLE_QUESTION"
         },
+        {"shortName": "<<",
+         "title": "Left Shift",
+         "name": "U_LEFT_SHIFT"
+        },
+        {"shortName": ">>",
+         "title": "Right Shift",
+         "name": "U_RIGHT_SHIFT"
+        },
         {"shortName": "User\nName",
          "title": "Username",
          "name": "U_USERNAME"
