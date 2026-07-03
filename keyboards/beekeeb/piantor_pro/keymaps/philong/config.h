@@ -48,10 +48,16 @@
 
 #define PERMISSIVE_HOLD
 
-#define CHORDAL_HOLD
+#ifndef CHORDAL_HOLD
+    #define CHORDAL_HOLD
+#endif
 #ifdef ACHORDION_ENABLE
     #define ACHORDION_STREAK
 #endif  // ACHORDION_ENABLE
+
+#ifndef FLOW_TAP_TERM
+    #define FLOW_TAP_TERM 150
+#endif
 
 #ifndef AUTO_SHIFT_NO_SETUP
 #    define AUTO_SHIFT_NO_SETUP

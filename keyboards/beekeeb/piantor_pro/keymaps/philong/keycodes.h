@@ -87,8 +87,3 @@ enum user_keycode {
     U_SEL_WORD_BACK,
     U_SEL_LINE,
 };
-
-#ifndef QK_REPEAT_KEY
-    #define QK_REPEAT_KEY U_REPEAT
-    #define QK_ALT_REPEAT_KEY U_ALT_REPEAT
-#endif

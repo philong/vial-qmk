@@ -51,3 +51,6 @@ endif
 ifneq ($(AUTOCORRECT_ENABLE), yes)
 	SRC += features/autocorrection.c
 endif
+
+LAYER_LOCK_ENABLE = no
+REPEAT_KEY_ENABLE = no

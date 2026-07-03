@@ -1306,6 +1306,10 @@ static bool is_end_key(uint16_t keycode) {
 
 // The return value is true to consider the tap-hold key held or false to consider it tapped.
 bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
+    if (!QS_tapping_chordal_hold) {
+        return true;
+    }
+
     if (!IS_KEYEVENT(tap_hold_record->event) || !IS_KEYEVENT(other_record->event)) {
         return true;
     }
@@ -1321,7 +1325,7 @@ bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, u
     return get_chordal_hold_default(tap_hold_record, other_record);
 }
 
-uint16_t get_tap_keycode(uint16_t keycode) {
+static uint16_t _get_tap_keycode(uint16_t keycode) {
     if (IS_QK_MOD_TAP(keycode)) {
         keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     } else if (IS_QK_LAYER_TAP(keycode)) {
@@ -1330,8 +1334,8 @@ uint16_t get_tap_keycode(uint16_t keycode) {
     return keycode;
 }
 
-bool is_tap_flow_key(uint16_t keycode) {
-    keycode = get_tap_keycode(keycode);
+bool is_flow_tap_key(uint16_t keycode) {
+    keycode = _get_tap_keycode(keycode);
 
     if (is_alpha(keycode)) {
         return true;
@@ -1349,23 +1353,18 @@ bool is_tap_flow_key(uint16_t keycode) {
     return false;
 }
 
-#ifndef TAP_FLOW_TERM
-#pragma message("Tap Flow is disabled")
-uint16_t g_tap_flow_term = 150;
-#endif
-
-uint16_t get_tap_flow_term(
+uint16_t get_flow_tap_term(
     uint16_t keycode, keyrecord_t* record, uint16_t prev_keycode) {
 
     if (is_outer_key(record)) {
         return 0;
     }
 
-    uint16_t keycode_tap = get_tap_keycode(keycode);
+    uint16_t keycode_tap = _get_tap_keycode(keycode);
 
     // LGui+L
     if (prev_keycode == LGUI_T(CM_A) && keycode_tap == CM_L) {
-        return g_tap_flow_term;
+        return QS.flow_tap_term;
     }
 
     // home-row-mods
@@ -1424,8 +1423,8 @@ uint16_t get_tap_flow_term(
             break;
     }
 
-    if (is_tap_flow_key(keycode) && is_tap_flow_key(prev_keycode)) {
-        return g_tap_flow_term;
+    if (is_flow_tap_key(keycode) && is_flow_tap_key(prev_keycode)) {
+        return QS.flow_tap_term;
     }
 
     return 0;  // Disable Tap Flow.
