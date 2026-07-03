@@ -4,6 +4,9 @@
 #include QMK_KEYBOARD_H
 
 #include "qmk_settings.h"
+#include "vial.h"
+#include "via.h"
+#include "dynamic_keymap.h"
 
 #include "quantum/keymap_extras/sendstring_colemak.h"
 
@@ -24,6 +27,8 @@ enum layers {
     LAYER_GUI_SFT_NAV,
     LAYER_GUI_ALT_NAV,
     LAYER_GUI_NAV,
+    LAYER_ADJUST,
+    LAYER_GAME,
 };
 
 enum user_keycode {
@@ -67,18 +72,13 @@ enum user_keycode {
 
     U_CM_TOGG,
     U_PUNCTUATION_MOD_TOGG,
+
+    U_LOGIN_ADMIN,
+    U_LOGIN_DEMO,
 };
 
-enum VIAL_MACROS {
-    M0 = 0x7700,
-    M1 = 0x7701
-};
-
-#ifndef LCG_T
-    #define LCG_T(kc)  MT(MOD_LCTL | MOD_LGUI, kc)
-#endif
-#ifndef RCG_T
-    #define RCG_T(kc)  MT(MOD_RCTL | MOD_RGUI, kc)
+#ifndef LCG
+    #define LCG(kc) LCTL(LGUI(kc))
 #endif
 
 #define _______ KC_TRNS
@@ -86,141 +86,294 @@ enum VIAL_MACROS {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
-        KC_GRV,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINS,
-        S(KC_MINS),     KC_Q,           LCAG_T(KC_W),   SGUI_T(KC_E),   LCG_T(KC_R),    KC_T,           KC_Y,           RCG_T(KC_U),    SGUI_T(KC_I),   RCAG_T(KC_O),   KC_P,           TD(0),
-        S(KC_QUOT),     LGUI_T(KC_A),   LALT_T(KC_S),   LSFT_T(KC_D),   LCTL_T(KC_F),   ALL_T(KC_G),    ALL_T(KC_H),    RCTL_T(KC_J),   RSFT_T(KC_K),   LALT_T(KC_L),   RGUI_T(KC_SCLN),KC_QUOT,
-        KC_MINS,        KC_Z,           KC_X,           LSFT_T(KC_C),   RALT_T(KC_V),   KC_B,           KC_N,           RALT_T(KC_M),   RSFT_T(KC_COMM),KC_DOT,         KC_SLSH,        S(KC_EQL),
-                                                        LT(5, KC_ESC),  LT(1, KC_SPC),  LT(3, KC_TAB),  LT(4, KC_ENT),  LT(2, KC_BSPC), LT(6, KC_DEL)
+        TD(16),          TD(11),          TD(12),          TD(13),          TD(14),          TD(15),          KC_LEFT,         KC_DOWN,         KC_UP,           KC_RGHT,         TD(2),           TD(3),
+        TD(4),           KC_Q,            LT(10, KC_W),    LT(9, KC_E),     LT(8, KC_R),     KC_T,            KC_Y,            LT(12, KC_U),    LT(13, KC_I),    LT(14, KC_O),    KC_P,            TD(0),
+        TD(1),           LGUI_T(KC_A),    LALT_T(KC_S),    LSFT_T(KC_D),    LCTL_T(KC_F),    LT(11, KC_G),    LT(15, KC_H),    RCTL_T(KC_J),    RSFT_T(KC_K),    LALT_T(KC_L),    RGUI_T(KC_SCLN), KC_QUOT,
+        LSFT_T(KC_MINS), KC_Z,            KC_X,            LSFT_T(KC_C),    RALT_T(KC_V),    KC_B,            KC_N,            RALT_T(KC_M),    RSFT_T(KC_COMM), KC_DOT,          KC_SLSH,         LT(0, KC_MINS),
+                                                           LT(5, KC_ESC),   LT(1, KC_SPC),   LT(3, KC_TAB),   LT(4, KC_ENT),   LT(2, KC_BSPC),  LT(6, KC_DEL)
     ),
 
     [LAYER_NUM] = LAYOUT(
-        S(KC_GRV),      S(KC_1),        S(KC_2),        S(KC_3),        S(KC_4),        S(KC_5),        S(KC_6),        S(KC_7),        S(KC_8),        S(KC_9),        S(KC_0),        S(KC_MINS),
-        _______,        KC_INS,         KC_HOME,        KC_UP,          KC_END,         KC_PGUP,        KC_EQL,         KC_7,           KC_8,           KC_9,           KC_QUOT,        KC_PPLS,
-        _______,        LGUI_T(KC_CAPS),LALT_T(KC_LEFT),LSFT_T(KC_DOWN),LCTL_T(KC_RGHT),KC_PGDN,        KC_MINS,        KC_4,           KC_5,           KC_6,           TD(1),          S(KC_9),
-        _______,        LT(0, KC_Z),    LT(0, KC_X),    LT(0, KC_C),    LT(0, KC_V),    LT(0, KC_B),    KC_0,           KC_1,           KC_2,           KC_3,           KC_BSLS,        S(KC_0),
-                                                        M1,             _______,        M0,             KC_PENT,        KC_BSPC,       KC_DEL
+        _______,         LGUI(KC_6),      LGUI(KC_7),      LGUI(KC_8),      LGUI(KC_9),      LGUI(KC_0),      KC_H,            KC_Y,            KC_N,            KC_U,            KC_K,            KC_G,
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         KC_EQL,          KC_7,            KC_8,            KC_9,            KC_QUOT,         KC_PPLS,
+        _______,         LGUI_T(KC_CAPS), LALT_T(KC_LEFT), LSFT_T(KC_DOWN), LCTL_T(KC_RGHT), KC_PGDN,         KC_MINS,         KC_4,            KC_5,            KC_6,            LT(0, KC_DOT),   S(KC_9),
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_0,            KC_1,            KC_2,            KC_3,            KC_BSLS,         S(KC_0),
+                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   _______,         _______,         _______
     ),
 
     [LAYER_NAV] = LAYOUT(
-        S(KC_GRV),      S(KC_1),        S(KC_2),        S(KC_3),        S(KC_4),        S(KC_5),        S(KC_6),        S(KC_7),        S(KC_8),        S(KC_9),        S(KC_0),        S(KC_MINS),
-        _______,        KC_INS,         KC_HOME,        KC_UP,          KC_END,         KC_PGUP,        KC_VOLU,        KC_MPLY,        KC_MPRV,        KC_MNXT,        KC_BRIU,        _______,
-        _______,        QK_CAPS_WORD_TOGGLE,KC_LEFT,    KC_DOWN,        KC_RGHT,        KC_PGDN,        KC_VOLD,        KC_RCTL,        KC_RSFT,        KC_LALT,        RGUI_T(KC_BRID),_______,
-        _______,        LT(0, KC_Z),    LT(0, KC_X),    LT(0, KC_C),    LT(0, KC_V),    LT(0, KC_B),    KC_MUTE,        KC_RALT,        QK_REPEAT_KEY,  QK_ALT_REPEAT_KEY,KC_SLEP,      _______,
-                                                        KC_ESC,         KC_SPC,         KC_TAB,         _______,        _______,        _______
+        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
+        _______,         CW_TOGG,         KC_LEFT,         KC_DOWN,         KC_RGHT,         KC_PGDN,         KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
+                                                           _______,         _______,         _______,         _______,         _______,         _______
     ),
 
     [LAYER_SYM] = LAYOUT(
-        ALGR(KC_GRV),   ALGR(KC_1),     ALGR(KC_2),     ALGR(KC_3),     ALGR(KC_4),     ALGR(KC_5),     ALGR(KC_6),     ALGR(KC_7),     ALGR(KC_8),     ALGR(KC_9),     ALGR(KC_0),     ALGR(KC_MINS),
-        _______,        KC_PSCR,        KC_F7,          KC_F8,          KC_F9,          KC_F12,         S(KC_EQL),      S(KC_7),        S(KC_8),        S(KC_0),        S(KC_QUOT),     _______,
-        _______,        LGUI_T(KC_SCRL),LALT_T(KC_F4),  LSFT_T(KC_F5),  LCTL_T(KC_F6),  KC_F11,         S(KC_MINS),     S(KC_4),        S(KC_5),        S(KC_6),        TD(1),          _______,
-        _______,        KC_PAUS,        KC_F1,          LSFT_T(KC_F2),  RALT_T(KC_F3),  KC_F10,         S(KC_0),        S(KC_1),        S(KC_2),        S(KC_3),        S(KC_BSLS),     _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        RALT(KC_GRV),    RALT(KC_1),      RALT(KC_2),      RALT(KC_3),      RALT(KC_4),      RALT(KC_5),      RALT(KC_6),      RALT(KC_7),      RALT(KC_8),      RALT(KC_9),      RALT(KC_0),      RALT(KC_MINS),
+        _______,         KC_PSCR,         KC_F7,           KC_F8,           KC_F9,           KC_F12,          S(KC_EQL),       S(KC_7),         S(KC_8),         S(KC_9),         S(KC_QUOT),      _______,
+        _______,         LGUI_T(KC_SCRL), LALT_T(KC_F4),   LSFT_T(KC_F5),   LCTL_T(KC_F6),   KC_F11,          S(KC_MINS),      S(KC_4),         S(KC_5),         S(KC_6),         LT(0, KC_DOT),   _______,
+        _______,         KC_PAUS,         KC_F1,           LSFT_T(KC_F2),   RALT_T(KC_F3),   KC_F10,          S(KC_0),         S(KC_1),         S(KC_2),         S(KC_3),         S(KC_BSLS),      _______,
+                                                           _______,         _______,         _______,         KC_ENT,          KC_BSPC,         KC_DEL
     ),
 
     [LAYER_FUN] = LAYOUT(
-        ALGR(KC_GRV),   ALGR(KC_1),     ALGR(KC_2),     ALGR(KC_3),     ALGR(KC_4),     ALGR(KC_5),     ALGR(KC_6),     ALGR(KC_7),     ALGR(KC_8),     ALGR(KC_9),     ALGR(KC_0),     ALGR(KC_MINS),
-        _______,        KC_PSCR,        KC_F7,          KC_F8,          KC_F9,          KC_F12,         _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        KC_SCRL,        KC_F4,          KC_F5,          KC_F6,          KC_F11,         _______,        KC_RCTL,        KC_RSFT,        KC_LALT,        KC_RGUI,        _______,
-        _______,        KC_PAUS,        KC_F1,          KC_F2,          KC_F3,          KC_F10,         _______,        KC_RALT,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        RALT(KC_GRV),    RALT(KC_1),      RALT(KC_2),      RALT(KC_3),      RALT(KC_4),      RALT(KC_5),      RALT(KC_6),      RALT(KC_7),      RALT(KC_8),      RALT(KC_9),      RALT(KC_0),      RALT(KC_MINS),
+        _______,         KC_PSCR,         KC_F7,           KC_F8,           KC_F9,           KC_F12,          _______,         _______,         _______,         _______,         _______,         _______,
+        _______,         KC_SCRL,         KC_F4,           KC_F5,           KC_F6,           KC_F11,          _______,         KC_RCTL,         KC_RSFT,         KC_LALT,         KC_RGUI,         _______,
+        _______,         KC_PAUS,         KC_F1,           KC_F2,           KC_F3,           KC_F10,          _______,         KC_RALT,         _______,         _______,         _______,         _______,
+                                                           KC_ESC,          KC_SPC,          KC_TAB,          _______,         _______,         _______
     ),
 
     [LAYER_SYM2] = LAYOUT(
-        S(ALGR(KC_GRV)),S(ALGR(KC_1)),  S(ALGR(KC_2)),  S(ALGR(KC_3)),  S(ALGR(KC_4)),  S(ALGR(KC_5)),  S(ALGR(KC_6)),  S(ALGR(KC_7)),  S(ALGR(KC_8)),  S(ALGR(KC_9)),  S(ALGR(KC_0)),  S(ALGR(KC_MINS)),
-        _______,        S(KC_EQL),      KC_P7,          KC_P8,          KC_P9,          KC_EQL,         LCTL(KC_EQL),   LGUI(KC_7),     LGUI(KC_8),     LGUI(KC_9),     LCTL(KC_2),     _______,
-        _______,        LGUI_T(KC_PDOT),LALT_T(KC_P4),  LSFT_T(KC_P5),  LCTL_T(KC_P6),  KC_MINS,        LCTL(KC_MINS),  LGUI(KC_4),     LGUI(KC_5),     LGUI(KC_6),     LCTL(KC_1),     _______,
-        _______,        KC_SLSH,        KC_P1,          KC_P2,          RALT_T(KC_P3),  KC_0,           LCTL(KC_0),     LGUI(KC_1),     LGUI(KC_2),     LGUI(KC_3),     LCTL(KC_GRV),   _______,
-                                                        _______,        _______,        _______,        _______,        _______,        KC_APP
+        S(ALGR(KC_GRV)), S(ALGR(KC_1)),   S(ALGR(KC_2)),   S(ALGR(KC_3)),   S(ALGR(KC_4)),   S(ALGR(KC_5)),   S(ALGR(KC_6)),   S(ALGR(KC_7)),   S(ALGR(KC_8)),   S(ALGR(KC_9)),   S(ALGR(KC_0)),   S(ALGR(KC_MINS)),
+        _______,         KC_PEQL,         KC_P7,           KC_P8,           KC_P9,           KC_PPLS,         RALT(KC_EQL),    RALT(KC_7),      RALT(KC_8),      RALT(KC_9),      RALT(KC_QUOT),   _______,
+        _______,         LGUI_T(KC_NUM),  LALT_T(KC_P4),   LSFT_T(KC_P5),   LCTL_T(KC_P6),   KC_PMNS,         RALT(KC_MINS),   RALT(KC_4),      RALT(KC_5),      RALT(KC_6),      LT(0, KC_DOT),   _______,
+        _______,         KC_PDOT,         KC_P1,           KC_P2,           RALT_T(KC_P3),   KC_P0,           RALT(KC_0),      RALT(KC_1),      RALT(KC_2),      RALT(KC_3),      RALT(KC_BSLS),   _______,
+                                                           _______,         _______,         _______,         KC_PENT,         _______,         KC_APP
     ),
 
     [LAYER_MOUSE] = LAYOUT(
-        S(ALGR(KC_GRV)),S(ALGR(KC_1)),  S(ALGR(KC_2)),  S(ALGR(KC_3)),  S(ALGR(KC_4)),  S(ALGR(KC_5)),  S(ALGR(KC_6)),  S(ALGR(KC_7)),  S(ALGR(KC_8)),  S(ALGR(KC_9)),  S(ALGR(KC_0)),  S(ALGR(KC_MINS)),
-        _______,        KC_WFWD,        KC_WH_L,        KC_MS_U,        KC_WH_R,        KC_WH_U,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        KC_WBAK,        KC_MS_L,        KC_MS_D,        KC_MS_R,        KC_WH_D,        _______,        KC_RCTL,        KC_RSFT,        KC_LALT,        KC_LGUI,        _______,
-        _______,        KC_WREF,        KC_BTN4,        KC_BTN5,        KC_BTN1,        KC_BTN2,        _______,        KC_RALT,        KC_ACL0,        KC_ACL1,        KC_ACL2,        _______,
-                                                        _______,        KC_BTN1,        KC_BTN2,        _______,        _______,        _______
+        S(ALGR(KC_GRV)), S(ALGR(KC_1)),   S(ALGR(KC_2)),   S(ALGR(KC_3)),   S(ALGR(KC_4)),   S(ALGR(KC_5)),   S(ALGR(KC_6)),   S(ALGR(KC_7)),   S(ALGR(KC_8)),   S(ALGR(KC_9)),   S(ALGR(KC_0)),   S(ALGR(KC_MINS)),
+        _______,         KC_WFWD,         KC_WH_L,         KC_MS_U,         KC_WH_R,         KC_WH_U,         _______,         _______,         _______,         _______,         _______,         _______,
+        _______,         KC_WBAK,         KC_MS_L,         KC_MS_D,         KC_MS_R,         KC_WH_D,         _______,         KC_RCTL,         KC_RSFT,         KC_LALT,         KC_LGUI,         _______,
+        _______,         KC_WREF,         KC_BTN4,         KC_BTN5,         KC_BTN1,         KC_BTN2,         _______,         KC_RALT,         KC_ACL0,         KC_ACL1,         KC_ACL2,         _______,
+                                                           KC_BTN3,         KC_BTN1,         KC_BTN2,         _______,         _______,         _______
     ),
 
     [LAYER_NAV_NUM] = LAYOUT(
-        S(KC_GRV),      S(KC_1),        S(KC_2),        S(KC_3),        S(KC_4),        S(KC_5),        S(KC_6),        S(KC_7),        S(KC_8),        S(KC_9),        S(KC_0),        S(KC_MINS),
-        _______,        KC_INS,         KC_HOME,        KC_UP,          KC_END,         KC_PGUP,        KC_EQL,         KC_7,           KC_8,           KC_9,           KC_QUOT,        KC_PPLS,
-        _______,        LGUI_T(KC_CAPS),KC_LEFT,        KC_DOWN,        KC_RGHT,        KC_PGDN,        KC_MINS,        KC_4,           KC_5,           KC_6,           TD(1),          S(KC_9),
-        _______,        LT(0, KC_Z),    LT(0, KC_X),    LT(0, KC_C),    LT(0, KC_V),    LT(0, KC_B),    KC_0,           KC_1,           KC_2,           KC_3,           KC_BSLS,        S(KC_0),
-                                                        M1,             _______,        M0,             KC_PENT,        KC_BSPC,        KC_DEL
+        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         KC_EQL,          KC_7,            KC_8,            KC_9,            KC_QUOT,         KC_PPLS,
+        _______,         LGUI_T(KC_CAPS), KC_LEFT,         KC_DOWN,         KC_RGHT,         KC_PGDN,         KC_MINS,         KC_4,            KC_5,            KC_6,            LT(0, KC_DOT),   S(KC_9),
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_0,            KC_1,            KC_2,            KC_3,            KC_BSLS,         S(KC_0),
+                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   KC_PENT,         KC_BSPC,         KC_DEL
     ),
 
     [LAYER_GUI_CTL_NUM] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         LCG(KC_6),       LCG(KC_7),       LCG(KC_8),       LCG(KC_9),       LCG(KC_0),       LCG(KC_MINS),
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         LCG(KC_EQL),     LCG(KC_7),       LCG(KC_8),       LCG(KC_9),       LCG(KC_QUOT),    LCG(KC_PPLS),
+        _______,         LGUI_T(KC_CAPS), LALT_T(KC_LEFT), LSFT_T(KC_DOWN), LCTL_T(KC_RGHT), KC_PGDN,         LCG(KC_MINS),    LCG(KC_4),       LCG(KC_5),       LCG(KC_6),       LCG(KC_PDOT),    S(KC_9),
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     LCG(KC_0),       LCG(KC_1),       LCG(KC_2),       LCG(KC_3),       LCG(KC_BSLS),    S(KC_0),
+                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   LCG(KC_PENT),    LCG(KC_BSPC),    LCG(KC_DEL)
     ),
 
     [LAYER_GUI_SFT_NUM] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         SGUI(KC_6),      SGUI(KC_7),      SGUI(KC_8),      SGUI(KC_9),      SGUI(KC_0),      SGUI(KC_MINS),
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         SGUI(KC_EQL),    SGUI(KC_7),      SGUI(KC_8),      SGUI(KC_9),      SGUI(KC_QUOT),   SGUI(KC_PPLS),
+        _______,         LGUI_T(KC_CAPS), LALT_T(KC_LEFT), LSFT_T(KC_DOWN), LCTL_T(KC_RGHT), KC_PGDN,         SGUI(KC_MINS),   SGUI(KC_4),      SGUI(KC_5),      SGUI(KC_6),      SGUI(KC_PDOT),   S(KC_9),
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     SGUI(KC_0),      SGUI(KC_1),      SGUI(KC_2),      SGUI(KC_3),      SGUI(KC_BSLS),   S(KC_0),
+                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   SGUI(KC_PENT),   SGUI(KC_BSPC),   SGUI(KC_DEL)
     ),
 
     [LAYER_GUI_ALT_NUM] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         LAG(KC_6),       LAG(KC_7),       LAG(KC_8),       LAG(KC_9),       LAG(KC_0),       LAG(KC_MINS),
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         LAG(KC_EQL),     LAG(KC_7),       LAG(KC_8),       LAG(KC_9),       LAG(KC_QUOT),    LAG(KC_PPLS),
+        _______,         LGUI_T(KC_CAPS), LALT_T(KC_LEFT), LSFT_T(KC_DOWN), LCTL_T(KC_RGHT), KC_PGDN,         LAG(KC_MINS),    LAG(KC_4),       LAG(KC_5),       LAG(KC_6),       LAG(KC_PDOT),    S(KC_9),
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     LAG(KC_0),       LAG(KC_1),       LAG(KC_2),       LAG(KC_3),       LAG(KC_BSLS),    S(KC_0),
+                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   LAG(KC_PENT),    LAG(KC_BSPC),    LAG(KC_DEL)
     ),
 
     [LAYER_GUI_NUM] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        LGUI(KC_GRV),    LGUI(KC_1),      LGUI(KC_2),      LGUI(KC_3),      LGUI(KC_4),      LGUI(KC_5),      LGUI(KC_6),      LGUI(KC_7),      LGUI(KC_8),      LGUI(KC_9),      LGUI(KC_0),      LGUI(KC_MINS),
+        _______,         S(KC_EQL),       KC_P7,           KC_P8,           KC_P9,           KC_EQL,          LCTL(KC_EQL),    LGUI(KC_7),      LGUI(KC_8),      LGUI(KC_9),      LCTL(KC_2),      _______,
+        _______,         LGUI_T(KC_PDOT), LALT_T(KC_P4),   LSFT_T(KC_P5),   LCTL_T(KC_P6),   KC_MINS,         LCTL(KC_MINS),   LGUI(KC_4),      LGUI(KC_5),      LGUI(KC_6),      LCTL(KC_1),      _______,
+        _______,         KC_SLSH,         KC_P1,           KC_P2,           RALT_T(KC_P3),   KC_0,            LCTL(KC_0),      LGUI(KC_1),      LGUI(KC_2),      LGUI(KC_3),      LCTL(KC_GRV),    _______,
+                                                           _______,         _______,         _______,         _______,         _______,         KC_APP
     ),
 
     [LAYER_GUI_CTL_NAV] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        LCG(KC_GRV),     LCG(KC_1),       LCG(KC_2),       LCG(KC_3),       LCG(KC_4),       LCG(KC_5),       S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
+        _______,         LCG(KC_INS),     LCG(KC_HOME),    LCG(KC_UP),      LCG(KC_END),     LCG(KC_PGUP),    KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
+        _______,         CW_TOGG,         LCG(KC_LEFT),    LCG(KC_DOWN),    LCG(KC_RGHT),    LCG(KC_PGDN),    KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
+                                                           LCG(KC_ESC),     LCG(KC_SPC),     LCG(KC_TAB),     _______,         _______,         _______
     ),
 
     [LAYER_GUI_SFT_NAV] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        SGUI(KC_GRV),    SGUI(KC_1),      SGUI(KC_2),      SGUI(KC_3),      SGUI(KC_4),      SGUI(KC_5),      S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
+        _______,         SGUI(KC_INS),    SGUI(KC_HOME),   SGUI(KC_UP),     SGUI(KC_END),    SGUI(KC_PGUP),   KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
+        _______,         CW_TOGG,         SGUI(KC_LEFT),   SGUI(KC_DOWN),   SGUI(KC_RGHT),   SGUI(KC_PGDN),   KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
+                                                           SGUI(KC_ESC),    SGUI(KC_SPC),    SGUI(KC_TAB),    _______,         _______,         _______
     ),
 
     [LAYER_GUI_ALT_NAV] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        LAG(KC_GRV),     LAG(KC_1),       LAG(KC_2),       LAG(KC_3),       LAG(KC_4),       LAG(KC_5),       S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
+        _______,         LAG(KC_INS),     LAG(KC_HOME),    LAG(KC_UP),      LAG(KC_END),     LAG(KC_PGUP),    KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
+        _______,         CW_TOGG,         LAG(KC_LEFT),    LAG(KC_DOWN),    LAG(KC_RGHT),    LAG(KC_PGDN),    KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
+                                                           LAG(KC_ESC),     LAG(KC_SPC),     LAG(KC_TAB),     _______,         _______,         _______
     ),
 
     [LAYER_GUI_NAV] = LAYOUT(
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
-                                                        _______,        _______,        _______,        _______,        _______,        _______
+        KC_GRV,          KC_1,            KC_2,            KC_3,            KC_4,            KC_5,            KC_6,            KC_7,            KC_8,            KC_9,            KC_0,            KC_MINS,
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
+        _______,         CW_TOGG,         KC_LEFT,         KC_DOWN,         KC_RGHT,         KC_PGDN,         KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
+        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
+                                                           LGUI(KC_ESC),    LGUI(KC_SPC),    LGUI(KC_TAB),    _______,         _______,         _______
     ),
 
-    [DYNAMIC_KEYMAP_LAYER_COUNT - 1] = LAYOUT(
-        KC_GRV,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINS,
-        KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_EQL,
-        KC_CAPS,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_H,           KC_J,           KC_K,           KC_L,           KC_SCLN,        KC_QUOT,
-        KC_LSFT,        KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,        KC_RSFT,
-                                                        KC_ESC,         KC_SPC,         KC_LCTL,        KC_ENT,         KC_BSPC,        KC_DEL
+    [LAYER_ADJUST] = LAYOUT(
+        QK_BOOT,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         QK_REBOOT,
+        _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,
+        _______,         _______,         _______,         _______,         _______,         _______,         _______,         CG_TOGG,         AC_TOGG,         _______,         _______,         _______,
+        QK_CLEAR_EEPROM, _______,         _______,         _______,         _______,         _______,         _______,         U_CM_TOGG,       U_PUNCTUATION_MOD_TOGG, _______,  _______,         _______,
+                                                           _______,         _______,         _______,         _______,         _______,         _______
+    ),
+
+    [LAYER_GAME] = LAYOUT(
+        KC_GRV,          KC_1,            KC_2,            KC_3,            KC_4,            KC_5,            KC_6,            KC_7,            KC_8,            KC_9,            KC_0,            KC_MINS,
+        KC_TAB,          KC_Q,            KC_W,            KC_E,            KC_R,            KC_T,            KC_Y,            KC_U,            KC_I,            KC_O,            KC_P,            KC_EQL,
+        KC_CAPS,         KC_A,            KC_S,            KC_D,            KC_F,            KC_G,            KC_H,            KC_J,            KC_K,            KC_L,            KC_SCLN,         KC_QUOT,
+        KC_LSFT,         KC_Z,            KC_X,            KC_C,            KC_V,            KC_B,            KC_N,            KC_M,            KC_COMM,         KC_DOT,          KC_SLSH,         KC_RSFT,
+                                                           KC_ESC,          KC_SPC,          KC_LCTL,         KC_ENT,          KC_BSPC,         KC_DEL
     )
 };
+
+// Hardcoded defaults for Vial's dynamic features. Vial stores tap dances and
+// combos in EEPROM only, and the EEPROM is invalidated on every flash (the
+// Vial magic is derived from BUILD_ID, which is random per build). These
+// tables are written back to the dynamic keymap after each reset so the
+// keyboard is fully functional without loading a .vil file.
+
+// {on_tap, on_hold, on_double_tap, on_tap_hold, tapping_term}
+static const vial_tap_dance_entry_t default_tap_dances[] = {
+    [0]  = {KC_LBRC,     KC_RBRC,       U_BRACKETS,      KC_NO, 200},
+    [1]  = {S(KC_QUOT),  LCTL(KC_LALT), U_DOUBLE_QUOTE,  KC_NO, 200},
+    [2]  = {KC_HOME,     KC_PGUP,       KC_NO,           KC_NO, 200},
+    [3]  = {KC_END,      KC_PGDN,       KC_NO,           KC_NO, 200},
+    [4]  = {S(KC_9),     S(KC_0),       U_PARENTHESES,   KC_NO, 200},
+    [11] = {LGUI(KC_1),  LGUI(KC_6),    KC_NO,           KC_NO, 200},
+    [12] = {LGUI(KC_2),  LGUI(KC_7),    KC_NO,           KC_NO, 200},
+    [13] = {LGUI(KC_3),  LGUI(KC_8),    KC_NO,           KC_NO, 200},
+    [14] = {LGUI(KC_4),  LGUI(KC_9),    KC_NO,           KC_NO, 200},
+    [15] = {LGUI(KC_5),  LGUI(KC_0),    KC_NO,           KC_NO, 200},
+    [16] = {LGUI(KC_Q),  KC_LGUI,       KC_NO,           KC_NO, 200},
+};
+
+// {{up to 4 input keycodes as on the base layer}, output}
+static const vial_combo_entry_t default_combos[] = {
+    {{LCTL_T(KC_F), LT(11, KC_G), KC_NO, KC_NO}, U_SELECT_WORD},
+    {{LT(8, KC_R), KC_T, KC_NO, KC_NO}, U_SELECT_WORD_BACK},
+    {{RALT_T(KC_V), KC_B, KC_NO, KC_NO}, U_JOIN_LN},
+    {{KC_N, RALT_T(KC_M), KC_NO, KC_NO}, KC_0},
+    {{LT(15, KC_H), RCTL_T(KC_J), KC_NO, KC_NO}, KC_MINS},
+    {{KC_Y, LT(12, KC_U), KC_NO, KC_NO}, KC_EQL},
+    {{LT(8, KC_R), LCTL_T(KC_F), KC_NO, KC_NO}, KC_GRV},
+    {{LT(12, KC_U), RCTL_T(KC_J), KC_NO, KC_NO}, KC_P},
+    {{LT(10, KC_W), LALT_T(KC_S), KC_NO, KC_NO}, S(KC_9)},
+    {{LT(9, KC_E), LSFT_T(KC_D), KC_NO, KC_NO}, S(KC_0)},
+    {{LT(13, KC_I), RSFT_T(KC_K), KC_NO, KC_NO}, KC_LBRC},
+    {{LT(14, KC_O), LALT_T(KC_L), KC_NO, KC_NO}, KC_RBRC},
+    {{LT(1, KC_SPC), LT(3, KC_TAB), KC_NO, KC_NO}, KC_ENT},
+    {{LT(5, KC_ESC), LT(1, KC_SPC), KC_NO, KC_NO}, KC_BSPC},
+    {{LT(10, KC_W), LT(9, KC_E), LT(8, KC_R), KC_NO}, U_SRCHSEL},
+    {{KC_X, LSFT_T(KC_C), RALT_T(KC_V), KC_NO}, U_USERNAME},
+    {{LT(12, KC_U), LT(13, KC_I), LT(14, KC_O), KC_NO}, U_AND_OPERATOR},
+    {{RALT_T(KC_M), RSFT_T(KC_COMM), KC_DOT, KC_NO}, U_ARROW},
+    {{KC_N, RALT_T(KC_M), RSFT_T(KC_COMM), KC_NO}, U_NOT_EQUAL},
+    {{LT(15, KC_H), RCTL_T(KC_J), RSFT_T(KC_K), KC_NO}, U_DOUBLE_MINUS},
+    {{KC_Y, LT(12, KC_U), LT(13, KC_I), KC_NO}, U_EQUAL},
+    {{LALT_T(KC_S), KC_X, KC_NO, KC_NO}, U_UP_DIRECTORY},
+    {{LALT_T(KC_L), KC_DOT, KC_NO, KC_NO}, U_THREE_DOTS},
+    {{LGUI_T(KC_A), KC_Z, KC_NO, KC_NO}, QK_LAYER_LOCK},
+    {{RGUI_T(KC_SCLN), KC_SLSH, KC_NO, KC_NO}, U_DOUBLE_SLASH},
+    {{LSFT_T(KC_D), LSFT_T(KC_C), KC_NO, KC_NO}, OSM(MOD_LSFT)},
+    {{LCTL_T(KC_F), RALT_T(KC_V), KC_NO, KC_NO}, OSM(MOD_RALT)},
+    {{RCTL_T(KC_J), RALT_T(KC_M), KC_NO, KC_NO}, OSM(MOD_RALT)},
+    {{RSFT_T(KC_K), RSFT_T(KC_COMM), KC_NO, KC_NO}, OSM(MOD_RSFT)},
+    {{LT(10, KC_W), LALT_T(KC_S), LT(9, KC_E), LSFT_T(KC_D)}, U_PARENTHESES},
+    {{LT(13, KC_I), RSFT_T(KC_K), LT(14, KC_O), LALT_T(KC_L)}, U_BRACKETS},
+    {{LT(4, KC_ENT), LT(2, KC_BSPC), KC_NO, KC_NO}, QK_ALT_REPEAT_KEY},
+    {{LT(2, KC_BSPC), LT(6, KC_DEL), KC_NO, KC_NO}, QK_REPEAT_KEY},
+    {{KC_T, LT(11, KC_G), KC_NO, KC_NO}, S(KC_GRV)},
+    {{KC_Y, LT(15, KC_H), KC_NO, KC_NO}, S(KC_P)},
+    {{KC_Q, LGUI_T(KC_A), KC_NO, KC_NO}, U_DOUBLE_BACKTICK},
+    {{KC_P, RGUI_T(KC_SCLN), KC_NO, KC_NO}, KC_QUOT},
+    {{LT(11, KC_G), KC_B, KC_NO, KC_NO}, S(KC_LBRC)},
+    {{LT(15, KC_H), KC_N, KC_NO, KC_NO}, S(KC_RBRC)},
+    {{LT(11, KC_G), KC_B, LT(15, KC_H), KC_N}, U_BRACES},
+    {{LSFT_T(KC_C), RALT_T(KC_V), KC_B, KC_NO}, U_LOWER_THAN_OR_EQUAL},
+    {{LT(9, KC_E), LT(8, KC_R), KC_T, KC_NO}, U_LEFT_SHIFT},
+    {{OSM(MOD_LSFT), OSM(MOD_RALT), KC_NO, KC_NO}, OSM(MOD_RSFT | MOD_RALT)},
+    {{RCTL_T(KC_J), RALT_T(KC_M), RSFT_T(KC_K), RSFT_T(KC_COMM)}, OSM(MOD_RSFT | MOD_RALT)},
+    {{KC_DOT, KC_SLSH, KC_NO, KC_NO}, U_CURRENT_DIRECTORY},
+    {{LT(5, KC_ESC), LT(6, KC_DEL), KC_NO, KC_NO}, MO(LAYER_ADJUST)},
+    {{LSFT_T(KC_D), LCTL_T(KC_F), LT(11, KC_G), KC_NO}, U_SELECT_LINE},
+    {{KC_GRV, KC_MINS, KC_NO, KC_NO}, TG(LAYER_GAME)},
+};
+
+static void write_vial_default_tap_dances(void) {
+    for (size_t i = 0; i < ARRAY_SIZE(default_tap_dances); ++i) {
+        const vial_tap_dance_entry_t *entry = &default_tap_dances[i];
+        if (entry->on_tap == KC_NO && entry->on_hold == KC_NO && entry->on_double_tap == KC_NO && entry->on_tap_hold == KC_NO) {
+            continue;
+        }
+        dynamic_keymap_set_tap_dance(i, entry);
+    }
+}
+
+static void write_vial_default_combos(void) {
+    for (size_t i = 0; i < ARRAY_SIZE(default_combos); ++i) {
+        dynamic_keymap_set_combo(i, &default_combos[i]);
+    }
+}
+
+// Settings that qmk_settings_reset() does not restore to the wanted values.
+// The rest (tapping term, combo term, oneshot, ...) come from config.h.
+static void write_qmk_settings_defaults(void) {
+    const uint8_t  enabled        = 1;
+    const uint16_t quick_tap_term = 0;
+    const uint16_t flow_tap_term  = 10;
+    const uint32_t magic          = 1 << 7; // NKRO
+
+    qmk_settings_set(22, &enabled, sizeof(enabled));               // permissive hold
+    qmk_settings_set(26, &enabled, sizeof(enabled));               // chordal hold
+    qmk_settings_set(25, &quick_tap_term, sizeof(quick_tap_term));
+    qmk_settings_set(27, &flow_tap_term, sizeof(flow_tap_term));
+    qmk_settings_set(21, &magic, sizeof(magic));
+}
+
+static bool vial_eeprom_was_reset = false;
+
+// Runs at the start of via_init(), before the EEPROM validity check: when the
+// magic is stale (every new build), via_init() resets the dynamic keymap, so
+// our defaults must be written back afterwards (see keyboard_post_init_user).
+void via_init_kb(void) {
+    if (!via_eeprom_is_valid()) {
+        vial_eeprom_was_reset = true;
+    }
+}
+
+static void restore_vial_defaults(void) {
+    write_vial_default_tap_dances();
+    write_vial_default_combos();
+    write_qmk_settings_defaults();
+    // Reload Vial's RAM caches (combos, key overrides, ...) from EEPROM.
+    vial_init();
+}
+
+// Alt Repeat Key: make hjkl (Colemak: on KC_H/KC_J/KC_K/KC_L) repeat
+// themselves so alternating navigation does not produce magic alternates.
+uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
+    switch (get_tap_keycode(keycode)) {
+        case KC_H:
+        case KC_J:
+        case KC_K:
+        case KC_L:
+            if (mods == 0) {
+                return get_tap_keycode(keycode);
+            }
+            break;
+    }
+    return KC_TRNS;
+}
+
+// Combos are defined with base layer keycodes, except on the game layer where
+// grave+minus toggles back to the base layer.
+uint8_t combo_ref_from_layer(uint8_t layer) {
+    return layer == LAYER_GAME ? LAYER_GAME : COMBO_ONLY_FROM_LAYER;
+}
 
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
     LAYOUT(
@@ -549,6 +702,25 @@ bool process_select_word_user(uint16_t keycode, keyrecord_t *record) {
             select_word_unregister();
         }
     }
+    return true;
+}
+
+// Select the current line and replace it with the login, then move to the
+// password field and submit. Replaces the Vial dynamic macros M0/M1.
+bool process_login_macros(uint16_t keycode, keyrecord_t *record) {
+    if (!record->event.pressed) {
+        return true;
+    }
+
+    switch (keycode) {
+        case U_LOGIN_ADMIN:
+            SEND_STRING(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) "admin\tadmin" SS_TAP(X_ENTER));
+            return false;
+        case U_LOGIN_DEMO:
+            SEND_STRING(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) "demo\tdemo" SS_TAP(X_ENTER));
+            return false;
+    }
+
     return true;
 }
 
@@ -1201,6 +1373,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_joinln(keycode, record, U_JOIN_LN)) {
         return false;
     }
+    if (!process_login_macros(keycode, record)) {
+        return false;
+    }
     if (!process_macros_user(keycode, record)) {
         return false;
     }
@@ -1235,6 +1410,10 @@ void keyboard_post_init_user(void) {
 
     if (user_config.not_initialized) {
         eeconfig_init_user();
+    }
+
+    if (vial_eeprom_was_reset) {
+        restore_vial_defaults();
     }
 }
 

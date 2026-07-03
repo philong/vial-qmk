@@ -7,11 +7,16 @@
 #define VIAL_UNLOCK_COMBO_ROWS { 0, 0 }
 #define VIAL_UNLOCK_COMBO_COLS { 0, 1 }
 
-#define DYNAMIC_KEYMAP_LAYER_COUNT 20
+#define DYNAMIC_KEYMAP_LAYER_COUNT 18
 #define DYNAMIC_KEYMAP_MACRO_COUNT 64
 #define VIAL_COMBO_ENTRIES DYNAMIC_KEYMAP_MACRO_COUNT
 
 #define COMBO_ONLY_FROM_LAYER 0
+
+// Defaults restored by qmk_settings_reset() after each flash (Vial
+// invalidates its EEPROM on every new build).
+#define TAPPING_TERM 240
+#define COMBO_TERM 50
 
 #define TAP_CODE_DELAY 5
 #define SS_TAP_CODE_DELAY SS_DELAY(TAP_CODE_DELAY)
