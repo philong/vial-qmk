@@ -19,13 +19,7 @@ enum layers {
     LAYER_SYM2,
     LAYER_MOUSE,
     LAYER_NAV_NUM,
-    LAYER_GUI_CTL_NUM,
-    LAYER_GUI_SFT_NUM,
-    LAYER_GUI_ALT_NUM,
     LAYER_GUI_NUM,
-    LAYER_GUI_CTL_NAV,
-    LAYER_GUI_SFT_NAV,
-    LAYER_GUI_ALT_NAV,
     LAYER_GUI_NAV,
     LAYER_ADJUST,
     LAYER_GAME,
@@ -77,18 +71,14 @@ enum user_keycode {
     U_LOGIN_DEMO,
 };
 
-#ifndef LCG
-    #define LCG(kc) LCTL(LGUI(kc))
-#endif
-
 #define _______ KC_TRNS
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT(
         TD(16),          TD(11),          TD(12),          TD(13),          TD(14),          TD(15),          KC_LEFT,         KC_DOWN,         KC_UP,           KC_RGHT,         TD(2),           TD(3),
-        TD(4),           KC_Q,            LT(10, KC_W),    LT(9, KC_E),     LT(8, KC_R),     KC_T,            KC_Y,            LT(12, KC_U),    LT(13, KC_I),    LT(14, KC_O),    KC_P,            TD(0),
-        TD(1),           LGUI_T(KC_A),    LALT_T(KC_S),    LSFT_T(KC_D),    LCTL_T(KC_F),    LT(11, KC_G),    LT(15, KC_H),    RCTL_T(KC_J),    RSFT_T(KC_K),    LALT_T(KC_L),    RGUI_T(KC_SCLN), KC_QUOT,
+        TD(4),           KC_Q,            LT(LAYER_GUI_NUM, KC_W), LT(LAYER_GUI_NUM, KC_E), LT(LAYER_GUI_NUM, KC_R), KC_T, KC_Y,     LT(LAYER_GUI_NAV, KC_U), LT(LAYER_GUI_NAV, KC_I), LT(LAYER_GUI_NAV, KC_O), KC_P,  TD(0),
+        TD(1),           LGUI_T(KC_A),    LALT_T(KC_S),    LSFT_T(KC_D),    LCTL_T(KC_F),    LT(LAYER_GUI_NUM, KC_G), LT(LAYER_GUI_NAV, KC_H), RCTL_T(KC_J), RSFT_T(KC_K), LALT_T(KC_L), RGUI_T(KC_SCLN), KC_QUOT,
         LSFT_T(KC_MINS), KC_Z,            KC_X,            LSFT_T(KC_C),    RALT_T(KC_V),    KC_B,            KC_N,            RALT_T(KC_M),    RSFT_T(KC_COMM), KC_DOT,          KC_SLSH,         LT(0, KC_MINS),
                                                            LT(5, KC_ESC),   LT(1, KC_SPC),   LT(3, KC_TAB),   LT(4, KC_ENT),   LT(2, KC_BSPC),  LT(6, KC_DEL)
     ),
@@ -149,68 +139,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                            U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   KC_PENT,         KC_BSPC,         KC_DEL
     ),
 
-    [LAYER_GUI_CTL_NUM] = LAYOUT(
-        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         LCG(KC_6),       LCG(KC_7),       LCG(KC_8),       LCG(KC_9),       LCG(KC_0),       LCG(KC_MINS),
-        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         LCG(KC_EQL),     LCG(KC_7),       LCG(KC_8),       LCG(KC_9),       LCG(KC_QUOT),    LCG(KC_PPLS),
-        _______,         LGUI_T(KC_CAPS), LALT_T(KC_LEFT), LSFT_T(KC_DOWN), LCTL_T(KC_RGHT), KC_PGDN,         LCG(KC_MINS),    LCG(KC_4),       LCG(KC_5),       LCG(KC_6),       LCG(KC_PDOT),    S(KC_9),
-        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     LCG(KC_0),       LCG(KC_1),       LCG(KC_2),       LCG(KC_3),       LCG(KC_BSLS),    S(KC_0),
-                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   LCG(KC_PENT),    LCG(KC_BSPC),    LCG(KC_DEL)
-    ),
-
-    [LAYER_GUI_SFT_NUM] = LAYOUT(
-        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         SGUI(KC_6),      SGUI(KC_7),      SGUI(KC_8),      SGUI(KC_9),      SGUI(KC_0),      SGUI(KC_MINS),
-        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         SGUI(KC_EQL),    SGUI(KC_7),      SGUI(KC_8),      SGUI(KC_9),      SGUI(KC_QUOT),   SGUI(KC_PPLS),
-        _______,         LGUI_T(KC_CAPS), LALT_T(KC_LEFT), LSFT_T(KC_DOWN), LCTL_T(KC_RGHT), KC_PGDN,         SGUI(KC_MINS),   SGUI(KC_4),      SGUI(KC_5),      SGUI(KC_6),      SGUI(KC_PDOT),   S(KC_9),
-        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     SGUI(KC_0),      SGUI(KC_1),      SGUI(KC_2),      SGUI(KC_3),      SGUI(KC_BSLS),   S(KC_0),
-                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   SGUI(KC_PENT),   SGUI(KC_BSPC),   SGUI(KC_DEL)
-    ),
-
-    [LAYER_GUI_ALT_NUM] = LAYOUT(
-        S(KC_GRV),       S(KC_1),         S(KC_2),         S(KC_3),         S(KC_4),         S(KC_5),         LAG(KC_6),       LAG(KC_7),       LAG(KC_8),       LAG(KC_9),       LAG(KC_0),       LAG(KC_MINS),
-        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         LAG(KC_EQL),     LAG(KC_7),       LAG(KC_8),       LAG(KC_9),       LAG(KC_QUOT),    LAG(KC_PPLS),
-        _______,         LGUI_T(KC_CAPS), LALT_T(KC_LEFT), LSFT_T(KC_DOWN), LCTL_T(KC_RGHT), KC_PGDN,         LAG(KC_MINS),    LAG(KC_4),       LAG(KC_5),       LAG(KC_6),       LAG(KC_PDOT),    S(KC_9),
-        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     LAG(KC_0),       LAG(KC_1),       LAG(KC_2),       LAG(KC_3),       LAG(KC_BSLS),    S(KC_0),
-                                                           U_LOGIN_DEMO,    _______,         U_LOGIN_ADMIN,   LAG(KC_PENT),    LAG(KC_BSPC),    LAG(KC_DEL)
-    ),
-
+    // Held via W/E/R/G: GUI (+Alt/Shift/Ctrl for W/E/R) is registered as real
+    // mods by process_gui_layers(), so the plain keys below combine with them.
     [LAYER_GUI_NUM] = LAYOUT(
-        LGUI(KC_GRV),    LGUI(KC_1),      LGUI(KC_2),      LGUI(KC_3),      LGUI(KC_4),      LGUI(KC_5),      LGUI(KC_6),      LGUI(KC_7),      LGUI(KC_8),      LGUI(KC_9),      LGUI(KC_0),      LGUI(KC_MINS),
-        _______,         S(KC_EQL),       KC_P7,           KC_P8,           KC_P9,           KC_EQL,          LCTL(KC_EQL),    LGUI(KC_7),      LGUI(KC_8),      LGUI(KC_9),      LCTL(KC_2),      _______,
-        _______,         LGUI_T(KC_PDOT), LALT_T(KC_P4),   LSFT_T(KC_P5),   LCTL_T(KC_P6),   KC_MINS,         LCTL(KC_MINS),   LGUI(KC_4),      LGUI(KC_5),      LGUI(KC_6),      LCTL(KC_1),      _______,
-        _______,         KC_SLSH,         KC_P1,           KC_P2,           RALT_T(KC_P3),   KC_0,            LCTL(KC_0),      LGUI(KC_1),      LGUI(KC_2),      LGUI(KC_3),      LCTL(KC_GRV),    _______,
-                                                           _______,         _______,         _______,         _______,         _______,         KC_APP
+        _______,         _______,         _______,         _______,         _______,         _______,         KC_6,            KC_7,            KC_8,            KC_9,            KC_0,            KC_MINS,
+        _______,         _______,         _______,         _______,         _______,         _______,         KC_EQL,          KC_7,            KC_8,            KC_9,            KC_QUOT,         KC_PPLS,
+        _______,         _______,         _______,         _______,         _______,         _______,         KC_MINS,         KC_4,            KC_5,            KC_6,            KC_PDOT,         S(KC_9),
+        _______,         _______,         _______,         _______,         _______,         _______,         KC_0,            KC_1,            KC_2,            KC_3,            KC_BSLS,         S(KC_0),
+                                                           _______,         _______,         _______,         KC_PENT,         KC_BSPC,         KC_DEL
     ),
 
-    [LAYER_GUI_CTL_NAV] = LAYOUT(
-        LCG(KC_GRV),     LCG(KC_1),       LCG(KC_2),       LCG(KC_3),       LCG(KC_4),       LCG(KC_5),       S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
-        _______,         LCG(KC_INS),     LCG(KC_HOME),    LCG(KC_UP),      LCG(KC_END),     LCG(KC_PGUP),    KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
-        _______,         CW_TOGG,         LCG(KC_LEFT),    LCG(KC_DOWN),    LCG(KC_RGHT),    LCG(KC_PGDN),    KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
-        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
-                                                           LCG(KC_ESC),     LCG(KC_SPC),     LCG(KC_TAB),     _______,         _______,         _______
-    ),
-
-    [LAYER_GUI_SFT_NAV] = LAYOUT(
-        SGUI(KC_GRV),    SGUI(KC_1),      SGUI(KC_2),      SGUI(KC_3),      SGUI(KC_4),      SGUI(KC_5),      S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
-        _______,         SGUI(KC_INS),    SGUI(KC_HOME),   SGUI(KC_UP),     SGUI(KC_END),    SGUI(KC_PGUP),   KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
-        _______,         CW_TOGG,         SGUI(KC_LEFT),   SGUI(KC_DOWN),   SGUI(KC_RGHT),   SGUI(KC_PGDN),   KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
-        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
-                                                           SGUI(KC_ESC),    SGUI(KC_SPC),    SGUI(KC_TAB),    _______,         _______,         _______
-    ),
-
-    [LAYER_GUI_ALT_NAV] = LAYOUT(
-        LAG(KC_GRV),     LAG(KC_1),       LAG(KC_2),       LAG(KC_3),       LAG(KC_4),       LAG(KC_5),       S(KC_6),         S(KC_7),         S(KC_8),         S(KC_9),         S(KC_0),         S(KC_MINS),
-        _______,         LAG(KC_INS),     LAG(KC_HOME),    LAG(KC_UP),      LAG(KC_END),     LAG(KC_PGUP),    KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
-        _______,         CW_TOGG,         LAG(KC_LEFT),    LAG(KC_DOWN),    LAG(KC_RGHT),    LAG(KC_PGDN),    KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
-        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
-                                                           LAG(KC_ESC),     LAG(KC_SPC),     LAG(KC_TAB),     _______,         _______,         _______
-    ),
-
+    // Held via U/I/O/H: GUI (+Ctrl/Shift/Alt for U/I/O) is registered as real
+    // mods by process_gui_layers(), so the plain keys below combine with them.
     [LAYER_GUI_NAV] = LAYOUT(
-        KC_GRV,          KC_1,            KC_2,            KC_3,            KC_4,            KC_5,            KC_6,            KC_7,            KC_8,            KC_9,            KC_0,            KC_MINS,
-        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         KC_VOLU,         KC_MPLY,         KC_MPRV,         KC_MNXT,         KC_BRIU,         _______,
-        _______,         CW_TOGG,         KC_LEFT,         KC_DOWN,         KC_RGHT,         KC_PGDN,         KC_VOLD,         KC_RCTL,         KC_RSFT,         KC_LALT,         RGUI_T(KC_BRID), _______,
-        _______,         LT(0, KC_Z),     LT(0, KC_X),     LT(0, KC_C),     LT(0, KC_V),     LT(0, KC_B),     KC_MUTE,         KC_RALT,         QK_REPEAT_KEY,   QK_ALT_REPEAT_KEY, KC_SLEP,       _______,
-                                                           LGUI(KC_ESC),    LGUI(KC_SPC),    LGUI(KC_TAB),    _______,         _______,         _______
+        KC_GRV,          KC_1,            KC_2,            KC_3,            KC_4,            KC_5,            _______,         _______,         _______,         _______,         _______,         _______,
+        _______,         KC_INS,          KC_HOME,         KC_UP,           KC_END,          KC_PGUP,         _______,         _______,         _______,         _______,         _______,         _______,
+        _______,         CW_TOGG,         KC_LEFT,         KC_DOWN,         KC_RGHT,         KC_PGDN,         _______,         _______,         _______,         _______,         _______,         _______,
+        _______,         KC_Z,            KC_X,            KC_C,            KC_V,            KC_B,            _______,         _______,         _______,         _______,         _______,         _______,
+                                                           KC_ESC,          KC_SPC,          KC_TAB,          _______,         _______,         _______
     ),
 
     [LAYER_ADJUST] = LAYOUT(
@@ -253,27 +199,27 @@ static const vial_tap_dance_entry_t default_tap_dances[] = {
 
 // {{up to 4 input keycodes as on the base layer}, output}
 static const vial_combo_entry_t default_combos[] = {
-    {{LCTL_T(KC_F), LT(11, KC_G), KC_NO, KC_NO}, U_SELECT_WORD},
-    {{LT(8, KC_R), KC_T, KC_NO, KC_NO}, U_SELECT_WORD_BACK},
+    {{LCTL_T(KC_F), LT(LAYER_GUI_NUM, KC_G), KC_NO, KC_NO}, U_SELECT_WORD},
+    {{LT(LAYER_GUI_NUM, KC_R), KC_T, KC_NO, KC_NO}, U_SELECT_WORD_BACK},
     {{RALT_T(KC_V), KC_B, KC_NO, KC_NO}, U_JOIN_LN},
     {{KC_N, RALT_T(KC_M), KC_NO, KC_NO}, KC_0},
-    {{LT(15, KC_H), RCTL_T(KC_J), KC_NO, KC_NO}, KC_MINS},
-    {{KC_Y, LT(12, KC_U), KC_NO, KC_NO}, KC_EQL},
-    {{LT(8, KC_R), LCTL_T(KC_F), KC_NO, KC_NO}, KC_GRV},
-    {{LT(12, KC_U), RCTL_T(KC_J), KC_NO, KC_NO}, KC_P},
-    {{LT(10, KC_W), LALT_T(KC_S), KC_NO, KC_NO}, S(KC_9)},
-    {{LT(9, KC_E), LSFT_T(KC_D), KC_NO, KC_NO}, S(KC_0)},
-    {{LT(13, KC_I), RSFT_T(KC_K), KC_NO, KC_NO}, KC_LBRC},
-    {{LT(14, KC_O), LALT_T(KC_L), KC_NO, KC_NO}, KC_RBRC},
+    {{LT(LAYER_GUI_NAV, KC_H), RCTL_T(KC_J), KC_NO, KC_NO}, KC_MINS},
+    {{KC_Y, LT(LAYER_GUI_NAV, KC_U), KC_NO, KC_NO}, KC_EQL},
+    {{LT(LAYER_GUI_NUM, KC_R), LCTL_T(KC_F), KC_NO, KC_NO}, KC_GRV},
+    {{LT(LAYER_GUI_NAV, KC_U), RCTL_T(KC_J), KC_NO, KC_NO}, KC_P},
+    {{LT(LAYER_GUI_NUM, KC_W), LALT_T(KC_S), KC_NO, KC_NO}, S(KC_9)},
+    {{LT(LAYER_GUI_NUM, KC_E), LSFT_T(KC_D), KC_NO, KC_NO}, S(KC_0)},
+    {{LT(LAYER_GUI_NAV, KC_I), RSFT_T(KC_K), KC_NO, KC_NO}, KC_LBRC},
+    {{LT(LAYER_GUI_NAV, KC_O), LALT_T(KC_L), KC_NO, KC_NO}, KC_RBRC},
     {{LT(1, KC_SPC), LT(3, KC_TAB), KC_NO, KC_NO}, KC_ENT},
     {{LT(5, KC_ESC), LT(1, KC_SPC), KC_NO, KC_NO}, KC_BSPC},
-    {{LT(10, KC_W), LT(9, KC_E), LT(8, KC_R), KC_NO}, U_SRCHSEL},
+    {{LT(LAYER_GUI_NUM, KC_W), LT(LAYER_GUI_NUM, KC_E), LT(LAYER_GUI_NUM, KC_R), KC_NO}, U_SRCHSEL},
     {{KC_X, LSFT_T(KC_C), RALT_T(KC_V), KC_NO}, U_USERNAME},
-    {{LT(12, KC_U), LT(13, KC_I), LT(14, KC_O), KC_NO}, U_AND_OPERATOR},
+    {{LT(LAYER_GUI_NAV, KC_U), LT(LAYER_GUI_NAV, KC_I), LT(LAYER_GUI_NAV, KC_O), KC_NO}, U_AND_OPERATOR},
     {{RALT_T(KC_M), RSFT_T(KC_COMM), KC_DOT, KC_NO}, U_ARROW},
     {{KC_N, RALT_T(KC_M), RSFT_T(KC_COMM), KC_NO}, U_NOT_EQUAL},
-    {{LT(15, KC_H), RCTL_T(KC_J), RSFT_T(KC_K), KC_NO}, U_DOUBLE_MINUS},
-    {{KC_Y, LT(12, KC_U), LT(13, KC_I), KC_NO}, U_EQUAL},
+    {{LT(LAYER_GUI_NAV, KC_H), RCTL_T(KC_J), RSFT_T(KC_K), KC_NO}, U_DOUBLE_MINUS},
+    {{KC_Y, LT(LAYER_GUI_NAV, KC_U), LT(LAYER_GUI_NAV, KC_I), KC_NO}, U_EQUAL},
     {{LALT_T(KC_S), KC_X, KC_NO, KC_NO}, U_UP_DIRECTORY},
     {{LALT_T(KC_L), KC_DOT, KC_NO, KC_NO}, U_THREE_DOTS},
     {{LGUI_T(KC_A), KC_Z, KC_NO, KC_NO}, QK_LAYER_LOCK},
@@ -282,24 +228,24 @@ static const vial_combo_entry_t default_combos[] = {
     {{LCTL_T(KC_F), RALT_T(KC_V), KC_NO, KC_NO}, OSM(MOD_RALT)},
     {{RCTL_T(KC_J), RALT_T(KC_M), KC_NO, KC_NO}, OSM(MOD_RALT)},
     {{RSFT_T(KC_K), RSFT_T(KC_COMM), KC_NO, KC_NO}, OSM(MOD_RSFT)},
-    {{LT(10, KC_W), LALT_T(KC_S), LT(9, KC_E), LSFT_T(KC_D)}, U_PARENTHESES},
-    {{LT(13, KC_I), RSFT_T(KC_K), LT(14, KC_O), LALT_T(KC_L)}, U_BRACKETS},
+    {{LT(LAYER_GUI_NUM, KC_W), LALT_T(KC_S), LT(LAYER_GUI_NUM, KC_E), LSFT_T(KC_D)}, U_PARENTHESES},
+    {{LT(LAYER_GUI_NAV, KC_I), RSFT_T(KC_K), LT(LAYER_GUI_NAV, KC_O), LALT_T(KC_L)}, U_BRACKETS},
     {{LT(4, KC_ENT), LT(2, KC_BSPC), KC_NO, KC_NO}, QK_ALT_REPEAT_KEY},
     {{LT(2, KC_BSPC), LT(6, KC_DEL), KC_NO, KC_NO}, QK_REPEAT_KEY},
-    {{KC_T, LT(11, KC_G), KC_NO, KC_NO}, S(KC_GRV)},
-    {{KC_Y, LT(15, KC_H), KC_NO, KC_NO}, S(KC_P)},
+    {{KC_T, LT(LAYER_GUI_NUM, KC_G), KC_NO, KC_NO}, S(KC_GRV)},
+    {{KC_Y, LT(LAYER_GUI_NAV, KC_H), KC_NO, KC_NO}, S(KC_P)},
     {{KC_Q, LGUI_T(KC_A), KC_NO, KC_NO}, U_DOUBLE_BACKTICK},
     {{KC_P, RGUI_T(KC_SCLN), KC_NO, KC_NO}, KC_QUOT},
-    {{LT(11, KC_G), KC_B, KC_NO, KC_NO}, S(KC_LBRC)},
-    {{LT(15, KC_H), KC_N, KC_NO, KC_NO}, S(KC_RBRC)},
-    {{LT(11, KC_G), KC_B, LT(15, KC_H), KC_N}, U_BRACES},
+    {{LT(LAYER_GUI_NUM, KC_G), KC_B, KC_NO, KC_NO}, S(KC_LBRC)},
+    {{LT(LAYER_GUI_NAV, KC_H), KC_N, KC_NO, KC_NO}, S(KC_RBRC)},
+    {{LT(LAYER_GUI_NUM, KC_G), KC_B, LT(LAYER_GUI_NAV, KC_H), KC_N}, U_BRACES},
     {{LSFT_T(KC_C), RALT_T(KC_V), KC_B, KC_NO}, U_LOWER_THAN_OR_EQUAL},
-    {{LT(9, KC_E), LT(8, KC_R), KC_T, KC_NO}, U_LEFT_SHIFT},
+    {{LT(LAYER_GUI_NUM, KC_E), LT(LAYER_GUI_NUM, KC_R), KC_T, KC_NO}, U_LEFT_SHIFT},
     {{OSM(MOD_LSFT), OSM(MOD_RALT), KC_NO, KC_NO}, OSM(MOD_RSFT | MOD_RALT)},
     {{RCTL_T(KC_J), RALT_T(KC_M), RSFT_T(KC_K), RSFT_T(KC_COMM)}, OSM(MOD_RSFT | MOD_RALT)},
     {{KC_DOT, KC_SLSH, KC_NO, KC_NO}, U_CURRENT_DIRECTORY},
     {{LT(5, KC_ESC), LT(6, KC_DEL), KC_NO, KC_NO}, MO(LAYER_ADJUST)},
-    {{LSFT_T(KC_D), LCTL_T(KC_F), LT(11, KC_G), KC_NO}, U_SELECT_LINE},
+    {{LSFT_T(KC_D), LCTL_T(KC_F), LT(LAYER_GUI_NUM, KC_G), KC_NO}, U_SELECT_LINE},
     {{KC_GRV, KC_MINS, KC_NO, KC_NO}, TG(LAYER_GAME)},
 };
 
@@ -1240,15 +1186,47 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
     return true;
 }
 
-bool process_gui_layer(uint16_t keycode, keyrecord_t *record) {
-    if (!IS_QK_LAYER_TAP(keycode) || QK_LAYER_TAP_GET_LAYER(keycode) != LAYER_GUI_NAV || record->tap.count != 0) {
+// The two GUI layers are shared by several layer-tap keys; which GUI+modifier
+// combination gets held as real mods depends on the trigger's tap keycode.
+uint8_t gui_layer_mods(uint16_t tap_keycode) {
+    switch (tap_keycode) {
+        case KC_W:
+        case KC_O:
+            return MOD_BIT(KC_LALT) | MOD_BIT(KC_LGUI);
+        case KC_E:
+        case KC_I:
+            return MOD_BIT(KC_LSFT) | MOD_BIT(KC_LGUI);
+        case KC_R:
+        case KC_U:
+            return MOD_BIT(KC_LCTL) | MOD_BIT(KC_LGUI);
+        case KC_G:
+            return MOD_BIT(KC_LGUI);
+        case KC_H:
+            return MOD_BIT(KC_RGUI);
+        default:
+            return 0;
+    }
+}
+
+bool process_gui_layers(uint16_t keycode, keyrecord_t *record) {
+    if (!IS_QK_LAYER_TAP(keycode) || record->tap.count != 0) {
+        return true;
+    }
+
+    const uint8_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
+    if (layer != LAYER_GUI_NUM && layer != LAYER_GUI_NAV) {
+        return true;
+    }
+
+    const uint8_t mods = gui_layer_mods(QK_LAYER_TAP_GET_TAP_KEYCODE(keycode));
+    if (mods == 0) {
         return true;
     }
 
     if (record->event.pressed) {
-        register_code16(KC_RGUI);
+        register_mods(mods);
     } else {
-        unregister_code16(KC_RGUI);
+        unregister_mods(mods);
     }
 
     return true;
@@ -1397,7 +1375,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_punctuation_mod(keycode, record, U_PUNCTUATION_MOD_TOGG)) {
         return false;
     }
-    if (!process_gui_layer(keycode, record)) {
+    if (!process_gui_layers(keycode, record)) {
         return false;
     }
 
