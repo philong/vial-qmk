@@ -6,8 +6,9 @@
 
 #define MAX_WORD_LENGTH 20
 
-static char    current_word[MAX_WORD_LENGTH + 1]; // Stores the current word being typed
-static uint8_t current_word_length = 0;           // Length of the current word
+static char    current_word[MAX_WORD_LENGTH + 1];      // Stores the current word being typed
+static uint8_t current_word_mods[MAX_WORD_LENGTH + 1]; // Stores the mods in the current word
+static uint8_t current_word_length = 0;                // Length of the current word
 
 static char autocomplete_result[MAX_WORD_LENGTH + 1] = "";
 
@@ -27,14 +28,14 @@ static const char *PROGMEM autocomplete_list[ALPHABET_SIZE][MAX_WORDS] = {
     {"join", "json", "jump", "java", "javascript", NULL},
     {"key", "keyword", "keywords", "kill", "killall", "kind", "keep", "keyboard", "kernel", NULL},
     {"len", "length", "let", "list", "long", "lock", "lambda", "log", "login", "logout", "logger", "local", "location", "localization", "loop", "left", "line", "like", "layout", "liquid", "load", "loading", "low", "listen", "listener", "listeners", "little", "level", "levels", NULL},
-    {"map", "main", "module", "mutable", "match", "matches", "method", "month", "master", "mutable", "max", "maximize", "maximum", "min", "minimize", "minimum", "minus", "merge", "multi", "multiply", "model", "models", "move", "memo", "mean", "malloc", "mem", "memory", "medium", "minute", "minutes", "milli", "millisecond", "milliseconds", "micro", "microsecond", "microseconds", "normal", "mouse", NULL},
+    {"map", "main", "module", "mutable", "match", "matches", "method", "month", "master", "mutable", "max", "maximize", "maximum", "min", "minimize", "minimum", "minus", "merge", "multi", "multiply", "model", "models", "move", "memo", "mean", "malloc", "mem", "memory", "medium", "minute", "minutes", "milli", "millisecond", "milliseconds", "micro", "microsecond", "microseconds", "normal", "mouse", "mask", NULL},
     {"null", "name", "namespace", "next", "none", "node", "number", "numeric", "native", "nonlocal", "net", "nil", "npm", "not", "new", NULL},
     {"object", "override", "output", "operator", "open", "order", "old", "original", "optional", "org", NULL},
     {"public", "print", "println", "private", "protected", "push", "pop", "python", "package", "pointer", "position", "previous", "permits", "provides", "parent", "pass", "property", "param", "parameter", "parameters", "prefix", "post", "pull", "produce", "protocol", "password", "plus", "percent", "parse", "play", "player", "put", "phone", "project", "projects", "purchase", "purchases", NULL},
     {"query", "queue", "quit", "quote", NULL},
     {"return", "returns", "read", "raise", "ref", "reference", "require", "required", "run", "record", "records", "register", "receiver", "remote", "reduce", "reducer", "redo", "right", "range", "react", "remove", "restart", "reboot", "round", "random", "restrict", "restricted", "recipe", "retry", NULL},
     {"str", "string", "switch", "super", "static", "stash", "struct", "self", "system", "size", "sizeof", "synchronized", "set", "setter", "success", "successful", "short", "socket", "select", "select * from ", "sealed", "signed", "suffix", "suspend", "status", "shift", "sql", "sort", "sorted", "solid", "state", "sum", "start", "startup", "stop", "shutdown", "store", "small", "simple", "second", "seconds", "standard", "stage", "smart", "smartphone", "smartphones", "script", "split", "search", "sale", "sales", NULL},
-    {"this", "throw", "true", "type", "typeof", "typescript", "temp", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "torrent", "that", "those", "telephone", "telephones", NULL},
+    {"this", "throw", "true", "type", "typeof", "typescript", "temp", "transaction", "transactional", "transient", "transitive", "then", "template", "try", "table", "tuple", "title", "that", "those", "telephone", "telephones", NULL},
     {"undefined", "update", "updater", "use", "useState", "useEffect", "useMemo", "useCallback", "useRef", "useContext", "useReducer", "union", "url", "using", "user", "username", "unsigned", "undef", "unless", "upstream", "upsert", NULL},
     {"value", "valueOf", "void", "var", "variable", "variables", "varchar", "volatile", "vector", "virtual", "via", "view", NULL},
     {"while", "where", "write", "with", "warning", "week", "wide", "web", "www", "wchar_t", "word", "words", "world", "window", "windows", NULL},
@@ -166,6 +167,27 @@ static char keycode_to_char(uint16_t keycode) {
         case CM_MINS:
             return '-';
 
+        case CM_1:
+            return '1';
+        case CM_2:
+            return '2';
+        case CM_3:
+            return '3';
+        case CM_4:
+            return '4';
+        case CM_5:
+            return '5';
+        case CM_6:
+            return '6';
+        case CM_7:
+            return '7';
+        case CM_8:
+            return '8';
+        case CM_9:
+            return '9';
+        case CM_0:
+            return '0';
+
         default:
             return ' ';
     }
@@ -217,12 +239,19 @@ static bool autocomplete_search(const char **words, const char *prefix_word, con
     return false;
 }
 
-static bool autocomplete(const char *prefix_word, char *result) {
+static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char *result) {
     result[0]                    = '\0';
     const size_t prefix_word_len = strlen(prefix_word);
 
     if (prefix_word_len <= 0) {
         return false;
+    }
+
+    // TODO: handle more cases via a lookup table
+    if (prefix_word[0] == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
+        const char *completion = "a va";
+        strcpy(result, completion);
+        return true;
     }
 
     const int index = prefix_word[0] - 'a';
@@ -248,7 +277,8 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
-    if (all_mods & MOD_MASK_CTRL) {
+    // Reset if word tracking becomes uncertain.
+    if ((all_mods & MOD_MASK_CG) || (all_mods & MOD_BIT(KC_LEFT_ALT))) {
         reset_word();
         return true;
     }
@@ -270,9 +300,10 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
 
     if (keycode == autocomplete_keycode) {
         // Autocomplete the word based on the current input
-        const size_t word_pos = find_last_word_pos(current_word);
-        const char  *word     = current_word + word_pos;
-        autocomplete(word, autocomplete_result);
+        const size_t   word_pos  = find_last_word_pos(current_word);
+        const char    *word      = current_word + word_pos;
+        const uint8_t *word_mods = current_word_mods + word_pos;
+        autocomplete(word, word_mods, autocomplete_result);
 
         // uprintf("current_word: %s, current_word_length: %d, word_pos: %d\n", current_word, current_word_length, word_pos);
         // uprintf("autocomplete_result: %s\n", autocomplete_result);
@@ -295,6 +326,7 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         return false;
     } else if (keycode == KC_BACKSPACE) {
         if (all_mods & MOD_MASK_CTRL) {
+            // Currently not used
             const size_t word_pos             = find_last_word_pos(current_word);
             current_word_length               = word_pos;
             current_word[current_word_length] = '\0';
@@ -310,8 +342,9 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         }
 
         // Add the pressed key to the current word
-        current_word[current_word_length++] = keycode_to_char(keycode);
-        current_word[current_word_length]   = '\0'; // Null-terminate the word
+        current_word_mods[current_word_length] = all_mods;
+        current_word[current_word_length++]    = keycode_to_char(keycode);
+        current_word[current_word_length]      = '\0'; // Null-terminate the word
     } else {
         // Non-alphanumeric key pressed
         reset_word();
