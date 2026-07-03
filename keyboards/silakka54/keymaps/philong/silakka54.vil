@@ -204,8 +204,8 @@
                 -1,
                 -1,
                 "KC_ESCAPE",
-                "KC_TAB",
-                "KC_SPACE"
+                "KC_SPACE",
+                "KC_TAB"
             ],
             [
                 "LSFT(KC_MINUS)",
@@ -377,7 +377,7 @@
                 "RALT(KC_9)",
                 "RALT(KC_8)",
                 "RALT(KC_7)",
-                "LSFT(KC_6)"
+                "RALT(KC_6)"
             ],
             [
                 "KC_TRNS",
