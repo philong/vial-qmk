@@ -301,7 +301,7 @@
             ],
             [
                 "KC_TRNS",
-                "LCTL(KC_GRAVE)",
+                "LCTL(KC_2)",
                 "LGUI(KC_9)",
                 "LGUI(KC_8)",
                 "LGUI(KC_7)",
@@ -309,7 +309,7 @@
             ],
             [
                 "KC_TRNS",
-                "LALT(KC_RBRACKET)",
+                "LCTL(KC_1)",
                 "LGUI(KC_6)",
                 "LGUI(KC_5)",
                 "LGUI(KC_4)",
@@ -317,7 +317,7 @@
             ],
             [
                 "KC_TRNS",
-                "LALT(KC_LBRACKET)",
+                "LCTL(KC_GRAVE)",
                 "LGUI(KC_3)",
                 "LGUI(KC_2)",
                 "LGUI(KC_1)",
@@ -467,7 +467,7 @@
         [
             [
                 "USER00",
-                "USER45",
+                "LCTL(KC_2)",
                 "KC_WH_L",
                 "KC_MS_U",
                 "KC_WH_R",
@@ -475,7 +475,7 @@
             ],
             [
                 "KC_TRNS",
-                "USER07",
+                "LCTL(KC_1)",
                 "KC_MS_L",
                 "KC_MS_D",
                 "KC_MS_R",
@@ -483,7 +483,7 @@
             ],
             [
                 "KC_TRNS",
-                "LT0(KC_Z)",
+                "LCTL(KC_GRAVE)",
                 "LT0(KC_X)",
                 "LT0(KC_C)",
                 "LT0(KC_V)",
@@ -511,7 +511,7 @@
                 "KC_LALT",
                 "KC_RSHIFT",
                 "KC_RCTRL",
-                "KC_ACL2"
+                "KC_WREF"
             ],
             [
                 "KC_TRNS",
