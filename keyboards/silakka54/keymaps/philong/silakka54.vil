@@ -300,7 +300,7 @@
             [
                 "KC_TRNS",
                 "LSFT(KC_QUOTE)",
-                "LSFT(KC_0)",
+                "LSFT(KC_9)",
                 "LSFT(KC_8)",
                 "LSFT(KC_7)",
                 "LSFT(KC_EQUAL)"
@@ -464,7 +464,7 @@
             [
                 "KC_TRNS",
                 "RALT(KC_QUOTE)",
-                "RALT(KC_0)",
+                "RALT(KC_9)",
                 "RALT(KC_8)",
                 "RALT(KC_7)",
                 "RALT(KC_EQUAL)"
@@ -2321,11 +2321,11 @@
             "USER06"
         ],
         [
-            "RSFT_T(KC_COMMA)",
-            "KC_DOT",
             "KC_NO",
             "KC_NO",
-            "USER29"
+            "KC_NO",
+            "KC_NO",
+            "KC_NO"
         ],
         [
             "LT5(KC_ESCAPE)",
