@@ -1537,7 +1537,7 @@
             "KC_T",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "USER48"
         ],
         [
             "RALT_T(KC_V)",
@@ -1691,14 +1691,14 @@
             "LT2(KC_SPACE)",
             "KC_NO",
             "KC_NO",
-            "TD(3)"
+            "USER33"
         ],
         [
             "KC_N",
             "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "TD(1)"
+            "USER47"
         ],
         [
             "LCAG_T(KC_W)",
