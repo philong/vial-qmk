@@ -97,6 +97,7 @@ bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
         case CM_UNDS:
         case KC_BSPC:
         case CM_X:
+        case KC_KP_DOT:
         case U_REPEAT:
         case U_ALT_REPEAT:
         // case KC_ENT:
@@ -955,46 +956,13 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
             }
             if (get_xcase_state() != XCASE_OFF) {
                 disable_xcase();
+                return false;
             }
             if (num_word_enabled()) {
                 disable_num_word();
                 return false;
             }
             break;
-		case U_CAPS_WORD_TOGGLE:
-            if (is_shifted && is_controlled) {
-                // caps lock
-                caps_word_off();
-                disable_xcase();
-                disable_num_word();
-                clear_all_mods();
-                tap_code(KC_CAPSLOCK);
-                set_mods(mods);
-            } else if (is_controlled) {
-                // num word
-                caps_word_off();
-                disable_xcase();
-                clear_all_mods();
-                toggle_num_word();
-                set_mods(mods);
-            } else if (is_shifted) {
-                caps_word_off();
-                disable_xcase();
-                disable_num_word();
-                // https://github.com/andrewjrae/kyria-keymap/#x-case
-                if (get_xcase_state() != XCASE_OFF) {
-                    disable_xcase();
-                } else {
-                    // enable_xcase();
-                    enable_xcase_with(OSM(MOD_LSFT));
-                }
-            } else {
-                // caps word
-                disable_xcase();
-                disable_num_word();
-                caps_word_toggle();
-            }
-            return false;
         case U_NUM_WORD_TOGGLE:
             caps_word_off();
             toggle_num_word();
@@ -1005,6 +973,62 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 	}
 
     return true;
+}
+
+bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t caps_word_keycode) {
+    if (keycode != caps_word_keycode) {
+        return true;
+    }
+
+    if (record->event.pressed) {
+        const uint8_t mods = get_mods();
+        const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+        const bool is_shifted = all_mods & MOD_MASK_SHIFT;
+        const bool is_controlled = all_mods & MOD_MASK_CTRL;
+        const bool is_alted = all_mods & MOD_MASK_ALT;
+
+        if (is_shifted && is_controlled) {
+            // caps lock
+            caps_word_off();
+            disable_xcase();
+            disable_num_word();
+            clear_all_mods();
+            tap_code(KC_CAPSLOCK);
+            set_mods(mods);
+        } else if (is_controlled) {
+            // num word
+            caps_word_off();
+            disable_xcase();
+            clear_all_mods();
+            toggle_num_word();
+            set_mods(mods);
+        } else if (is_shifted) {
+            // https://github.com/andrewjrae/kyria-keymap/#x-case
+            caps_word_off();
+            disable_num_word();
+            if (get_xcase_state() != XCASE_OFF) {
+                disable_xcase();
+            } else {
+                enable_xcase_with(OSM(MOD_LSFT));
+            }
+        } else if (is_alted) {
+            caps_word_off();
+            disable_num_word();
+            if (get_xcase_state() != XCASE_OFF) {
+                disable_xcase();
+            } else {
+                enable_xcase();
+            }
+        } else {
+            // caps word
+            disable_xcase();
+            disable_num_word();
+            caps_word_toggle();
+        }
+    }
+
+    return false;
 }
 
 void num_word_user(bool enabled) {
@@ -1220,6 +1244,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_joinln(keycode, record, U_JOIN_LN)) { return false; }
     if (!process_sentence_case(keycode, record)) { return false; }
     if (!process_macros_user(keycode, record)) { return false; }
+    if (!process_multi_caps_word(keycode, record, U_CAPS_WORD_TOGGLE)) { return false; }
     if (!process_autocorrection(keycode, record)) { return false; }
     if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) { return false; }
     if (!process_case_modes(keycode, record)) { return false; }
