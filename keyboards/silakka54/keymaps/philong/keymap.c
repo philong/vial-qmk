@@ -34,6 +34,23 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
                        '*', '*', '*',  '*', '*', '*'
     );
 
+enum layers {
+    LAYER_BASE = 0,
+    LAYER_NUM,
+    LAYER_NAV,
+    LAYER_SYM,
+    LAYER_FUN,
+    LAYER_GUI,
+    LAYER_MOUSE,
+    LAYER_NAV_NUM,
+    LAYER_GUI_LCTL,
+    LAYER_GUI_LSFT,
+    LAYER_GUI_LALT,
+    LAYER_GUI_RCTL,
+    LAYER_GUI_RSFT,
+    LAYER_GUI_RALT,
+};
+
 enum user_keycode {
     U_SELECT_WORD = QK_KB_0,
     U_SELECT_WORD_BACK,
@@ -85,6 +102,18 @@ void clear_all_mods(void) {
     clear_mods();
     clear_weak_mods();
     clear_oneshot_mods();
+}
+
+layer_state_t get_current_layer(void) {
+    return get_highest_layer(layer_state);
+}
+
+bool is_layer(layer_state_t state) {
+    return get_current_layer() == state;
+}
+
+bool is_nav_layer(void) {
+    return is_layer(LAYER_NAV);
 }
 
 bool on_left_hand(keypos_t pos) {
@@ -510,17 +539,26 @@ bool process_caps_word_escape(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record) {
-    const uint8_t current_layer = get_highest_layer(layer_state);
+    const uint8_t current_layer = get_current_layer();
 
-    if (current_layer == 0 && keycode == QK_LAYER_LOCK) {
-        return process_repeat_key(QK_ALT_REPEAT_KEY, record);
+    if (keycode == QK_LAYER_LOCK) {
+        // Alt repeat on base layer
+        if (current_layer == LAYER_BASE) {
+            return process_repeat_key(QK_ALT_REPEAT_KEY, record);
+        }
+
+        // Layer overrides
+        if (record->event.pressed) {
+            switch (current_layer) {
+                case LAYER_NUM:
+                    layer_off(LAYER_NUM);
+                    layer_on(LAYER_NAV_NUM);
+                    break;
+            }
+        }
     }
 
     return true;
-}
-
-bool is_nav_layer(void) {
-    return get_highest_layer(layer_state) == 2;
 }
 
 // Allow mod after releasing nav layer while not releasing a nav key.
