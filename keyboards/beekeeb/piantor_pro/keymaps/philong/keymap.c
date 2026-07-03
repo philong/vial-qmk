@@ -69,6 +69,8 @@ enum user_keycode {
 
     U_LOGIN_ADMIN,
     U_LOGIN_DEMO,
+
+    U_QUOPOSTROKEY,
 };
 
 #define _______ KC_TRNS
@@ -77,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [LAYER_BASE] = LAYOUT_split_3x6_3(
         TD(4),           KC_Q,            LT(LAYER_GUI_NUM, KC_W), LT(LAYER_GUI_NUM, KC_E), LT(LAYER_GUI_NUM, KC_R), KC_T, KC_Y,     LT(LAYER_GUI_NAV, KC_U), LT(LAYER_GUI_NAV, KC_I), LT(LAYER_GUI_NAV, KC_O), KC_P,  TD(0),
-        TD(1),           LGUI_T(KC_A),    LALT_T(KC_S),    LSFT_T(KC_D),    LCTL_T(KC_F),    LT(LAYER_GUI_NUM, KC_G), LT(LAYER_GUI_NAV, KC_H), RCTL_T(KC_J), RSFT_T(KC_K), LALT_T(KC_L), RGUI_T(KC_SCLN), KC_QUOT,
+        TD(1),           LGUI_T(KC_A),    LALT_T(KC_S),    LSFT_T(KC_D),    LCTL_T(KC_F),    LT(LAYER_GUI_NUM, KC_G), LT(LAYER_GUI_NAV, KC_H), RCTL_T(KC_J), RSFT_T(KC_K), LALT_T(KC_L), RGUI_T(KC_SCLN), U_QUOPOSTROKEY,
         LSFT_T(KC_MINS), KC_Z,            KC_X,            LSFT_T(KC_C),    RALT_T(KC_V),    KC_B,            KC_N,            RALT_T(KC_M),    RSFT_T(KC_COMM), KC_DOT,          KC_SLSH,         LT(0, KC_MINS),
                                                            LT(5, KC_ESC),   LT(1, KC_SPC),   LT(3, KC_TAB),   LT(4, KC_ENT),   LT(2, KC_BSPC),  LT(6, KC_DEL)
     ),
@@ -1314,7 +1316,38 @@ bool autocorrect_is_alpha(uint16_t keycode) {
 }
 #endif
 
+// https://getreuer.info/posts/keyboards/macros3/index.html#quopostrokey
+// Types ' within a word, otherwise "" with the cursor placed in between.
+bool process_quopostrokey(uint16_t keycode, keyrecord_t *record) {
+    static bool within_word = false;
+
+    if (keycode == U_QUOPOSTROKEY) {
+        if (record->event.pressed) {
+            if (within_word) {
+                tap_code(KC_QUOT);
+            } else {
+                SEND_STRING("\"\"" SS_TAP(X_LEFT));
+            }
+        }
+        return false;
+    }
+
+    if (IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode)) {
+        if (record->tap.count == 0) { // Key is being held.
+            return true;
+        }
+    }
+
+    within_word = is_alpha(get_tap_keycode(keycode));
+
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // Runs first so it observes every key to track word boundaries.
+    if (!process_quopostrokey(keycode, record)) {
+        return false;
+    }
     if (!process_num_layer_override(keycode, record)) {
         return false;
     }

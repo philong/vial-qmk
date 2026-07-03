@@ -406,6 +406,21 @@
       "shortName": "Toggle\n,. Mod",
       "title": "Toggle Punctuation Mod",
       "name": "U_PUNCTUATION_MOD_TOGG"
+    },
+    {
+      "shortName": "Login\nadmin",
+      "title": "Login admin",
+      "name": "U_LOGIN_ADMIN"
+    },
+    {
+      "shortName": "Login\ndemo",
+      "title": "Login demo",
+      "name": "U_LOGIN_DEMO"
+    },
+    {
+      "shortName": "Quop",
+      "title": "Quopostrokey: ' within a word, otherwise \"\"",
+      "name": "U_QUOPOSTROKEY"
     }
   ]
 }
