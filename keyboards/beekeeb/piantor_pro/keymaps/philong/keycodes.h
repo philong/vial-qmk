@@ -83,6 +83,7 @@ enum user_keycode {
     U_DOUBLE_UNDERSCORE,
     U_ADD_ASSIGN,
     U_SUB_ASSIGN,
+    U_PUNCTUATION_MOD_TOGG,
 };
 
 #ifndef QK_REPEAT_KEY
