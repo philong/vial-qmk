@@ -475,7 +475,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_CAPS_LOCK",
+                "KC_CAPSLOCK",
                 "KC_MS_L",
                 "KC_MS_D",
                 "KC_MS_R",
@@ -487,10 +487,10 @@
                 "KC_ACL0",
                 "KC_ACL1",
                 "KC_ACL2",
-                "KC_NO"
+                "U_TURBO_CLICK"
             ],
             [
-                "U_TURBO_CLICK",
+                "KC_BTN3",
                 "KC_BTN1",
                 "KC_BTN2",
                 -1,
