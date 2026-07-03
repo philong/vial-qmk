@@ -12,7 +12,7 @@
                 "KC_5"
             ],
             [
-                "KC_TAB",
+                "LSFT(KC_MINUS)",
                 "KC_Q",
                 "LCAG_T(KC_W)",
                 "SGUI_T(KC_E)",
@@ -20,7 +20,7 @@
                 "KC_T"
             ],
             [
-                "KC_CAPSLOCK",
+                "LSFT(KC_QUOTE)",
                 "LGUI_T(KC_A)",
                 "LALT_T(KC_S)",
                 "LSFT_T(KC_D)",
@@ -28,7 +28,7 @@
                 "ALL_T(KC_G)"
             ],
             [
-                "OSM(MOD_LSFT)",
+                "KC_MINUS",
                 "KC_Z",
                 "KC_X",
                 "LSFT_T(KC_C)",
@@ -68,7 +68,7 @@
                 "ALL_T(KC_H)"
             ],
             [
-                "OSM(MOD_RALT)",
+                "KC_EQUAL",
                 "KC_SLASH",
                 "KC_DOT",
                 "RSFT_T(KC_COMMA)",
@@ -423,27 +423,27 @@
             ],
             [
                 "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "LSFT(KC_EQUAL)",
+                "KC_KP_7",
+                "KC_KP_8",
+                "KC_KP_9",
+                "KC_EQUAL"
             ],
             [
                 "KC_TRNS",
-                "KC_LGUI",
-                "KC_LALT",
-                "KC_LSHIFT",
-                "KC_LCTRL",
-                "KC_TRNS"
+                "LGUI_T(KC_KP_DOT)",
+                "LALT_T(KC_KP_4)",
+                "LSFT_T(KC_KP_5)",
+                "LCTL_T(KC_KP_6)",
+                "KC_MINUS"
             ],
             [
                 "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_RALT",
-                "KC_TRNS"
+                "KC_SLASH",
+                "KC_KP_1",
+                "KC_KP_2",
+                "RALT_T(KC_KP_3)",
+                "KC_0"
             ],
             [
                 -1,
