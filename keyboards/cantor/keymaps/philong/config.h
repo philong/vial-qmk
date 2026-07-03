@@ -34,6 +34,7 @@
 // Prevent normal rollover on alphas from accidentally triggering mods.
 // Now enabled by default.
 // #define IGNORE_MOD_TAP_INTERRUPT
+#define HOLD_ON_OTHER_KEY_PRESS
 
 // Enable rapid switch from tap to hold, disables double tap hold auto-repeat.
 #define TAPPING_FORCE_HOLD
