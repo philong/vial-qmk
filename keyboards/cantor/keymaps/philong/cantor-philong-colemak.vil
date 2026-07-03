@@ -138,9 +138,9 @@
             [
                 "USER00",
                 "KC_INSERT",
-                "KC_HOME",
-                "KC_UP",
-                "KC_END",
+                "LCAG_T(KC_HOME)",
+                "SGUI_T(KC_UP)",
+                "LCG_T(KC_END)",
                 "KC_PGUP"
             ],
             [
@@ -149,7 +149,7 @@
                 "LALT_T(KC_LEFT)",
                 "LSFT_T(KC_DOWN)",
                 "LCTL_T(KC_RIGHT)",
-                "KC_PGDOWN"
+                "ALL_T(KC_PGDOWN)"
             ],
             [
                 "KC_TRNS",
@@ -367,14 +367,14 @@
             ],
             [
                 "KC_VOLU",
-                "KC_MPLY",
-                "KC_MPRV",
-                "KC_MNXT",
+                "RCG_T(KC_MPLY)",
+                "SGUI_T(KC_MPRV)",
+                "LCAG_T(KC_MNXT)",
                 "KC_SLEP",
                 "KC_TRNS"
             ],
             [
-                "KC_VOLD",
+                "ALL_T(KC_VOLD)",
                 "KC_RCTRL",
                 "KC_RSHIFT",
                 "KC_LALT",
@@ -433,14 +433,14 @@
             ],
             [
                 "KC_VOLU",
-                "KC_MPLY",
-                "KC_MPRV",
-                "KC_MNXT",
+                "RCG_T(KC_MPLY)",
+                "SGUI_T(KC_MPRV)",
+                "LCAG_T(KC_MNXT)",
                 "KC_SLEP",
                 "KC_TRNS"
             ],
             [
-                "KC_VOLD",
+                "ALL_T(KC_VOLD)",
                 "KC_RCTRL",
                 "KC_RSHIFT",
                 "KC_LALT",
@@ -499,14 +499,14 @@
             ],
             [
                 "KC_VOLU",
-                "KC_MPLY",
-                "KC_MPRV",
-                "KC_MNXT",
+                "RCG_T(KC_MPLY)",
+                "SGUI_T(KC_MPRV)",
+                "LCAG_T(KC_MNXT)",
                 "KC_SLEP",
                 "KC_TRNS"
             ],
             [
-                "KC_VOLD",
+                "ALL_T(KC_VOLD)",
                 "KC_RCTRL",
                 "KC_RSHIFT",
                 "KC_LALT",
