@@ -436,12 +436,12 @@ bool process_clipboard_shortcuts(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-#define U_UNDS LT(0, KC_MINS)
-
 bool process_custom_tap_holds(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case U_UNDS:
+        case LT(0, KC_MINS):
             return process_tap_or_hold_press_key(record, "_", KC_RSFT);
+        case LT(0, KC_DOT):
+            return process_tap_or_hold_press_key(record, ".", CM_COMM);
     }
     return true;
 }

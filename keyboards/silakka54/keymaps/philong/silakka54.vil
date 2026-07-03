@@ -143,7 +143,7 @@
             ],
             [
                 "LSFT(KC_9)",
-                "TD(1)",
+                "LT0(KC_DOT)",
                 "KC_6",
                 "KC_5",
                 "KC_4",
@@ -307,7 +307,7 @@
             ],
             [
                 "KC_TRNS",
-                "TD(1)",
+                "LT0(KC_DOT)",
                 "LSFT(KC_6)",
                 "LSFT(KC_5)",
                 "LSFT(KC_4)",
@@ -471,7 +471,7 @@
             ],
             [
                 "KC_TRNS",
-                "TD(1)",
+                "LT0(KC_DOT)",
                 "RALT(KC_6)",
                 "RALT(KC_5)",
                 "RALT(KC_4)",
@@ -635,7 +635,7 @@
             ],
             [
                 "LSFT(KC_9)",
-                "TD(1)",
+                "LT0(KC_DOT)",
                 "KC_6",
                 "KC_5",
                 "KC_4",
@@ -1787,8 +1787,8 @@
             200
         ],
         [
-            "KC_DOT",
-            "KC_COMMA",
+            "KC_NO",
+            "KC_NO",
             "KC_NO",
             "KC_NO",
             200
