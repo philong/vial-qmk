@@ -7,6 +7,11 @@
     #include "print.h"
 #endif
 
+#include "via.h"
+
+#include "quantum/keymap_extras/keymap_colemak.h"
+#include "quantum/keymap_extras/sendstring_colemak.h"
+
 #include "features/achordion.h"
 #include "features/layer_lock.h"
 #include "features/select_word.h"
@@ -169,7 +174,7 @@ bool oneshot_active(void) {
 
 // Mod-tap, RAlt mod and Colemak
 bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
-    return IS_MT(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == KC_P;
+    return IS_MT(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == CM_SCLN;
 }
 
 // Colemak
@@ -178,7 +183,7 @@ bool caps_word_press_user(uint16_t keycode) {
         // Keycodes that continue Caps Word, with shift applied.
         case KC_A ... KC_O:
         case KC_Q ... KC_Z:
-        case KC_SCOLON:
+        case CM_O:
         case KC_MINS:
             add_weak_mods(MOD_BIT(KC_LSFT)); // Apply shift to next key.
             return true;
@@ -248,6 +253,18 @@ void sentence_case_primed(bool primed) {
     update_led();
 }
 
+bool dynamic_macro_recorded[] = { false, false };
+const size_t DYNAMIC_MACRO_RECORDED_LEN = sizeof (dynamic_macro_recorded) / sizeof (bool);
+
+size_t get_dynamic_macro_index(int8_t direction) {
+    if (direction > 0) {
+        return 0;
+    } else if (direction < 0) {
+        return 1;
+    }
+    return  -1;
+}
+
 void dynamic_macro_record_start_user(void) {
     dynamic_macro_recording = true;
     update_led();
@@ -256,14 +273,55 @@ void dynamic_macro_record_start_user(void) {
 void dynamic_macro_record_end_user(int8_t direction) {
     dynamic_macro_recording = false;
     update_led();
+
+    size_t index = get_dynamic_macro_index(direction);
+    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
+    dynamic_macro_recorded[index] = true;
+}
+
+// void dynamic_macro_record_key_user(int8_t direction, keyrecord_t *record) {
+//     size_t index = get_dynamic_macro_index(direction);
+//     if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_SIZE || dynamic_macro_recorded[index]) return;
+//     dynamic_macro_recorded[index] = true;
+// }
+
+void dynamic_macro_play_user(int8_t direction) {
+    size_t index = get_dynamic_macro_index(direction);
+    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
+
+    switch (index) {
+    case 0:
+        // tap_code16(MACRO14);
+        send_string_with_delay_P(
+            SS_TAP(X_END)
+            SS_LSFT(SS_TAP(X_HOME))
+            ""
+            SS_TAP(X_TAB)
+            ""
+            SS_TAP(X_ENTER),
+            1
+        );
+        break;
+    case 1:
+    default:
+        send_string_with_delay_P(
+            SS_TAP(X_END)
+            SS_LSFT(SS_TAP(X_HOME))
+            ""
+            SS_TAP(X_TAB)
+            ""
+            SS_TAP(X_ENTER),
+            1
+        );
+    }
 }
 
 // Colemak
 bool sentence_case_check_ending(const uint16_t* buffer) {
 #if SENTENCE_CASE_BUFFER_SIZE >= 5
   // Don't consider the abbreviations "vs." and "etc." to end the sentence.
-  if (SENTENCE_CASE_JUST_TYPED(KC_SPC, KC_V, KC_D, KC_DOT) ||
-      SENTENCE_CASE_JUST_TYPED(KC_SPC, KC_K, KC_F, KC_C, KC_DOT)) {
+  if (SENTENCE_CASE_JUST_TYPED(KC_SPC, CM_V, CM_S, CM_DOT) ||
+      SENTENCE_CASE_JUST_TYPED(KC_SPC, CM_E, CM_T, CM_C, CM_DOT)) {
     return false;  // Not a real sentence ending.
   }
 #endif  // SENTENCE_CASE_BUFFER_SIZE >= 5
@@ -489,23 +547,50 @@ void oneshot_task(void) {
 // Join lines like Vim's `J` command.
 // https://getreuer.info/posts/keyboards/macros/index.html
 bool process_joinln(uint16_t keycode, keyrecord_t* record, uint16_t joinln_keycode) {
-    if (keycode == joinln_keycode && record->event.pressed) {
-        SEND_STRING( // Go to the end of the line and tap delete.
-            SS_TAP(X_END) SS_TAP(X_DEL)
-            // In case this has joined two words together, insert one space.
-            SS_TAP(X_SPC)
-            SS_LCTL(
-            // Go to the beginning of the next word.
-            SS_TAP(X_RGHT) SS_TAP(X_LEFT)
-            // Select back to the end of the previous word. This should select
-            // all spaces and tabs between the joined lines from indentation
-            // or trailing whitespace, including the space inserted earlier.
-            SS_LSFT(SS_TAP(X_LEFT) SS_TAP(X_RGHT)))
-            // Replace the selection with a single space.
-            SS_TAP(X_SPC));
-        return false;
+    if (keycode != joinln_keycode || !record->event.pressed) {
+        return true;
     }
-    return true;
+
+    const uint8_t mods = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    if (all_mods & MOD_MASK_SHIFT) {
+        clear_mods();
+        clear_weak_mods();
+        clear_oneshot_mods();
+
+        // Split current line
+        SEND_STRING(
+            SS_LCTL(
+                SS_TAP(X_LEFT) SS_TAP(X_RGHT)
+            )
+            SS_TAP(X_ENTER)
+        );
+
+        set_mods(mods);
+    } else {
+        // Join current line with next line
+        SEND_STRING(
+            SS_TAP(X_END)
+            SS_LCTL(SS_TAP(X_DEL))
+            SS_TAP(X_SPC)
+        );
+        // SEND_STRING( // Go to the end of the line and tap delete.
+        //     SS_TAP(X_END) SS_TAP(X_DEL)
+        //     // In case this has joined two words together, insert one space.
+        //     SS_TAP(X_SPC)
+        //     SS_LCTL(
+        //     // Go to the beginning of the next word.
+        //     SS_TAP(X_RGHT) SS_TAP(X_LEFT)
+        //     // Select back to the end of the previous word. This should select
+        //     // all spaces and tabs between the joined lines from indentation
+        //     // or trailing whitespace, including the space inserted earlier.
+        //     SS_LSFT(SS_TAP(X_LEFT) SS_TAP(X_RGHT)))
+        //     // Replace the selection with a single space.
+        //     SS_TAP(X_SPC));
+    }
+
+    return false;
 }
 
 // Convert 8-bit mods to the 5-bit format used in keycodes. This is lossy: if
@@ -534,6 +619,19 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     const bool controlled = mods & MOD_MASK_CTRL;
     const bool alted = mods & MOD_MASK_ALT;
     const bool guied = mods & MOD_MASK_GUI;
+
+    switch (tap_keycode) {
+    case U_SEL_WORD:
+        return shifted ? S(KC_UP) : C(S(KC_LEFT));
+    case U_JOIN_LN:
+        return shifted ? U_JOIN_LN : S(U_JOIN_LN);
+    case KC_SPACE:
+        return combine_keycode(KC_BACKSPACE, mods);
+    case KC_ENTER:
+        return combine_keycode(KC_ESCAPE, mods);
+    case KC_ESCAPE:
+        return combine_keycode(KC_ENTER, mods);
+    }
 
     // Colemak
     if (controlled || alted || guied) {
@@ -572,32 +670,41 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         if (controlled) {
             // Ctrl + Shift
             switch (tap_keycode) {
-                case KC_C: return C(S(KC_V));   // Ctrl + Shift + C / Ctrl + Shift + V
-                case KC_V: return C(S(KC_C));   // Ctrl + Shift + C / Ctrl + Shift + V
-                case KC_Z: return C(KC_Z);      // Ctrl + Z / Ctrl + Shift + Z
+                case KC_Z: return C(KC_Z);      // Ctrl + Z <-> Ctrl + Shift + Z
+
+                case KC_X: return C(S(KC_V));   // Ctrl + Shift + X -> Ctrl + Shift + V
+                case KC_C: return C(S(KC_V));   // Ctrl + Shift + C <-> Ctrl + Shift + V
+                case KC_V: return C(S(KC_C));   // Ctrl + Shift + C <-> Ctrl + Shift + V
+
+                case CM_T: return C(CM_W);      // Ctrl + Shift + T -> Ctrl + W
             }
         } else {
             // Shift
             switch (tap_keycode) {
-                case KC_TAB: return KC_TAB; // Tab / Shift + Tab
+                case KC_TAB: return KC_TAB; // Tab <-> Shift + Tab
             }
         }
     } else if (controlled) {
         // Ctrl
         switch (tap_keycode) {
-            case KC_C: return C(KC_V);      // Ctrl + C / Ctrl + V
-            case KC_V: return C(KC_C);      // Ctrl + C / Ctrl + V
-            case KC_Z: return C(S(KC_Z));   // Ctrl + Z / Ctrl + Shift + Z
-            case KC_Y: return C(KC_Z);      // Ctrl + Y reverses to Ctrl + Z.
+            case KC_Z: return C(S(KC_Z));   // Ctrl + Z <-> Ctrl + Shift + Z
+            case KC_Y: return C(KC_Z);      // Ctrl + Y -> Ctrl + Z
+
+            case KC_X: return C(KC_V);      // Ctrl + X -> Ctrl + V
+            case KC_C: return C(KC_V);      // Ctrl + C <-> Ctrl + V
+            case KC_V: return C(KC_C);      // Ctrl + C <-> Ctrl + V
+
+            case CM_W: return C(S(CM_T));   // Ctrl + W -> Ctrl + Shift + T
+            case CM_T: return C(CM_W);      // Ctrl + T -> Ctrl + W
         }
     } else {
         // No mods
         switch (tap_keycode) {
-            case KC_TAB: return S(KC_TAB);    // Tab / Shift + Tab
+            case KC_TAB: return S(KC_TAB);    // Tab <-> Shift + Tab
         }
     }
 
-    return KC_NO;
+    return KC_TRNS;
 }
 
 bool get_repeat_key_eligible(uint16_t keycode, keyrecord_t* record) {
@@ -691,7 +798,12 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, ui
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-    return ACHORDION_DEFAULT_TIMEOUT;
+    switch (tap_hold_keycode) {
+    case MT_F:
+        return TAPPING_TERM / 2;
+    default:
+        return ACHORDION_DEFAULT_TIMEOUT;
+    }
 }
 
 bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
@@ -726,7 +838,7 @@ const char CURRENT_DIRECTORY[] PROGMEM = "./";
 const char UP_DIRECTORY[] PROGMEM = "../";
 const char DOT[] PROGMEM = ".";
 const char THREE_DOTS[] PROGMEM = "...";
-const char DOUBLE_COLON[] PROGMEM = "PP";   // Colemak
+const char DOUBLE_COLON[] PROGMEM = "::";
 const char EQUAL[] PROGMEM = "==";
 const char STRICT_EQUAL[] PROGMEM = "===";
 const char NOT_EQUAL[] PROGMEM = "!=";
@@ -761,7 +873,7 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_DOUBLE_MINUS, DOUBLE_MINUS, DOUBLE_PLUS},
     {U_DOUBLE_SLASH, DOUBLE_SLASH, DOUBLE_QUESTION},
     {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH},
-    {U_USERNAME, "rhlu;jt.g;@tmalu.c;m", "r.g;@axku;s.c;m"},
+    {U_USERNAME, "philong.do@gmail.com", "p.do@axelor.com"},
 };
 
 const size_t NUM_USER_MACROS = sizeof (USER_MACROS) / sizeof (*USER_MACROS);
@@ -809,12 +921,51 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+bool process_select_word_user(uint16_t keycode, keyrecord_t* record, uint16_t sel_keycode) {
+    const int8_t repeat_key_count = get_repeat_key_count();
+
+    if (repeat_key_count == 0 && !process_select_word(keycode, record, U_SEL_WORD)) {
+        return false;
+    }
+
+    if (keycode != U_SEL_WORD || !record->event.pressed) {
+        return true;
+    }
+
+    const uint8_t mods = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    if (all_mods & MOD_MASK_SHIFT) {
+        if (repeat_key_count > 0) {
+            SEND_STRING(
+                SS_TAP(X_DOWN)
+            );
+        } else {
+            SEND_STRING(
+                SS_TAP(X_UP)
+            );
+        }
+    } else {
+        if (repeat_key_count > 0) {
+            SEND_STRING(
+                SS_LCTL(SS_LSFT(SS_TAP(X_RGHT)))
+            );
+        } else {
+            SEND_STRING(
+                SS_LCTL(SS_LSFT(SS_TAP(X_LEFT)))
+            );
+        }
+    }
+
+    return false;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion_user(keycode, record)) { return false; }
-    if (!process_repeat_key_with_alt(keycode, record, U_REPEAT, U_ALT_REPEAT)) { return false; }
+    if (!process_repeat_key_with_alt_user(keycode, record, U_REPEAT, U_ALT_REPEAT)) { return false; }
     if (!process_layer_lock_user(keycode, record, U_LAYER_LOCK)) { return false; }
     if (!process_oneshot(keycode, record)) { return false; }
-    if (!process_select_word(keycode, record, U_SEL_WORD)) { return false; }
+    if (!process_select_word_user(keycode, record, U_SEL_WORD)) { return false; }
     if (!process_joinln(keycode, record, U_JOIN_LN)) { return false; }
     if (!process_sentence_case(keycode, record)) { return false; }
     if (!process_macros_user(keycode, record)) { return false; }
