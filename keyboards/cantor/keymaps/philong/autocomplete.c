@@ -12,6 +12,13 @@ static uint8_t current_word_length = 0;                // Length of the current 
 
 static char autocomplete_result[MAX_WORD_LENGTH + 1] = "";
 
+struct last_autocomplete {
+    ssize_t index;
+    size_t  size;
+};
+
+static struct last_autocomplete last_autocomplete = {-1, 0};
+
 #define ALPHABET_SIZE 26
 #define MAX_AUTOCOMPLETE 105
 
@@ -212,7 +219,7 @@ static int word_cmp(const char *word, const char *prefix_word, const size_t pref
     return strncasecmp(word, prefix_word, prefix_word_len);
 }
 
-static size_t autocomplete_search(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result) {
+static ssize_t autocomplete_search(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result) {
     for (size_t index = start_index; index < max_size; ++index) {
         const char *word = words[index];
         if (word == NULL) {
@@ -223,7 +230,7 @@ static size_t autocomplete_search(const char **words, const size_t max_size, con
             // Set remaining characters to complete the word
             const char  *remaining = word + prefix_word_len;
             const size_t len       = strlen(remaining);
-            strncpy(result, remaining, len);
+            strncpy(result, remaining, MIN(len, MAX_WORD_LENGTH));
             result[len] = '\0';
             return index;
         }
@@ -232,35 +239,56 @@ static size_t autocomplete_search(const char **words, const size_t max_size, con
     return -1;
 }
 
-static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char *result) {
+static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, char *result) {
     result[0]                    = '\0';
     const size_t prefix_word_len = strlen(prefix_word);
+    size_t       start_index;
+
+    if (last_autocomplete.index >= 0) {
+        start_index = last_autocomplete.index + 1;
+    } else {
+        start_index = 0;
+    }
 
     if (prefix_word_len <= 0) {
         strcpy(result, "I ");
-        return true;
+        return 0;
     }
 
     const int index = tolower(prefix_word[0]) - 'a';
 
     if (index < 0 || index >= ALPHABET_SIZE) {
-        return false; // Invalid prefix
+        return -1; // Invalid prefix
     }
 
-    size_t found_index = false;
+    ssize_t found_index = -1;
 
-    // TODO: handle more special cases via a lookup table
-    if (prefix_word[0] == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
-        const char *PROGMEM words[]    = {"ca va", "ca va, et toi ?", NULL};
-        const size_t        words_size = sizeof(words) / sizeof(words[0]);
-        found_index                    = autocomplete_search(words, words_size, 0, prefix_word, prefix_word_len, result);
+    for (int i = 0; i < 2; ++i) {
+        if (i != 0) {
+            if (start_index == 0) {
+                break;
+            }
+            start_index = 0;
+        }
+
+        // TODO: handle more special cases via a lookup table
+        if (prefix_word[0] == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
+            const char *PROGMEM words[]    = {"ca va", "ca va, et toi ?", NULL};
+            const size_t        words_size = sizeof(words) / sizeof(words[0]);
+            found_index                    = autocomplete_search(words, words_size, start_index, prefix_word, prefix_word_len, result);
+            break;
+        }
+
+        if (found_index < 0) {
+            found_index = autocomplete_search(autocomplete_list[index], MAX_AUTOCOMPLETE, start_index, prefix_word, prefix_word_len, result);
+        }
+
+        if (found_index >= 0) {
+            break;
+        }
     }
 
-    if (found_index < 0) {
-        found_index = autocomplete_search(autocomplete_list[index], MAX_AUTOCOMPLETE, 0, prefix_word, prefix_word_len, result);
-    }
-
-    return found_index >= 0;
+    return found_index;
 }
 
 //  Like strpbrk, but also takes camelCase into account.
@@ -322,13 +350,24 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
         // const uint8_t *word_mods = current_word_mods + word_pos;
         // autocomplete(word, word_mods, autocomplete_result);
 
-        size_t      position = 0;
-        const char *token    = current_word;
+        if (last_autocomplete.index >= 0) {
+            current_word_length -= last_autocomplete.size;
+            current_word[current_word_length] = '\0';
+
+            char backspace_str[MAX_WORD_LENGTH];
+            memset(backspace_str, '\b', MIN(last_autocomplete.size, MAX_WORD_LENGTH));
+            backspace_str[last_autocomplete.size] = '\0';
+            SEND_STRING(backspace_str);
+        }
+
+        size_t      position    = 0;
+        const char *token       = current_word;
+        ssize_t     found_index = -1;
 
         while (1) {
             const uint8_t *word_mods = current_word_mods + position;
 
-            if (autocomplete(token, word_mods, autocomplete_result)) {
+            if ((found_index = autocomplete(token, word_mods, autocomplete_result)) >= 0) {
                 break;
             }
 
@@ -345,17 +384,28 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
             SEND_STRING(autocomplete_result);
             const size_t autocomplete_len = strlen(autocomplete_result);
             const size_t new_len          = current_word_length + autocomplete_len;
+
+            last_autocomplete.index = found_index;
+            last_autocomplete.size  = autocomplete_len;
+
             if (new_len > MAX_WORD_LENGTH) {
                 // Rotate to make room.
                 memmove(current_word, current_word + autocomplete_len, MAX_WORD_LENGTH - 1);
                 current_word_length = MAX_WORD_LENGTH - autocomplete_len;
             }
-            strncpy(current_word + current_word_length, autocomplete_result, autocomplete_len);
+            strncpy(current_word + current_word_length, autocomplete_result, MIN(autocomplete_len, MAX_WORD_LENGTH));
             current_word_length += autocomplete_len;
             current_word[current_word_length] = '\0';
         }
         return false;
-    } else if (keycode == KC_BACKSPACE) {
+    }
+
+    if (last_autocomplete.index >= 0) {
+        last_autocomplete.index = -1;
+        last_autocomplete.size  = 0;
+    }
+
+    if (keycode == KC_BACKSPACE) {
         if (all_mods & MOD_MASK_CTRL) {
             // Currently not used
             const size_t word_pos             = find_last_word_pos(current_word);
