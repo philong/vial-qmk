@@ -827,6 +827,7 @@ void matrix_scan_user(void) {
     achordion_task();
     layer_lock_task();
     oneshot_task();
+    select_word_task();
     sentence_case_task();
 }
 
