@@ -942,21 +942,16 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 
     switch (tap_keycode) {
         case KC_ESCAPE:
-            if (is_caps_word_on()) {
+            if (is_caps_word_on() || get_xcase_state() != XCASE_OFF || num_word_enabled()) {
                 caps_word_off();
-                return false;
-            }
-            if (get_xcase_state() != XCASE_OFF) {
                 disable_xcase();
-                return false;
-            }
-            if (num_word_enabled()) {
                 disable_num_word();
                 return false;
             }
             break;
         case U_NUM_WORD_TOGGLE:
             caps_word_off();
+            disable_xcase();
             toggle_num_word();
             return false;
         case U_CG_TOGG:
@@ -1033,52 +1028,36 @@ bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t cap
         return true;
     }
 
-    if (record->event.pressed) {
-        const uint8_t mods     = get_mods();
-        const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+    if (!record->event.pressed) {
+        return false;
+    }
 
-        const bool is_shifted    = all_mods & MOD_MASK_SHIFT;
-        const bool is_controlled = all_mods & MOD_MASK_CTRL;
-        const bool is_alted      = all_mods & MOD_MASK_ALT;
+    if (is_caps_word_on() || get_xcase_state() != XCASE_OFF || num_word_enabled()) {
+        caps_word_off();
+        disable_xcase();
+        disable_num_word();
+        return false;
+    }
 
-        if (is_shifted && is_controlled) {
-            // caps lock
-            caps_word_off();
-            disable_xcase();
-            disable_num_word();
-            clear_all_mods();
-            tap_code(KC_CAPS_LOCK);
-            set_mods(mods);
-        } else if (is_controlled) {
-            // num word
-            caps_word_off();
-            disable_xcase();
-            clear_all_mods();
-            toggle_num_word();
-            set_mods(mods);
-        } else if (is_shifted) {
-            // https://github.com/andrewjrae/kyria-keymap/#x-case
-            caps_word_off();
-            disable_num_word();
-            if (get_xcase_state() != XCASE_OFF) {
-                disable_xcase();
-            } else {
-                enable_xcase_with(OSM(MOD_LSFT));
-            }
-        } else if (is_alted) {
-            caps_word_off();
-            disable_num_word();
-            if (get_xcase_state() != XCASE_OFF) {
-                disable_xcase();
-            } else {
-                enable_xcase();
-            }
-        } else {
-            // caps word
-            disable_xcase();
-            disable_num_word();
-            caps_word_toggle();
-        }
+    const uint8_t mods     = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    const bool is_shifted    = all_mods & MOD_MASK_SHIFT;
+    const bool is_controlled = all_mods & MOD_MASK_CTRL;
+    const bool is_alted      = all_mods & MOD_MASK_ALT;
+
+    if (is_shifted && is_controlled) {
+        clear_all_mods();
+        tap_code(KC_CAPS_LOCK);
+        set_mods(mods);
+    } else if (is_controlled) {
+        toggle_num_word();
+    } else if (is_shifted) {
+        enable_xcase_with(OSM(MOD_LSFT));
+    } else if (is_alted) {
+        enable_xcase();
+    } else {
+        caps_word_toggle();
     }
 
     return false;
