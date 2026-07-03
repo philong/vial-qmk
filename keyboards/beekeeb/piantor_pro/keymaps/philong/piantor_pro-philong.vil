@@ -393,9 +393,9 @@
                 -1,
                 -1,
                 -1,
-                "DYN_REC_START2",
                 "KC_TRNS",
-                "DYN_REC_START1"
+                "KC_TRNS",
+                "KC_TRNS"
             ]
         ],
         [
@@ -1400,7 +1400,22 @@
                 "LSFT(KC_P)"
             ]
         ],
-        [],
+        [
+            [
+                "tap",
+                "KC_APPLICATION"
+            ],
+            [
+                "delay",
+                100
+            ],
+            [
+                "tap",
+                "KC_D",
+                "KC_S",
+                "KC_ENTER"
+            ]
+        ],
         [],
         [],
         [],
