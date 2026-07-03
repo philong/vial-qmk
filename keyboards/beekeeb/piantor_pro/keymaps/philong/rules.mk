@@ -22,7 +22,12 @@ else
 	MOUSEKEY_ENABLE = yes
 endif
 
-SRC += features/achordion.c
+ACHORDION_ENABLE ?= no
+ifeq ($(strip $(ACHORDION_ENABLE)), yes)
+	OPT_DEFS += -DACHORDION_ENABLE
+	SRC += features/achordion.c
+endif
+
 SRC += features/layer_lock.c
 SRC += features/select_word.c
 SRC += features/sentence_case.c
