@@ -48,7 +48,7 @@
                 "RCTL_T(KC_J)",
                 "RSFT_T(KC_K)",
                 "LALT_T(KC_L)",
-                "RGUI_T(KC_SCOLON)",
+                "RGUI_T(KC_SCLN)",
                 "KC_QUOTE"
             ],
             [
@@ -475,7 +475,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_CAPSLOCK",
+                "KC_CAPS_LOCK",
                 "KC_MS_L",
                 "KC_MS_D",
                 "KC_MS_R",
@@ -1147,7 +1147,7 @@
         ],
         [
             "KC_SLASH",
-            "RGUI_T(KC_SCOLON)",
+            "RGUI_T(KC_SCLN)",
             "KC_NO",
             "KC_NO",
             "U_DOUBLE_SLASH"
