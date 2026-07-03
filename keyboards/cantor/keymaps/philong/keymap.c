@@ -1272,6 +1272,71 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
     // }
 }
 
+static bool right_pressed = false;
+static bool down_pressed = false;
+static bool left_pressed = false;
+
+static bool ctl_down = false;
+static bool sft_down = false;
+static bool alt_down = false;
+
+bool process_nav_override(uint16_t keycode, keyrecord_t *record) {
+    bool is_nav = get_highest_layer(layer_state) == 5;
+    bool pressed = record->event.pressed;
+
+    if (is_nav || !pressed) {
+        switch (keycode) {
+            case KC_RIGHT:
+                right_pressed = pressed;
+                if (!pressed && ctl_down) {
+                    unregister_code16(KC_LCTL);
+                    ctl_down = false;
+                }
+                break;
+            case KC_DOWN:
+                down_pressed = pressed;
+                if (!pressed && sft_down) {
+                    unregister_code16(KC_LSFT);
+                    sft_down = false;
+                }
+                break;
+            case KC_LEFT:
+                left_pressed = pressed;
+                if (!pressed && alt_down) {
+                    unregister_code16(KC_LALT);
+                    alt_down = false;
+                }
+                break;
+        }
+        return true;
+    }
+
+    if (!is_nav) {
+        if (right_pressed) {
+            unregister_code16(KC_RIGHT);
+            register_code16(KC_LCTL);
+            right_pressed = false;
+            ctl_down = true;
+        }
+
+        if (down_pressed) {
+            unregister_code16(KC_DOWN);
+            register_code16(KC_LSFT);
+            down_pressed = false;
+            sft_down = true;
+        }
+
+        if (left_pressed) {
+            unregister_code16(KC_LEFT);
+            register_code16(KC_LALT);
+            left_pressed = false;
+            alt_down = true;
+        }
+    }
+
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_achordion_user(keycode, record)) {
         return false;
@@ -1313,6 +1378,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_autocomplete(keycode, record, U_AUTOCOMPLETE)) {
+        return false;
+    }
+    if (!process_nav_override(keycode, record)) {
         return false;
     }
 
