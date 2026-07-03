@@ -141,7 +141,7 @@ bool is_alpha(const uint16_t keycode) {
 
 // Mod-tap, RAlt mod and Colemak
 bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
-    return IS_MT(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == CM_SCLN;
+    return IS_QK_MOD_TAP(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == CM_SCLN;
 }
 static const uint16_t END_KEY_LAYER = 0;
 
@@ -149,13 +149,13 @@ uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     // Increase the tapping term a little for slower ring and pinky fingers.
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
         if (layer == END_KEY_LAYER) {
             return QS.tapping_term;
         }
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     } else {
         return QS.tapping_term;
@@ -580,9 +580,9 @@ uint16_t combine_keycode(uint16_t keycode, uint8_t mods) {
 uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
     } else {
         tap_keycode = keycode;
@@ -766,7 +766,7 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, ui
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-    if (IS_LT(tap_hold_keycode) && QK_LAYER_TAP_GET_LAYER(tap_hold_keycode) == END_KEY_LAYER) {
+    if (IS_QK_LAYER_TAP(tap_hold_keycode) && QK_LAYER_TAP_GET_LAYER(tap_hold_keycode) == END_KEY_LAYER) {
         return 0;
     }
 
@@ -800,7 +800,7 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t lay
     }
 
     if (locked_layers != 0) {
-        if (IS_MT(keycode)) {
+        if (IS_QK_MOD_TAP(keycode)) {
             const uint16_t tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
             if (record->event.pressed) {
                 register_code(tap_keycode);
@@ -808,7 +808,7 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record, uint16_t lay
                 unregister_code(tap_keycode);
             }
             return false;
-        } else if (IS_LT(keycode)) {
+        } else if (IS_QK_LAYER_TAP(keycode)) {
             const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
             if (record->event.pressed) {
                 register_code(tap_keycode);
@@ -896,12 +896,12 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.
@@ -976,7 +976,7 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 // static const size_t num_end_keycodes = sizeof(end_keycodes) / sizeof(end_keycodes[0]);
 
 bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
-    if (!IS_LT(keycode)) {
+    if (!IS_QK_LAYER_TAP(keycode)) {
         return true; // Continue default handling.
     }
 
@@ -1162,12 +1162,12 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
 
     uint16_t tap_keycode;
 
-    if (IS_LT(keycode)) {
+    if (IS_QK_LAYER_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
-    } else if (IS_MT(keycode)) {
+    } else if (IS_QK_MOD_TAP(keycode)) {
         if (record->tap.count == 0) {
             return true;
         } // Key is being held.
