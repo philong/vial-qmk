@@ -250,6 +250,13 @@ bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
 // Colemak
 bool caps_word_press_user(uint16_t keycode) {
     switch (keycode) {
+        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
+        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+        case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+            keycode = keycode & 0xFF;
+    }
+
+    switch (keycode) {
         // Keycodes that continue Caps Word, with shift applied.
         case KC_A ... KC_O:
         case KC_Q ... KC_Z:
@@ -1014,16 +1021,16 @@ bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
             clear_all_mods();
             tap_code16(KC_END);
             set_mods(all_mods);
+
+            register_code16(tap_keycode);
+        } else {
+            unregister_code16(tap_keycode);
         }
+
+        return false;
     }
 
-    if (record->event.pressed) {
-        register_code16(tap_keycode);
-    } else {
-        unregister_code16(tap_keycode);
-    }
-
-    return false; // Skip default handling.
+    return true;
 }
 
 bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t caps_word_keycode) {
