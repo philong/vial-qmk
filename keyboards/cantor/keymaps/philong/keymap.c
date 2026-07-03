@@ -17,6 +17,9 @@
 #include "features/select_word.h"
 #include "features/repeat_key.h"
 #include "features/sentence_case.h"
+#ifdef KEYCODES_V5
+    #include "features/autocorrection.h"
+#endif
 #ifdef MOUSEKEY_ENABLE
 #    include "features/mouse_turbo_click.h"
 #endif
@@ -140,12 +143,17 @@ bool is_alpha(const uint16_t keycode) {
 bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
     return IS_MT(keycode) || (keycode >= QK_RALT && keycode < QK_RGUI) || keycode == CM_SCLN;
 }
+static const uint16_t END_KEY_LAYER = 0;
 
 uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     // Increase the tapping term a little for slower ring and pinky fingers.
     uint16_t tap_keycode;
 
     if (IS_LT(keycode)) {
+        const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
+        if (layer == END_KEY_LAYER) {
+            return QS.tapping_term;
+        }
         tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
     } else if (IS_MT(keycode)) {
         tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
@@ -217,8 +225,8 @@ bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
         case KC_BSPC:
         case CM_X:
         case KC_KP_DOT:
-        case QK_REPEAT_KEY:
-        case QK_ALT_REPEAT_KEY:
+        // case QK_REPEAT_KEY:
+        // case QK_ALT_REPEAT_KEY:
         case U_REPEAT:
         case U_ALT_REPEAT:
             // case KC_ENT:
@@ -338,18 +346,21 @@ size_t get_dynamic_macro_index(int8_t direction) {
     return -1;
 }
 
+#ifdef KEYCODES_V5
+void dynamic_macro_record_start_user(void) {
+#else
 void dynamic_macro_record_start_user(int8_t direction) {
+#endif
     dynamic_macro_recording = true;
     update_led();
-
-    size_t index = get_dynamic_macro_index(direction);
-    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
-    dynamic_macro_recorded[index] = true;
 }
 
 void dynamic_macro_record_end_user(int8_t direction) {
     dynamic_macro_recording = false;
     update_led();
+    size_t index = get_dynamic_macro_index(direction);
+    if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
+    dynamic_macro_recorded[index] = true;
 }
 
 // void dynamic_macro_record_key_user(int8_t direction, keyrecord_t *record) {
@@ -387,17 +398,24 @@ bool sentence_case_check_ending(const uint16_t *buffer) {
 }
 
 // Colemak
+#ifdef KEYCODES_V5
+bool autocorrection_is_letter(uint16_t keycode) {
+    return is_alpha(keycode);
+}
+bool autocorrection_is_boundary(uint16_t keycode) {
+    return (KC_1 <= keycode && keycode <= KC_SLSH && keycode != KC_SCLN) || keycode == KC_P;
+}
+#else
 bool autocorrect_is_alpha(uint16_t keycode) {
     return is_alpha(keycode);
 }
-
-// Colemak
 bool autocorrect_is_boundary(uint16_t keycode) {
     return (KC_1 <= keycode && keycode <= KC_0)
-        || (KC_TAB <= keycode && keycode < KC_SEMICOLON)
+        || (KC_TAB <= keycode && keycode < KC_SCLN)
         || (keycode == CM_SCLN)
         || (KC_GRAVE <= keycode && keycode <= KC_SLASH);
 }
+#endif
 
 // Colemak
 char sentence_case_press_user(uint16_t keycode, keyrecord_t *record, uint8_t mods) {
@@ -734,12 +752,8 @@ bool is_outer_key(keyrecord_t *record) {
     }
 }
 
-// The return value is true to consider the tap-hold key held or false to consider it tapped
+// The return value is true to consider the tap-hold key held or false to consider it tapped.
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
-    // if (is_tap_dance(other_keycode)) {
-    //     return false;
-    // }
-
     if (is_outer_key(tap_hold_record)) {
         return true;
     }
@@ -751,6 +765,10 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, ui
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+    if (IS_LT(tap_hold_keycode) && QK_LAYER_TAP_GET_LAYER(tap_hold_keycode) == END_KEY_LAYER) {
+        return 0;
+    }
+
     switch (tap_hold_keycode) {
         case MT_F:
             return ACHORDION_TIMEOUT_MIN;
@@ -765,10 +783,6 @@ bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
     if (dynamic_macro_recording) {
         return true;
     }
-
-    // if (is_tap_dance(keycode)) {
-    //     return true;
-    // }
 
     return process_achordion(keycode, record);
 }
@@ -849,25 +863,25 @@ const char IN_UNDERSCORES[] PROGMEM        = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCT
 // keycode, normal, shift, control, control+shift
 const struct user_macro USER_MACROS[] PROGMEM = {
     {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY, NULL, NULL},
-    // {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY, NULL, NULL},
-    // {U_DOT, DOT, THREE_DOTS, NULL, NULL},
+    {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY, NULL, NULL},
+    {U_DOT, DOT, THREE_DOTS, NULL, NULL},
     {U_THREE_DOTS, THREE_DOTS, DOUBLE_COLON, NULL, NULL},
-    // {U_DOUBLE_COLON, DOUBLE_COLON, THREE_DOTS, NULL, NULL},
+    {U_DOUBLE_COLON, DOUBLE_COLON, THREE_DOTS, NULL, NULL},
     {U_EQUAL, EQUAL, DOUBLE_PLUS, STRICT_EQUAL, ADD_ASSIGN},
-    // {U_STRICT_EQUAL, STRICT_EQUAL, EQUAL, NULL, NULL},
+    {U_STRICT_EQUAL, STRICT_EQUAL, EQUAL, NULL, NULL},
     {U_NOT_EQUAL, NOT_EQUAL, DIAMOND, STRICT_NOT_EQUAL, STRICT_NOT_EQUAL},
-    // {U_STRICT_NOT_EQUAL, STRICT_NOT_EQUAL, NOT_EQUAL, NULL, NULL},
+    {U_STRICT_NOT_EQUAL, STRICT_NOT_EQUAL, NOT_EQUAL, NULL, NULL},
     {U_LOWER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, NULL, NULL},
-    // {U_GREATER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, NULL, NULL},
+    {U_GREATER_THAN_OR_EQUAL, GREATER_THAN_OR_EQUAL, LOWER_THAN_OR_EQUAL, NULL, NULL},
     {U_ARROW, ARROW, DOUBLE_ARROW, NULL, NULL},
-    // {U_DOUBLE_ARROW, DOUBLE_ARROW, ARROW, NULL, NULL},
+    {U_DOUBLE_ARROW, DOUBLE_ARROW, ARROW, NULL, NULL},
     {U_AND_OPERATOR, AND_OPERATOR, OR_OPERATOR, NULL, NULL},
-    // {U_OR_OPERATOR, OR_OPERATOR, AND_OPERATOR, NULL, NULL},
+    {U_OR_OPERATOR, OR_OPERATOR, AND_OPERATOR, NULL, NULL},
     {U_DOUBLE_MINUS, DOUBLE_MINUS, DOUBLE_UNDERSCORE, IN_UNDERSCORES, SUB_ASSIGN},
     {U_DOUBLE_SLASH, DOUBLE_SLASH, DOUBLE_QUESTION, NULL, NULL},
-    // {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH, NULL, NULL},
+    {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH, NULL, NULL},
     {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT, NULL, NULL},
-    // {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
+    {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
     {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
     {U_USERNAME, "philong.do@gmail.com", "p.do@axelor.com", "philong", "Phi-Long Do"},
 };
@@ -939,16 +953,77 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }
             break;
-        // case U_NUM_WORD_TOGGLE:
-        //     caps_word_off();
-        //     toggle_num_word();
-        //     return false;
+        case U_NUM_WORD_TOGGLE:
+            caps_word_off();
+            toggle_num_word();
+            return false;
         case U_CG_TOGG:
             process_magic(CG_TOGG, record);
             return false;
     }
 
     return true;
+}
+
+// static const uint16_t end_keycodes = {
+//     KC_SCLN,
+//     KC_COMMA,
+//     KC_DOT,
+//     KC_SLASH,
+//     KC_ONE,
+// }
+// static const size_t num_end_keycodes = sizeof(end_keycodes) / sizeof(end_keycodes[0]);
+
+bool process_end_keys(uint16_t keycode, keyrecord_t *record) {
+    if (!IS_LT(keycode)) {
+        return true;  // Continue default handling.
+    }
+
+    const uint16_t layer = QK_LAYER_TAP_GET_LAYER(keycode);
+
+    if (layer != END_KEY_LAYER) {
+        return true;  // Continue default handling.
+    }
+
+    const uint16_t tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+
+    const uint8_t mods     = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+
+    if (tap_keycode == KC_F24) {
+        if (record->tap.count == 0) {  // Key is being held.
+            if (record->event.pressed) {
+                clear_all_mods();
+                tap_code16(KC_END);
+                set_mods(all_mods);
+            }
+        }
+
+        if (record->event.pressed) {
+            set_mods(all_mods | MOD_BIT(KC_LSFT));
+            register_code16(KC_1);
+            set_mods(all_mods);
+        } else {
+            unregister_code16(KC_1);
+        }
+        return false;  // Skip default handling.
+    }
+
+    if (record->tap.count == 0) {  // Key is being held.
+        if (record->event.pressed) {
+            clear_all_mods();
+            tap_code16(KC_END);
+            set_mods(all_mods);
+        }
+    }
+
+    if (record->event.pressed) {
+        register_code16(tap_keycode);
+    } else {
+        unregister_code16(tap_keycode);
+    }
+
+    return false;  // Skip default handling.
 }
 
 bool process_multi_caps_word(uint16_t keycode, keyrecord_t *record, uint16_t caps_word_keycode) {
@@ -1240,6 +1315,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_macros_user(keycode, record)) {
         return false;
     }
+    if (!process_end_keys(keycode, record)) {
+        return false;
+    }
     if (!process_multi_caps_word(keycode, record, U_CAPS_WORD_TOGGLE)) {
         return false;
     }
@@ -1252,6 +1330,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_autocomplete(keycode, record, U_AUTOCOMPLETE)) {
         return false;
     }
+
+#ifdef KEYCODES_V5
+    if (!process_autocorrection(keycode, record)) {
+        return false;
+    }
+#endif
 
 #ifdef MOUSEKEY_ENABLE
     if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) {
