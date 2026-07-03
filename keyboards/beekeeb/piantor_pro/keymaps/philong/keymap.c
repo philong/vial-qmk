@@ -1555,13 +1555,13 @@ bool process_clipboard_shortcuts(uint16_t keycode, keyrecord_t *record) {
         case U_UNDO:
             return process_tap_or_hold_press_key(record, C(CM_Z), KC_LGUI);
         case U_CUT:
-            return process_tap_or_hold_press_key(record, C(CM_X), KC_LALT);
+            return process_tap_or_hold_press_key(record, C(CM_X), KC_RALT);
         case U_COPY:
             return process_tap_or_hold_press_key(record, C(CM_C), KC_LSFT);
         case U_PASTE:
             return process_tap_or_hold_press_key(record, C(KC_V), KC_RALT);
         case U_REDO:
-            return process_tap_or_hold_press_key(record, C(S(CM_Z)), KC_LCTL);
+            return process_tap_or_hold_press_key(record, C(S(CM_Z)), KC_RCTL);
     }
     return true;
 }
