@@ -1669,7 +1669,7 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool process_tap_or_hold_press_key(keyrecord_t* record, uint16_t tap_keycode, uint16_t hold_keycode) {
+bool process_tap_or_hold_press_key(keyrecord_t* record, const char *tap_string, uint16_t hold_keycode) {
     if (record->tap.count == 0) {  // Key is being held.
         if (record->event.pressed) {
             register_code16(hold_keycode);
@@ -1677,7 +1677,7 @@ bool process_tap_or_hold_press_key(keyrecord_t* record, uint16_t tap_keycode, ui
             unregister_code16(hold_keycode);
         }
     } else if (record->event.pressed) {
-        tap_code16(tap_keycode);
+        SEND_STRING(tap_string);
     }
     return false;
 }
@@ -1691,15 +1691,15 @@ bool process_tap_or_hold_press_key(keyrecord_t* record, uint16_t tap_keycode, ui
 bool process_clipboard_shortcuts(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case U_UNDO:
-            return process_tap_or_hold_press_key(record, C(CM_Z), KC_LGUI);
+            return process_tap_or_hold_press_key(record, SS_LCTL("z"), KC_LGUI);
         case U_CUT:
-            return process_tap_or_hold_press_key(record, C(CM_X), KC_RALT);
+            return process_tap_or_hold_press_key(record, SS_LCTL("x"), KC_RALT);
         case U_COPY:
-            return process_tap_or_hold_press_key(record, C(CM_C), KC_LSFT);
+            return process_tap_or_hold_press_key(record, SS_LCTL("c"), KC_LSFT);
         case U_PASTE:
-            return process_tap_or_hold_press_key(record, C(KC_V), KC_RALT);
+            return process_tap_or_hold_press_key(record, SS_LCTL("v"), KC_RALT);
         case U_REDO:
-            return process_tap_or_hold_press_key(record, C(S(CM_Z)), KC_RCTL);
+            return process_tap_or_hold_press_key(record, SS_LCTL(SS_LSFT("z")), KC_RCTL);
     }
     return true;
 }
