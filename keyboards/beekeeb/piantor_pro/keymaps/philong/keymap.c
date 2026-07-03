@@ -1264,12 +1264,61 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
     return process_repeat_key_with_alt(keycode, record, U_REPEAT, U_ALT_REPEAT);
 }
 
+
+static bool on_left_hand(keypos_t pos) {
+#ifdef SPLIT_KEYBOARD
+    return pos.row < MATRIX_ROWS / 2;
+#else
+    return (MATRIX_COLS > MATRIX_ROWS) ? pos.col < MATRIX_COLS / 2 : pos.row < MATRIX_ROWS / 2;
+#endif
+}
+
+static bool is_left_thumb_row(keypos_t pos) {
+    return pos.row == (MATRIX_ROWS / 2) - 1;
+}
+
+static bool is_right_thumb_row(keypos_t pos) {
+    return pos.row == MATRIX_ROWS - 1;
+}
+
+static bool is_left_outer_col(keypos_t pos) {
+    return pos.col == OUTER_COL_LEFT;
+}
+
+static bool is_right_outer_col(keypos_t pos) {
+    return pos.col == OUTER_COL_RIGHT;
+}
+
+static bool is_outer_key(keyrecord_t *record) {
+    if (on_left_hand(record->event.key)) {
+        return is_left_thumb_row(record->event.key) || is_left_outer_col(record->event.key);
+    } else {
+        return is_right_thumb_row(record->event.key) || is_right_outer_col(record->event.key);
+    }
+}
+
+static bool is_end_key(uint16_t keycode) {
+    return IS_QK_LAYER_TAP(keycode) && QK_LAYER_TAP_GET_LAYER(keycode) == END_KEY_LAYER;
+}
+
 #ifdef CHORDAL_HOLD
-// Not needed anymore?
+
 // The return value is true to consider the tap-hold key held or false to consider it tapped.
-// bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
-    // return get_chordal_hold_default(tap_hold_record, other_record);
-// }
+bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
+    if (!IS_KEYEVENT(tap_hold_record->event) || !IS_KEYEVENT(other_record->event)) {
+        return true;
+    }
+
+    if (is_outer_key(tap_hold_record) || is_outer_key(other_record)) {
+        return true;
+    }
+
+    if (is_end_key(tap_hold_keycode)) {
+        return true;
+    }
+
+    return get_chordal_hold_default(tap_hold_record, other_record);
+}
 
 uint16_t get_tap_keycode(uint16_t keycode) {
     if (IS_QK_MOD_TAP(keycode)) {
@@ -1379,42 +1428,8 @@ uint16_t get_tap_flow_term(
 }
 
 #endif  // CHORDAL_HOLD
+
 #ifdef ACHORDION_ENABLE
-static bool on_left_hand(keypos_t pos) {
-#ifdef SPLIT_KEYBOARD
-    return pos.row < MATRIX_ROWS / 2;
-#else
-    return (MATRIX_COLS > MATRIX_ROWS) ? pos.col < MATRIX_COLS / 2 : pos.row < MATRIX_ROWS / 2;
-#endif
-}
-
-static bool is_left_thumb_row(keypos_t pos) {
-    return pos.row == (MATRIX_ROWS / 2) - 1;
-}
-
-static bool is_right_thumb_row(keypos_t pos) {
-    return pos.row == MATRIX_ROWS - 1;
-}
-
-static bool is_left_outer_col(keypos_t pos) {
-    return pos.col == OUTER_COL_LEFT;
-}
-
-static bool is_right_outer_col(keypos_t pos) {
-    return pos.col == OUTER_COL_RIGHT;
-}
-
-static bool is_outer_key(keyrecord_t *record) {
-    if (on_left_hand(record->event.key)) {
-        return is_left_thumb_row(record->event.key) || is_left_outer_col(record->event.key);
-    } else {
-        return is_right_thumb_row(record->event.key) || is_right_outer_col(record->event.key);
-    }
-}
-
-static bool is_end_key(uint16_t keycode) {
-    return IS_QK_LAYER_TAP(keycode) && QK_LAYER_TAP_GET_LAYER(keycode) == END_KEY_LAYER;
-}
 
 // The return value is true to consider the tap-hold key held or false to consider it tapped.
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, uint16_t other_keycode, keyrecord_t *other_record) {
