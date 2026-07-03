@@ -1718,7 +1718,7 @@
             "KC_T",
             "KC_NO",
             "KC_NO",
-            "USER33"
+            "USER55"
         ],
         [
             "RALT_T(KC_V)",
@@ -1872,7 +1872,7 @@
             "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "USER05"
+            "USER06"
         ],
         [
             "RALT_T(KC_V)",
@@ -1893,14 +1893,14 @@
             "LT6(KC_ENTER)",
             "KC_NO",
             "KC_NO",
-            "USER05"
+            "USER33"
         ],
         [
             "LT5(KC_BSPACE)",
             "LT7(KC_DELETE)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER47"
         ],
         [
             "ALL_T(KC_G)",
@@ -2210,12 +2210,12 @@
             "options": 135
         },
         {
-            "trigger": "KC_NO",
-            "replacement": "KC_NO",
+            "trigger": "M6",
+            "replacement": "M8",
             "layers": 65535,
-            "trigger_mods": 0,
+            "trigger_mods": 34,
             "negative_mod_mask": 0,
-            "suppressed_mods": 0,
+            "suppressed_mods": 34,
             "options": 7
         },
         {
