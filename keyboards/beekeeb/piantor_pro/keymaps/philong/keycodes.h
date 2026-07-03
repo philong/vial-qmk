@@ -77,7 +77,6 @@ enum user_keycode {
     U_EMOJI,
     U_JIGGLE,
     U_DOUBLE_BACKTICK,
-    U_DOUBLE_DOTS,
 };
 
 #ifndef QK_REPEAT_KEY
