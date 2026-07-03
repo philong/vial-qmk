@@ -236,7 +236,7 @@ uint16_t get_alt_repeat_key_keycode(void) {
         }
     }
 
-    return KC_NO; // No alternate key found.
+    return keycode; // No alternate key found. Act as repeat key.
 }
 
 void alt_repeat_key_invoke(const keyevent_t* event) {
