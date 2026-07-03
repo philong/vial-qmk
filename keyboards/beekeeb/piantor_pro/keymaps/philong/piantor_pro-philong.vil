@@ -1623,7 +1623,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "USER26"
+            "USER09"
         ],
         [
             "RSFT_T(KC_K)",
@@ -1658,7 +1658,7 @@
             "LT0(KC_SLASH)",
             "KC_NO",
             "KC_NO",
-            "USER09"
+            "USER08"
         ],
         [
             "KC_Y",
