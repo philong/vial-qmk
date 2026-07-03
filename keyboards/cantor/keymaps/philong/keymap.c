@@ -372,11 +372,13 @@ void dynamic_macro_play_user(int8_t direction) {
     switch (index) {
         case 0:
             // tap_code16(MACRO14);
-            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO1_TEXT1 SS_TAP(X_TAB) DMACRO1_TEXT2 SS_TAP(X_ENTER), dynamic_macro_delay);
+            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO1_TEXT1 SS_TAP(X_TAB), dynamic_macro_delay);
+            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO1_TEXT2 SS_TAP(X_ENTER), dynamic_macro_delay);
             break;
         case 1:
         default:
-            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO2_TEXT1 SS_TAP(X_TAB) DMACRO2_TEXT2 SS_TAP(X_ENTER), dynamic_macro_delay);
+            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO2_TEXT1 SS_TAP(X_TAB), dynamic_macro_delay);
+            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO2_TEXT2 SS_TAP(X_ENTER), dynamic_macro_delay);
     }
 }
 
