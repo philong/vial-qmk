@@ -434,6 +434,16 @@
             "shortName": "Quop",
             "title": "Quopostrokey",
             "name": "U_QUOP"
+        },
+        {
+            "shortName": "Happy",
+            "title": "Happy",
+            "name": "U_HAPPY"
+        },
+        {
+            "shortName": "Jiggle",
+            "title": "Jiggle",
+            "name": "U_JIGGLE"
         }
     ]
 }

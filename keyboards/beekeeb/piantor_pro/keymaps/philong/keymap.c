@@ -1450,7 +1450,156 @@ static bool process_quopostrokey(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+// https://getreuer.info/posts/keyboards/macros3/index.html#shift-backspace-delete
+bool process_shift_backspace_delete(uint16_t keycode, keyrecord_t *record) {
+    if (IS_QK_LAYER_TAP(keycode)) {
+        if (record->tap.count == 0) { return true; }
+        keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_QK_MOD_TAP(keycode)) {
+        if (record->tap.count == 0) { return true; }
+        keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    }
+
+    if (keycode != KC_BSPC) {
+        return true;
+    }
+
+    static uint16_t registered_key = KC_NO;
+    if (record->event.pressed) { // On key press.
+        const uint8_t mods = get_mods();
+#ifndef NO_ACTION_ONESHOT
+        uint8_t shift_mods = (mods | get_oneshot_mods()) & MOD_MASK_SHIFT;
+#else
+        uint8_t shift_mods = mods & MOD_MASK_SHIFT;
+#endif                    // NO_ACTION_ONESHOT
+        if (shift_mods) { // At least one shift key is held.
+            registered_key = KC_DEL;
+            // If one shift is held, clear it from the mods. But if both
+            // shifts are held, leave as is to send Shift + Del.
+            if (shift_mods != MOD_MASK_SHIFT) {
+#ifndef NO_ACTION_ONESHOT
+                del_oneshot_mods(MOD_MASK_SHIFT);
+#endif // NO_ACTION_ONESHOT
+                unregister_mods(MOD_MASK_SHIFT);
+            }
+        } else {
+            registered_key = KC_BSPC;
+            return true;
+        }
+
+        register_code(registered_key);
+        set_mods(mods);
+    } else { // On key release.
+        if (registered_key == KC_BSPC) {
+            return true;
+        }
+        unregister_code(registered_key);
+    }
+
+    return false;
+}
+
+// Generates a pseudorandom value in 0-255.
+static uint8_t simple_rand(void) {
+  static uint16_t random = 0;
+  if (random == 0) {
+    random = timer_read();
+  }
+  random *= UINT16_C(36563);
+  return (uint8_t)(random >> 8);
+}
+
+// https://getreuer.info/posts/keyboards/macros3/index.html#random-emojis
+bool process_happy(uint16_t keycode, keyrecord_t *record) {
+    if (keycode != U_HAPPY) {
+        return true;
+    }
+
+    if (record->event.pressed) {
+        static const char *emojis[]   = {
+            "🌞", // Sun with Face
+            "👾", // Alien Monster
+            "👍", // Thumbs Up
+            "👏", // Clapping Hands
+            "🙌", // Raising Hands
+            "💪", // Flexed Biceps
+            "🤝", // Handshake
+            "🎉", // Party Popper
+            "✨", // Sparkles
+            "🌟", // Plowing Star
+            "💯", // Hundred Points
+            "👌", // OK Hand
+            "😀", // Grinning Face
+            "😃", // Grinning Face with Big Eyes
+            "😄", // Grinning Face with Smiling Eyes
+            "😁", // Beaming Face with Smiling Eyes
+            "😆", // Grinning Squinting Face
+            "😅", // Grinning Face with Sweat
+            "🤣", // Rolling on the Floor Laughing
+            "😂", // Face with Tears of Joy
+            "🙂", // Slightly Smiling Face
+            "🙃", // Upside-Down Face
+            "😉", // Winking Face
+            "😊", // Smiling Face with Smiling Eyes
+            "😇", // Smiling Face with Halo
+            "🥰", // Smiling Face with Hearts
+            "😍", // Smiling Face with Heart-Eyes
+            "🤩", // Star-Struck
+            // "😘", // Face Blowing a Kiss
+            // "😗", // Kissing Face
+            // "😚", // Kissing Face with Closed Eyes
+            // "😙", // Kissing Face with Smiling Eyes
+        };
+        const int          NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+
+        // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
+        uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
+
+        // Don't pick the same emoji twice in a row.
+        static uint8_t last_index = 0;
+        if (index >= last_index) {
+            ++index;
+        }
+        last_index = index;
+
+        // Produce the emoji.
+        send_unicode_string(emojis[index]);
+    }
+
+    return false;
+}
+
+// https://getreuer.info/posts/keyboards/macros3/index.html#a-mouse-jiggler
+void process_mouse_jiggler(uint16_t keycode, keyrecord_t *record) {
+    if (record->event.pressed) {
+        static deferred_token token  = INVALID_DEFERRED_TOKEN;
+        static report_mouse_t report = {0};
+        if (token) {
+            // If jiggler is currently running, stop when any key is pressed.
+            cancel_deferred_exec(token);
+            token  = INVALID_DEFERRED_TOKEN;
+            report = (report_mouse_t){}; // Clear the mouse.
+            host_mouse_send(&report);
+        } else if (keycode == U_JIGGLE) {
+            uint32_t jiggler_callback(uint32_t trigger_time, void *cb_arg) {
+                // Deltas to move in a circle of radius 20 pixels over 32 frames.
+                static const int8_t deltas[32] = {0, -1, -2, -2, -3, -3, -4, -4, -4, -4, -3, -3, -2, -2, -1, 0, 0, 1, 2, 2, 3, 3, 4, 4, 4, 4, 3, 3, 2, 2, 1, 0};
+                static uint8_t      phase      = 0;
+                // Get x delta from table and y delta by rotating a quarter cycle.
+                report.x = deltas[phase];
+                report.y = deltas[(phase + 8) & 31];
+                phase    = (phase + 1) & 31;
+                host_mouse_send(&report);
+                return 16; // Call the callback every 16 ms.
+            }
+
+            token = defer_exec(1, jiggler_callback, NULL); // Schedule callback.
+        }
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    process_mouse_jiggler(keycode, record);
     if (!process_achordion_user(keycode, record)) {
         return false;
     }
@@ -1466,6 +1615,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_oneshot(keycode, record)) {
         return false;
     }
+    if (!process_shift_backspace_delete(keycode, record)) {
+        return false;
+    }
     if (!process_select_word_user(keycode, record, U_SEL_WORD)) {
         return false;
     }
@@ -1473,6 +1625,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_quopostrokey(keycode, record)) {
+        return false;
+    }
+    if (!process_happy(keycode, record)) {
         return false;
     }
     if (!process_sentence_case(keycode, record)) {
