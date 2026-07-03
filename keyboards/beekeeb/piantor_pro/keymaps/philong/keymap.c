@@ -458,8 +458,6 @@ void dynamic_macro_record_end_user(int8_t direction) {
 //     dynamic_macro_recorded[index] = true;
 // }
 
-static const int dynamic_macro_delay = 4;
-
 void dynamic_macro_play_user(int8_t direction) {
     size_t index = get_dynamic_macro_index(direction);
     if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
@@ -467,13 +465,13 @@ void dynamic_macro_play_user(int8_t direction) {
     switch (index) {
         case 0:
             // tap_code16(MACRO14);
-            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO1_TEXT1 SS_TAP(X_TAB), dynamic_macro_delay);
-            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO1_TEXT2 SS_TAP(X_ENTER), dynamic_macro_delay);
+            SEND_STRING(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO1_TEXT1 SS_TAP(X_TAB));
+            SEND_STRING(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO1_TEXT2 SS_TAP(X_ENTER));
             break;
         case 1:
         default:
-            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO2_TEXT1 SS_TAP(X_TAB), dynamic_macro_delay);
-            send_string_with_delay_P(SS_TAP(X_END) SS_LSFT(SS_TAP(X_HOME)) DMACRO2_TEXT2 SS_TAP(X_ENTER), dynamic_macro_delay);
+            SEND_STRING(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO2_TEXT1 SS_TAP(X_TAB));
+            SEND_STRING(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO2_TEXT2 SS_TAP(X_ENTER));
     }
 }
 
@@ -1330,19 +1328,19 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
         }
         if (is_shifted && is_controlled && macro.shifted_controlled_string) {
             clear_all_mods();
-            send_string_P(macro.shifted_controlled_string);
+            SEND_STRING(macro.shifted_controlled_string);
             set_mods(mods);
         } else if (is_controlled && macro.controlled_string) {
             clear_all_mods();
-            send_string_P(macro.controlled_string);
+            SEND_STRING(macro.controlled_string);
             set_mods(mods);
         } else if (is_shifted && macro.shifted_string) {
             clear_all_mods();
-            send_string_P(macro.shifted_string);
+            SEND_STRING(macro.shifted_string);
             set_mods(mods);
         } else {
             clear_all_mods();
-            send_string_P(macro.string);
+            SEND_STRING(macro.string);
             set_mods(mods);
         }
         return false;
@@ -1535,6 +1533,22 @@ bool process_select_word_user(uint16_t keycode, keyrecord_t *record, uint16_t se
     return false;
 }
 
+bool send_key_with_ralt(char key, char dead_ralt_key, uint8_t mods, bool shifted) {
+    clear_all_mods();
+    SEND_STRING(SS_DOWN(X_RALT));
+    send_char(dead_ralt_key);
+    SEND_STRING(SS_UP(X_RALT) SS_TAP_CODE_DELAY);
+    if (shifted) {
+        SEND_STRING(SS_DOWN(X_LSFT));
+    }
+    send_char(key);
+    if (shifted) {
+        SEND_STRING(SS_UP(X_LSFT));
+    }
+    set_mods(mods);
+    return false;
+}
+
 bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_keycode) {
     if (!record->event.pressed) {
         return true;
@@ -1576,73 +1590,29 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
     switch (tap_keycode) {
         // grave
         case CM_A:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("r"));
-            SEND_STRING(shifted ? SS_LSFT("a") : "a");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('a', 'r', mods, shifted);
         case CM_P:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("r"));
-            SEND_STRING(shifted ? SS_LSFT("e") : "e");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('e', 'r', mods, shifted);
         case CM_L:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("r"));
-            SEND_STRING(shifted ? SS_LSFT("u") : "u");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('u', 'r', mods, shifted);
         // circonflexe
         case CM_Q:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("x"));
-            SEND_STRING(shifted ? SS_LSFT("a") : "a");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('a', 'x', mods, shifted);
         case CM_F:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("x"));
-            SEND_STRING(shifted ? SS_LSFT("e") : "e");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('e', 'x', mods, shifted);
         case CM_I:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("x"));
-            SEND_STRING(shifted ? SS_LSFT("i") : "i");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('i', 'x', mods, shifted);
         case CM_O:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("x"));
-            SEND_STRING(shifted ? SS_LSFT("o") : "o");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('o', 'x', mods, shifted);
         case CM_U:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("x"));
-            SEND_STRING(shifted ? SS_LSFT("u") : "u");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('u', 'x', mods, shifted);
         // tréma
         case CM_W:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("d"));
-            SEND_STRING(shifted ? SS_LSFT("e") : "e");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('e', 'd', mods, shifted);
         case CM_Y:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("d"));
-            SEND_STRING(shifted ? SS_LSFT("i") : "i");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('i', 'd', mods, shifted);
         case CM_SCLN:
-            clear_all_mods();
-            SEND_STRING(SS_RALT("d"));
-            SEND_STRING(shifted ? SS_LSFT("u") : "u");
-            set_mods(mods);
-            return false;
+            return send_key_with_ralt('u', 'd', mods, shifted);
         default:
             return true;
     }
