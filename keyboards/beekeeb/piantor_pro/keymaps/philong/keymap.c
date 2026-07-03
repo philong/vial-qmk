@@ -183,7 +183,7 @@ void keyboard_post_init_user(void) {
 void eeconfig_init_user(void) { // EEPROM is getting reset!
     set_unicode_input_mode(UNICODE_MODE_LINUX);
     user_config.raw        = 0;
-    user_config.colemak_fr = false;
+    user_config.colemak_fr = true;
 #ifdef AUTOCORRECT_ENABLE
     autocorrect_enable();
 #endif
@@ -1964,6 +1964,7 @@ void send_please(bool random) {
 
 void send_food(bool random) {
     static const char *emojis[] = {
+        "🍴", // Fork and Knife
         "🍔", // Hamburger
         "🍟", // French Fries
         "🍕", // Pizza
