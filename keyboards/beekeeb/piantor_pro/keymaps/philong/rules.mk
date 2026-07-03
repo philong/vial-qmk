@@ -34,6 +34,11 @@ SRC += features/sentence_case.c
 SRC += features/repeat_key.c
 SRC += features-andrewjrae/casemodes.c
 SRC += features-treeman/layermodes.c
+
+AUTOCOMPLETE_LIGHT ?= yes
+ifeq ($(strip $(AUTOCOMPLETE_LIGHT)), yes)
+	OPT_DEFS += -DAUTOCOMPLETE_LIGHT
+endif
 SRC += autocomplete.c
 
 ifeq ($(MOUSEKEY_ENABLE), yes)
