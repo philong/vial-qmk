@@ -161,9 +161,9 @@
                 -1,
                 -1,
                 -1,
-                "KC_DELETE",
-                "KC_BSPACE",
-                "KC_ENTER"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ]
         ],
         [
@@ -203,9 +203,9 @@
                 -1,
                 -1,
                 -1,
-                "KC_ESCAPE",
-                "KC_SPACE",
-                "KC_TAB"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "LSFT(KC_MINUS)",
@@ -325,9 +325,9 @@
                 -1,
                 -1,
                 -1,
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "KC_DELETE",
+                "KC_BSPACE",
+                "KC_ENTER"
             ]
         ],
         [
@@ -367,9 +367,9 @@
                 -1,
                 -1,
                 -1,
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "KC_ESCAPE",
+                "KC_SPACE",
+                "KC_TAB"
             ],
             [
                 "RALT(KC_MINUS)",
