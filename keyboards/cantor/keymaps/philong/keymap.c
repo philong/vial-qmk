@@ -876,12 +876,17 @@ const char DOUBLE_SLASH[] PROGMEM = "//";
 const char DOUBLE_QUESTION[] PROGMEM = "??";
 const char LEFT_SHIFT[] PROGMEM = "<<";
 const char RIGHT_SHIFT[] PROGMEM = ">>";
+const char DOUBLE_QUOTE[] PROGMEM = "\"\"" SS_TAP(X_LEFT);
+const char SINGLE_QUOTE[] PROGMEM = "''" SS_TAP(X_LEFT);
+const char BACKTICK[] PROGMEM = "``" SS_TAP(X_LEFT);
+const char FSTRING[] PROGMEM = "f\"\"" SS_TAP(X_LEFT);
 const char DIAMOND[] PROGMEM = "<>";
 const char ADD_ASSIGN[] PROGMEM = "+=";
 const char SUB_ASSIGN[] PROGMEM = "-=";
 const char DOUBLE_UNDERSCORE[] PROGMEM = "__";
 const char IN_UNDERSCORES[] PROGMEM = SS_LCTL(SS_TAP(X_LEFT)) "__" SS_LCTL(SS_TAP(X_RGHT)) "__";
 
+// keycode, normal, shift, control, control+shift
 const struct user_macro USER_MACROS[] PROGMEM = {
     {U_CURRENT_DIRECTORY, CURRENT_DIRECTORY, UP_DIRECTORY, NULL, NULL},
     {U_UP_DIRECTORY, UP_DIRECTORY, CURRENT_DIRECTORY, NULL, NULL},
@@ -903,6 +908,7 @@ const struct user_macro USER_MACROS[] PROGMEM = {
     {U_DOUBLE_QUESTION, DOUBLE_QUESTION, DOUBLE_SLASH, NULL, NULL},
     {U_LEFT_SHIFT, LEFT_SHIFT, RIGHT_SHIFT, NULL, NULL},
     {U_RIGHT_SHIFT, RIGHT_SHIFT, LEFT_SHIFT, NULL, NULL},
+    {U_DOUBLE_QUOTE, DOUBLE_QUOTE, SINGLE_QUOTE, BACKTICK, FSTRING},
     {U_USERNAME, "philong.do@gmail.com", "p.do@axelor.com", "philong", "Phi-Long Do"},
 };
 

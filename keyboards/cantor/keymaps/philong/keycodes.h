@@ -126,6 +126,7 @@ enum user_keycode {
     U_DOUBLE_QUESTION,
     U_LEFT_SHIFT,
     U_RIGHT_SHIFT,
+    U_DOUBLE_QUOTE,
     U_USERNAME,
     U_CG_TOGG,
     U_CM_TOGG,
