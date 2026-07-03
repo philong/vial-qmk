@@ -1234,28 +1234,28 @@
         ],
         [
             [
-                "LGUI(KC_GRAVE)",
-                "LGUI(KC_1)",
-                "LGUI(KC_2)",
-                "LGUI(KC_3)",
-                "LGUI(KC_4)",
-                "LGUI(KC_5)"
+                "KC_GRAVE",
+                "KC_1",
+                "KC_2",
+                "KC_3",
+                "KC_4",
+                "KC_5"
             ],
             [
                 "KC_TRNS",
-                "LGUI(KC_INSERT)",
-                "LGUI(KC_HOME)",
-                "LGUI(KC_UP)",
-                "LGUI(KC_END)",
-                "LGUI(KC_PGUP)"
+                "KC_INSERT",
+                "KC_HOME",
+                "KC_UP",
+                "KC_END",
+                "KC_PGUP"
             ],
             [
                 "KC_TRNS",
                 "QK_CAPS_WORD_TOGGLE",
-                "LGUI(KC_LEFT)",
-                "LGUI(KC_DOWN)",
-                "LGUI(KC_RIGHT)",
-                "LGUI(KC_PGDOWN)"
+                "KC_LEFT",
+                "KC_DOWN",
+                "KC_RIGHT",
+                "KC_PGDOWN"
             ],
             [
                 "KC_TRNS",
@@ -1274,12 +1274,12 @@
                 "LGUI(KC_TAB)"
             ],
             [
-                "LGUI(KC_MINUS)",
-                "LGUI(KC_0)",
-                "LGUI(KC_9)",
-                "LGUI(KC_8)",
-                "LGUI(KC_7)",
-                "LGUI(KC_6)"
+                "KC_MINUS",
+                "KC_0",
+                "KC_9",
+                "KC_8",
+                "KC_7",
+                "KC_6"
             ],
             [
                 "KC_TRNS",

@@ -889,6 +889,20 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+bool process_gui_layer(uint16_t keycode, keyrecord_t *record) {
+    if (!IS_QK_LAYER_TAP(keycode) || QK_LAYER_TAP_GET_LAYER(keycode) != LAYER_GUI_NAV || record->tap.count != 0) {
+        return true;
+    }
+
+    if (record->event.pressed) {
+        register_code16(KC_RGUI);
+    } else {
+        unregister_code16(KC_RGUI);
+    }
+
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_shift_backspace_delete(keycode, record)) {
         return false;
@@ -915,6 +929,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_punctuation_mod(keycode, record)) {
+        return false;
+    }
+    if (!process_gui_layer(keycode, record)) {
         return false;
     }
 
