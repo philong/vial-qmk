@@ -163,16 +163,27 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
         start_index = 0;
     }
 
+    const char **words;
+    size_t       words_len;
+
     if (prefix_word_len <= 0 || is_end_of_sentence(prefix_word)) {
-        strcpy(result, "The ");
-        return 0;
-    }
+        words     = start_words;
+        words_len = start_words_len;
+    } else {
+        char      start_letter = tolower(prefix_word[0]);
+        const int index        = start_letter - 'a';
 
-    char      start_letter = tolower(prefix_word[0]);
-    const int index        = start_letter - 'a';
+        if (index < 0 || index >= ALPHABET_SIZE) {
+            return -1; // Invalid prefix
+        }
 
-    if (index < 0 || index >= ALPHABET_SIZE) {
-        return -1; // Invalid prefix
+        if (start_letter == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
+            words     = c_cedilla_words;
+            words_len = c_cedilla_words_len;
+        } else {
+            words     = autocomplete_data[index];
+            words_len = MAX_AUTOCOMPLETE;
+        }
     }
 
     ssize_t found_index = -1;
@@ -184,16 +195,6 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
                 break;
             }
             start_index = 0;
-        }
-
-        const char **words;
-        size_t       words_len;
-        if (start_letter == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
-            words     = c_cedilla_words;
-            words_len = c_cedilla_words_len;
-        } else {
-            words     = autocomplete_data[index];
-            words_len = MAX_AUTOCOMPLETE;
         }
 
         for (ssize_t min_completion = 1; min_completion >= 0; --min_completion) {
