@@ -7,21 +7,148 @@
 
 #include "quantum/keymap_extras/sendstring_colemak.h"
 
+#define _______ KC_TRNS
+
+enum VIAL_MACROS {
+    M0 = 0x7700,
+    M1 = 0x7701
+};
+
+#ifndef LCG_T
+    #define LCG_T(kc)  MT(MOD_LCTL | MOD_LGUI, kc)
+#endif
+#ifndef RCG_T
+    #define RCG_T(kc)  MT(MOD_RCTL | MOD_RGUI, kc)
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [0] = LAYOUT(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                               KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-        KC_LCTL, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                               KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                               KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,
-                                            KC_LGUI, MO(1), KC_SPC,           KC_ENT,  KC_RCTL,  KC_RALT
+        KC_GRV,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINS,
+        S(KC_MINS),     KC_Q,           LCAG_T(KC_W),   SGUI_T(KC_E),   LCG_T(KC_R),    KC_T,           KC_Y,           RCG_T(KC_U),    SGUI_T(KC_I),   RCAG_T(KC_O),   KC_P,           TD(0),
+        S(KC_QUOT),     LGUI_T(KC_A),   LALT_T(KC_S),   LSFT_T(KC_D),   LCTL_T(KC_F),   ALL_T(KC_G),    ALL_T(KC_H),    RCTL_T(KC_J),   RSFT_T(KC_K),   LALT_T(KC_L),   RGUI_T(KC_SCLN),KC_QUOT,
+        KC_MINS,        KC_Z,           KC_X,           LSFT_T(KC_C),   RALT_T(KC_V),   KC_B,           KC_N,           RALT_T(KC_M),   RSFT_T(KC_COMM),KC_DOT,         KC_SLSH,        S(KC_EQL),
+                                                        LT(5, KC_ESC),  LT(1, KC_SPC),  LT(3, KC_TAB),  LT(4, KC_ENT),  LT(2, KC_BSPC), LT(6, KC_DEL)
     ),
+
     [1] = LAYOUT(
-        KC_GRV,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                              KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                            KC_PGUP, KC_PGDN, KC_HOME, KC_END,  KC_DEL,  KC_F12,
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                            KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_LBRC, KC_RBRC,
-        KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                            KC_TRNS, KC_TRNS, KC_TRNS,           KC_TRNS,  KC_TRNS,  KC_TRNS
+        S(KC_GRV),      S(KC_1),        S(KC_2),        S(KC_3),        S(KC_4),        S(KC_5),        S(KC_6),        S(KC_7),        S(KC_8),        S(KC_9),        S(KC_0),        S(KC_MINS),
+        _______,        KC_INS,         KC_HOME,        KC_UP,          KC_END,         KC_PGUP,        KC_EQL,         KC_7,           KC_8,           KC_9,           KC_QUOT,        KC_PPLS,
+        _______,        LGUI_T(KC_CAPS),LALT_T(KC_LEFT),LSFT_T(KC_DOWN),LCTL_T(KC_RGHT),KC_PGDN,        KC_MINS,        KC_4,           KC_5,           KC_6,           TD(1),          S(KC_9),
+        _______,        LT(0, KC_Z),    LT(0, KC_X),    LT(0, KC_C),    LT(0, KC_V),    LT(0, KC_B),    KC_0,           KC_1,           KC_2,           KC_3,           KC_BSLS,        S(KC_0),
+                                                        M1,             _______,        M0,             KC_PENT,        KC_BSPC,       KC_DEL
+    ),
+
+    [2] = LAYOUT(
+        S(KC_GRV),      S(KC_1),        S(KC_2),        S(KC_3),        S(KC_4),        S(KC_5),        S(KC_6),        S(KC_7),        S(KC_8),        S(KC_9),        S(KC_0),        S(KC_MINS),
+        _______,        KC_INS,         KC_HOME,        KC_UP,          KC_END,         KC_PGUP,        KC_VOLU,        KC_MPLY,        KC_MPRV,        KC_MNXT,        KC_BRIU,        _______,
+        _______,        QK_CAPS_WORD_TOGGLE,KC_LEFT,    KC_DOWN,        KC_RGHT,        KC_PGDN,        KC_VOLD,        KC_RCTL,        KC_RSFT,        KC_LALT,        RGUI_T(KC_BRID),_______,
+        _______,        LT(0, KC_Z),    LT(0, KC_X),    LT(0, KC_C),    LT(0, KC_V),    LT(0, KC_B),    KC_MUTE,        KC_RALT,        QK_REPEAT_KEY,  QK_ALT_REPEAT_KEY,KC_SLEP,      _______,
+                                                        KC_ESC,         KC_SPC,         KC_TAB,         _______,        _______,        _______
+    ),
+
+    [3] = LAYOUT(
+        ALGR(KC_GRV),   ALGR(KC_1),     ALGR(KC_2),     ALGR(KC_3),     ALGR(KC_4),     ALGR(KC_5),     ALGR(KC_6),     ALGR(KC_7),     ALGR(KC_8),     ALGR(KC_9),     ALGR(KC_0),     ALGR(KC_MINS),
+        _______,        KC_PSCR,        KC_F7,          KC_F8,          KC_F9,          KC_F12,         S(KC_EQL),      S(KC_7),        S(KC_8),        S(KC_0),        S(KC_QUOT),     _______,
+        _______,        LGUI_T(KC_SCRL),LALT_T(KC_F4),  LSFT_T(KC_F5),  LCTL_T(KC_F6),  KC_F11,         S(KC_MINS),     S(KC_4),        S(KC_5),        S(KC_6),        TD(1),          _______,
+        _______,        KC_PAUS,        KC_F1,          LSFT_T(KC_F2),  RALT_T(KC_F3),  KC_F10,         S(KC_0),        S(KC_1),        S(KC_2),        S(KC_3),        S(KC_BSLS),     _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [4] = LAYOUT(
+        ALGR(KC_GRV),   ALGR(KC_1),     ALGR(KC_2),     ALGR(KC_3),     ALGR(KC_4),     ALGR(KC_5),     ALGR(KC_6),     ALGR(KC_7),     ALGR(KC_8),     ALGR(KC_9),     ALGR(KC_0),     ALGR(KC_MINS),
+        _______,        KC_PSCR,        KC_F7,          KC_F8,          KC_F9,          KC_F12,         _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        KC_SCRL,        KC_F4,          KC_F5,          KC_F6,          KC_F11,         _______,        KC_RCTL,        KC_RSFT,        KC_LALT,        KC_RGUI,        _______,
+        _______,        KC_PAUS,        KC_F1,          KC_F2,          KC_F3,          KC_F10,         _______,        KC_RALT,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [5] = LAYOUT(
+        S(ALGR(KC_GRV)),S(ALGR(KC_1)),  S(ALGR(KC_2)),  S(ALGR(KC_3)),  S(ALGR(KC_4)),  S(ALGR(KC_5)),  S(ALGR(KC_6)),  S(ALGR(KC_7)),  S(ALGR(KC_8)),  S(ALGR(KC_9)),  S(ALGR(KC_0)),  S(ALGR(KC_MINS)),
+        _______,        S(KC_EQL),      KC_P7,          KC_P8,          KC_P9,          KC_EQL,         LCTL(KC_EQL),   LGUI(KC_7),     LGUI(KC_8),     LGUI(KC_9),     LCTL(KC_2),     _______,
+        _______,        LGUI_T(KC_PDOT),LALT_T(KC_P4),  LSFT_T(KC_P5),  LCTL_T(KC_P6),  KC_MINS,        LCTL(KC_MINS),  LGUI(KC_4),     LGUI(KC_5),     LGUI(KC_6),     LCTL(KC_1),     _______,
+        _______,        KC_SLSH,        KC_P1,          KC_P2,          RALT_T(KC_P3),  KC_0,           LCTL(KC_0),     LGUI(KC_1),     LGUI(KC_2),     LGUI(KC_3),     LCTL(KC_GRV),   _______,
+                                                        _______,        _______,        _______,        _______,        _______,        KC_APP
+    ),
+
+    [6] = LAYOUT(
+        S(ALGR(KC_GRV)),S(ALGR(KC_1)),  S(ALGR(KC_2)),  S(ALGR(KC_3)),  S(ALGR(KC_4)),  S(ALGR(KC_5)),  S(ALGR(KC_6)),  S(ALGR(KC_7)),  S(ALGR(KC_8)),  S(ALGR(KC_9)),  S(ALGR(KC_0)),  S(ALGR(KC_MINS)),
+        _______,        KC_WFWD,        KC_WH_L,        KC_MS_U,        KC_WH_R,        KC_WH_U,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        KC_WBAK,        KC_MS_L,        KC_MS_D,        KC_MS_R,        KC_WH_D,        _______,        KC_RCTL,        KC_RSFT,        KC_LALT,        KC_LGUI,        _______,
+        _______,        KC_WREF,        KC_BTN4,        KC_BTN5,        KC_BTN1,        KC_BTN2,        _______,        KC_RALT,        KC_ACL0,        KC_ACL1,        KC_ACL2,        _______,
+                                                        _______,        KC_BTN1,        KC_BTN2,        _______,        _______,        _______
+    ),
+
+    [7] = LAYOUT(
+        S(KC_GRV),      S(KC_1),        S(KC_2),        S(KC_3),        S(KC_4),        S(KC_5),        S(KC_6),        S(KC_7),        S(KC_8),        S(KC_9),        S(KC_0),        S(KC_MINS),
+        _______,        KC_INS,         KC_HOME,        KC_UP,          KC_END,         KC_PGUP,        KC_EQL,         KC_7,           KC_8,           KC_9,           KC_QUOT,        KC_PPLS,
+        _______,        LGUI_T(KC_CAPS),KC_LEFT,        KC_DOWN,        KC_RGHT,        KC_PGDN,        KC_MINS,        KC_4,           KC_5,           KC_6,           TD(1),          S(KC_9),
+        _______,        LT(0, KC_Z),    LT(0, KC_X),    LT(0, KC_C),    LT(0, KC_V),    LT(0, KC_B),    KC_0,           KC_1,           KC_2,           KC_3,           KC_BSLS,        S(KC_0),
+                                                        M1,             _______,        M0,             KC_PENT,        KC_BSPC,        KC_DEL
+    ),
+
+    [8] = LAYOUT(
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [9] = LAYOUT(
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [10] = LAYOUT(
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [11] = LAYOUT(
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [12] = LAYOUT(
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [13] = LAYOUT(
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [14] = LAYOUT(
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,        _______,
+                                                        _______,        _______,        _______,        _______,        _______,        _______
+    ),
+
+    [15] = LAYOUT(
+        KC_GRV,         KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINS,
+        KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_EQL,
+        KC_CAPS,        KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_H,           KC_J,           KC_K,           KC_L,           KC_SCLN,        KC_QUOT,
+        KC_LSFT,        KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_N,           KC_M,           KC_COMM,        KC_DOT,         KC_SLSH,        KC_RSFT,
+                                                        KC_ESC,         KC_SPC,         KC_LCTL,        KC_ENT,         KC_BSPC,        KC_DEL
     )
 };
 
