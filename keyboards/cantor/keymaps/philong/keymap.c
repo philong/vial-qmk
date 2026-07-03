@@ -328,6 +328,8 @@ void dynamic_macro_record_end_user(int8_t direction) {
 //     dynamic_macro_recorded[index] = true;
 // }
 
+static const int dynamic_macro_delay = 4;
+
 void dynamic_macro_play_user(int8_t direction) {
     size_t index = get_dynamic_macro_index(direction);
     if (index < 0 || index >= DYNAMIC_MACRO_RECORDED_LEN || dynamic_macro_recorded[index]) return;
@@ -338,11 +340,11 @@ void dynamic_macro_play_user(int8_t direction) {
         send_string_with_delay_P(
             SS_TAP(X_END)
             SS_LSFT(SS_TAP(X_HOME))
-            ""
+            DMACRO1_TEXT1
             SS_TAP(X_TAB)
-            ""
+            DMACRO1_TEXT2
             SS_TAP(X_ENTER),
-            3
+            dynamic_macro_delay
         );
         break;
     case 1:
@@ -350,11 +352,11 @@ void dynamic_macro_play_user(int8_t direction) {
         send_string_with_delay_P(
             SS_TAP(X_END)
             SS_LSFT(SS_TAP(X_HOME))
-            ""
+            DMACRO2_TEXT1
             SS_TAP(X_TAB)
-            ""
+            DMACRO2_TEXT2
             SS_TAP(X_ENTER),
-            3
+            dynamic_macro_delay
         );
     }
 }

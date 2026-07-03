@@ -92,3 +92,8 @@
 #define SELECT_WORD_TIMEOUT 2000
 
 #define SENTENCE_CASE_TIMEOUT 2000
+
+#define DMACRO1_TEXT1 ""
+#define DMACRO1_TEXT2 ""
+#define DMACRO2_TEXT1 ""
+#define DMACRO2_TEXT2 ""
