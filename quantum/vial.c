@@ -728,6 +728,7 @@ static bool alt_repeat_key_mods_match(uint8_t mods, uint8_t required_mods, uint8
     return (mods & required_mods) == required_mods && (mods & ~allowed_mods) == 0;
 }
 
+__attribute__((weak))
 uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     uint16_t alt_keycode = KC_TRNS;
     int8_t best_fit = -1;
