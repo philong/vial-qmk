@@ -1270,6 +1270,109 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
 // bool get_chordal_hold(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
     // return get_chordal_hold_default(tap_hold_record, other_record);
 // }
+
+uint16_t get_tap_keycode(uint16_t keycode) {
+    if (IS_QK_MOD_TAP(keycode)) {
+        keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_QK_LAYER_TAP(keycode)) {
+        keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    }
+    return keycode;
+}
+
+bool is_tap_flow_key(uint16_t keycode) {
+    keycode = get_tap_keycode(keycode);
+
+    if (is_alpha(keycode)) {
+        return true;
+    }
+
+    switch (keycode) {
+        case KC_SPC:
+        case CM_DOT:
+        case CM_COMM:
+        case CM_SCLN:
+        case CM_SLSH:
+            return true;
+    }
+
+    return false;
+}
+
+uint16_t get_tap_flow_term(
+    uint16_t keycode, keyrecord_t* record, uint16_t prev_keycode) {
+
+    uint16_t prev_keycode_tap = get_tap_keycode(prev_keycode);
+
+    if (prev_keycode_tap == KC_BSPC) {
+        return 0;  // Disable filter when immediately following backspace.
+    }
+
+    uint16_t keycode_tap = get_tap_keycode(keycode);
+
+    // home-row-mods
+    switch (keycode_tap) {
+        case CM_A:
+        case CM_R:
+        case CM_S:
+        case CM_T:
+        case CM_N:
+        case CM_E:
+        case CM_I:
+        case CM_O:
+            return 0;  // Disable filter for these keys.
+    }
+
+    // AltGr producing accented characters
+    switch (prev_keycode) {
+        case RALT_T(CM_X):
+        case RALT_T(CM_V):
+            switch (keycode_tap) {
+                case CM_E:
+                case CM_I:
+                case CM_O:
+                case CM_L:
+                case CM_U:
+                case CM_Y:
+                case U_QUOP:
+                case CM_C:
+                    return 0;
+            }
+            break;
+        case RALT_T(CM_DOT):
+        case RALT_T(CM_M):
+            switch (keycode_tap) {
+                case CM_A:
+                case CM_Q:
+                case CM_W:
+                case CM_F:
+                case CM_P:
+                case CM_Z:
+                case CM_C:
+                case CM_V:
+                case CM_COMM:
+                    return 0;
+            }
+            break;
+        case LSFT_T(CM_C):
+            if (keycode_tap == CM_V || keycode_tap == CM_X) {
+                return 0;
+            }
+            break;
+        case RSFT_T(CM_COMM):
+            if (keycode_tap == CM_M || keycode_tap == CM_DOT) {
+                return 0;
+            }
+            break;
+    }
+
+    if (is_tap_flow_key(keycode) && is_tap_flow_key(prev_keycode)) {
+        return g_tap_flow_term;
+    }
+
+    return 0;  // Disable Tap Flow.
+}
+
 #endif  // CHORDAL_HOLD
 #ifdef ACHORDION_ENABLE
 static bool on_left_hand(keypos_t pos) {
