@@ -1480,15 +1480,7 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
-            ],
-            [
-                "KC_TRNS",
+                "QK_BOOT",
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
@@ -1505,6 +1497,14 @@
             ],
             [
                 "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
+            ],
+            [
+                "QK_CLEAR_EEPROM",
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
@@ -1520,15 +1520,7 @@
                 "KC_TRNS"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
-            ],
-            [
-                "KC_TRNS",
+                "QK_REBOOT",
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
@@ -1547,8 +1539,16 @@
                 "KC_TRNS",
                 "KC_TRNS",
                 "KC_TRNS",
+                "0x7c76",
+                "MAGIC_TOGGLE_CTL_GUI",
+                "KC_TRNS"
+            ],
+            [
                 "KC_TRNS",
                 "KC_TRNS",
+                "KC_TRNS",
+                "USER37",
+                "USER36",
                 "KC_TRNS"
             ],
             [
@@ -2328,11 +2328,11 @@
             "USER29"
         ],
         [
+            "LT5(KC_ESCAPE)",
+            "LT6(KC_DELETE)",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "MO(18)"
         ],
         [
             "KC_NO",

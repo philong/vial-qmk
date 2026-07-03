@@ -27,6 +27,10 @@
 
 #define EE_HANDS
 
+#ifndef AUTOCORRECT_ENABLE
+  #define AUTOCORRECT_ENABLE
+#endif
+
 // Mouse
 #define MK_3_SPEED
 #define MK_MOMENTARY_ACCEL

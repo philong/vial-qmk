@@ -64,6 +64,9 @@ enum user_keycode {
     U_PARENTHESES,
     U_BRACKETS,
     U_BRACES,
+
+    U_CM_TOGG,
+    U_PUNCTUATION_MOD_TOGG,
 };
 
 enum VIAL_MACROS {
@@ -227,6 +230,17 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
         '*', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', '*',
                        '*', '*', '*',  '*', '*', '*'
     );
+
+typedef union {
+    uint32_t raw;
+    struct {
+        bool not_initialized : 1;
+        bool colemak_fr : 1;
+        bool punctuation_mod: 1;
+    };
+} user_config_t;
+
+user_config_t user_config;
 
 // KC_A ... KC_Z -> Colemak
 bool is_alpha(const uint16_t keycode) {
@@ -947,20 +961,20 @@ uint16_t combine_keycode(uint16_t keycode, uint8_t mods) {
     return (get_keycode_mods(mods) << 8) | keycode;
 }
 
-bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record) {
+bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t toggle_keycode) {
     if (!record->event.pressed) {
         return true;
     }
 
-    // if (keycode == toggle_keycode) {
-    //     user_config.punctuation_mod ^= 1;
-    //     eeconfig_update_user(user_config.raw);
-    //     return false;
-    // }
+    if (keycode == toggle_keycode) {
+        user_config.punctuation_mod ^= 1;
+        eeconfig_update_user(user_config.raw);
+        return false;
+    }
 
-    // if (!user_config.punctuation_mod) {
-    //     return true;
-    // }
+    if (!user_config.punctuation_mod) {
+        return true;
+    }
 
     uint16_t tap_keycode;
 
@@ -1081,8 +1095,100 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     return QS_tapping_hold_on_other_key_press;
 }
 
+void send_char_shifted(char key) {
+    SEND_STRING(SS_DOWN(X_LSFT));
+    send_char(key);
+    SEND_STRING(SS_UP(X_LSFT));
+}
+
+bool send_key_with_ralt(char key, char dead_ralt_key, uint8_t mods, bool shifted) {
+    clear_all_mods();
+    SEND_STRING(SS_DOWN(X_RALT));
+    send_char(dead_ralt_key);
+    SEND_STRING(SS_UP(X_RALT) SS_TAP_CODE_DELAY);
+    if (shifted) {
+        send_char_shifted(key);
+    } else {
+        send_char(key);
+    }
+    set_mods(mods);
+    return false;
+}
+
+bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_keycode) {
+    if (!record->event.pressed) {
+        return true;
+    }
+
+    if (keycode == toggle_keycode) {
+        user_config.colemak_fr ^= 1;
+        eeconfig_update_user(user_config.raw);
+        return false;
+    }
+
+    if (!user_config.colemak_fr) {
+        return true;
+    }
+
+    uint16_t tap_keycode;
+
+    if (IS_QK_LAYER_TAP(keycode)) {
+        if (record->tap.count == 0) {
+            return true;
+        } // Key is being held.
+        tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_QK_MOD_TAP(keycode)) {
+        if (record->tap.count == 0) {
+            return true;
+        } // Key is being held.
+        tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else {
+        tap_keycode = keycode;
+    }
+
+    const uint8_t mods     = get_mods();
+    const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
+    if ((all_mods & MOD_BIT(KC_RALT)) == 0) {
+        return true;
+    }
+    const bool shifted = all_mods & MOD_MASK_SHIFT;
+
+    switch (tap_keycode) {
+        // grave
+        case CM_A:
+            return send_key_with_ralt('a', 'r', mods, shifted);
+        case CM_P:
+            return send_key_with_ralt('e', 'r', mods, shifted);
+        case CM_L:
+            return send_key_with_ralt('u', 'r', mods, shifted);
+        // circonflexe
+        case CM_Q:
+            return send_key_with_ralt('a', 'x', mods, shifted);
+        case CM_F:
+            return send_key_with_ralt('e', 'x', mods, shifted);
+        case CM_I:
+            return send_key_with_ralt('i', 'x', mods, shifted);
+        case CM_O:
+            return send_key_with_ralt('o', 'x', mods, shifted);
+        case CM_U:
+            return send_key_with_ralt('u', 'x', mods, shifted);
+        // tréma
+        case CM_W:
+            return send_key_with_ralt('e', 'd', mods, shifted);
+        case CM_Y:
+            return send_key_with_ralt('i', 'd', mods, shifted);
+        case CM_SCLN:
+            return send_key_with_ralt('u', 'd', mods, shifted);
+        default:
+            return true;
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_num_layer_override(keycode, record)) {
+        return false;
+    }
+    if (!process_colemak_fr(keycode, record, U_CM_TOGG)) {
         return false;
     }
     if (!process_shift_backspace_delete(keycode, record)) {
@@ -1112,7 +1218,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_nav_override(keycode, record)) {
         return false;
     }
-    if (!process_punctuation_mod(keycode, record)) {
+    if (!process_punctuation_mod(keycode, record, U_PUNCTUATION_MOD_TOGG)) {
         return false;
     }
     if (!process_gui_layer(keycode, record)) {
@@ -1122,15 +1228,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+// Keyboard boots up.
 void keyboard_post_init_user(void) {
-#ifdef AUTOCORRECT_ENABLE
-    if (!autocorrect_is_enabled()) {
-        autocorrect_enable();
+    user_config.raw = eeconfig_read_user();
+
+    if (user_config.not_initialized) {
+        eeconfig_init_user();
     }
-#endif
 }
 
-void eeconfig_init_user(void) { // EEPROM is getting reset!
+// EEPROM is getting reset.
+void eeconfig_init_user(void) {
+    user_config.raw = 0;
+    user_config.not_initialized = false;
+    user_config.colemak_fr = true;
+    user_config.punctuation_mod = true;
+
 #ifdef UNICODE_ENABLE
     set_unicode_input_mode(UNICODE_MODE_LINUX);
 #endif
@@ -1138,4 +1251,6 @@ void eeconfig_init_user(void) { // EEPROM is getting reset!
 #ifdef AUTOCORRECT_ENABLE
     autocorrect_enable();
 #endif
+
+    eeconfig_update_user(user_config.raw);
 }

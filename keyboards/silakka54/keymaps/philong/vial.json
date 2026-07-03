@@ -255,6 +255,16 @@
             "shortName": "{}",
             "title": "Braces",
             "name": "U_BRACES"
+        },
+        {
+            "shortName": "Toggle\nCM FR",
+            "title": "Toggle Colemak FR",
+            "name": "U_CM_TOGG"
+        },
+        {
+            "shortName": "Toggle\n,. Mod",
+            "title": "Toggle Punctuation Mod",
+            "name": "U_PUNCTUATION_MOD_TOGG"
         }
     ]
 }
