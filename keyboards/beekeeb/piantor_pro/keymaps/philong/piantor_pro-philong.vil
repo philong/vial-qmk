@@ -1424,7 +1424,13 @@
                 "KC_ENTER"
             ]
         ],
-        [],
+        [
+            [
+                "tap",
+                "USER35",
+                "USER40"
+            ]
+        ],
         [],
         [],
         [],
@@ -1888,14 +1894,14 @@
             "LT2(KC_SPACE)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER35"
         ],
         [
             "KC_N",
             "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "USER40"
         ],
         [
             "RALT_T(KC_V)",
@@ -1923,7 +1929,7 @@
             "LT7(KC_DELETE)",
             "KC_NO",
             "KC_NO",
-            "USER47"
+            "USER06"
         ],
         [
             "ALL_T(KC_G)",
@@ -1972,7 +1978,7 @@
             "LT2(KC_SPACE)",
             "KC_N",
             "LT5(KC_BSPACE)",
-            "M7"
+            "M17"
         ],
         [
             "KC_Q",
