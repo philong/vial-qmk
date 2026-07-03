@@ -169,7 +169,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_P",
+                "LT0(KC_P)",
                 "KC_9",
                 "KC_8",
                 "KC_7",
@@ -177,7 +177,7 @@
             ],
             [
                 "KC_GRAVE",
-                "LT0(KC_DOT)",
+                "TD(9)",
                 "KC_6",
                 "KC_5",
                 "KC_4",
@@ -235,7 +235,7 @@
             ],
             [
                 "KC_TRNS",
-                "LSFT(KC_P)",
+                "LT0(KC_F23)",
                 "TD(1)",
                 "LSFT(KC_8)",
                 "LSFT(KC_7)",
@@ -243,7 +243,7 @@
             ],
             [
                 "LSFT(KC_GRAVE)",
-                "LT0(KC_COMMA)",
+                "TD(0)",
                 "LSFT(KC_6)",
                 "LSFT(KC_5)",
                 "LSFT(KC_4)",
@@ -1951,7 +1951,7 @@
             "trigger_mods": 34,
             "negative_mod_mask": 0,
             "suppressed_mods": 34,
-            "options": 135
+            "options": 7
         },
         {
             "trigger": "TD(1)",
