@@ -334,7 +334,7 @@ void dynamic_macro_play_user(int8_t direction) {
             SS_TAP(X_TAB)
             ""
             SS_TAP(X_ENTER),
-            1
+            2
         );
         break;
     case 1:
@@ -346,7 +346,7 @@ void dynamic_macro_play_user(int8_t direction) {
             SS_TAP(X_TAB)
             ""
             SS_TAP(X_ENTER),
-            1
+            2
         );
     }
 }
