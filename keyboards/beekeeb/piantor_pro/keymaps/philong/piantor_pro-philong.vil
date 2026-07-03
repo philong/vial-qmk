@@ -367,15 +367,15 @@
             ],
             [
                 "KC_TRNS",
-                "KC_SLEP",
-                "LCAG_T(KC_MPLY)",
-                "SGUI_T(KC_MNXT)",
-                "RCG_T(KC_MPRV)",
+                "KC_BRIU",
+                "LCAG_T(KC_MNXT)",
+                "SGUI_T(KC_MPRV)",
+                "RCG_T(KC_MPLY)",
                 "KC_VOLU"
             ],
             [
                 "KC_TRNS",
-                "KC_RGUI",
+                "KC_BRID",
                 "KC_LALT",
                 "KC_RSHIFT",
                 "KC_RCTRL",
@@ -383,10 +383,10 @@
             ],
             [
                 "KC_TRNS",
-                "KC_WSCH",
-                "KC_RALT",
+                "KC_SLEP",
+                "USER05",
                 "USER06",
-                "MO(12)",
+                "KC_RALT",
                 "KC_MUTE"
             ],
             [
@@ -433,15 +433,15 @@
             ],
             [
                 "KC_TRNS",
-                "KC_SLEP",
-                "LCAG_T(KC_MPLY)",
-                "SGUI_T(KC_MNXT)",
-                "RCG_T(KC_MPRV)",
+                "KC_BRIU",
+                "LCAG_T(KC_MNXT)",
+                "SGUI_T(KC_MPRV)",
+                "RCG_T(KC_MPLY)",
                 "KC_VOLU"
             ],
             [
                 "KC_TRNS",
-                "KC_RGUI",
+                "KC_BRID",
                 "KC_LALT",
                 "KC_RSHIFT",
                 "KC_RCTRL",
@@ -449,10 +449,10 @@
             ],
             [
                 "KC_TRNS",
-                "KC_WSCH",
-                "KC_RALT",
+                "KC_SLEP",
+                "USER05",
                 "USER06",
-                "MO(12)",
+                "KC_RALT",
                 "KC_MUTE"
             ],
             [
@@ -1936,14 +1936,14 @@
             "KC_B",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "TD(2)"
         ],
         [
             "ALL_T(KC_H)",
             "KC_N",
             "KC_NO",
             "KC_NO",
-            "USER06"
+            "LSFT(KC_RBRACKET)"
         ],
         [
             "LGUI_T(KC_A)",
@@ -2058,11 +2058,11 @@
             "M11"
         ],
         [
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "ALL_T(KC_G)",
+            "KC_B",
+            "ALL_T(KC_H)",
+            "KC_N",
+            "M7"
         ],
         [
             "LCAG_T(KC_W)",
