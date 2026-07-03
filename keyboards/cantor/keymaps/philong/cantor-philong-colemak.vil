@@ -28,9 +28,9 @@
                 "KC_B"
             ],
             [
-                "LT(3, KC_ESCAPE)",
-                "LT(1, KC_SPACE)",
-                "LT(2, KC_TAB)",
+                "LT(4, KC_ESCAPE)",
+                "LT(2, KC_SPACE)",
+                "LT(3, KC_TAB)",
                 -1,
                 -1,
                 -1
@@ -60,9 +60,75 @@
                 "U_OS_RALT"
             ],
             [
-                "LT(5, KC_ENTER)",
-                "LT(4, KC_BSPACE)",
-                "LT(6, KC_DELETE)",
+                "LT(6, KC_ENTER)",
+                "LT(5, KC_BSPACE)",
+                "LT(7, KC_DELETE)",
+                -1,
+                -1,
+                -1
+            ]
+        ],
+        [
+            [
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
+            ],
+            [
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
+            ],
+            [
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
+            ],
+            [
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                -1,
+                -1,
+                -1
+            ],
+            [
+                "KC_EQUAL",
+                "KC_7",
+                "KC_8",
+                "KC_9",
+                "KC_COMMA",
+                "KC_TRNS"
+            ],
+            [
+                "KC_MINUS",
+                "KC_4",
+                "KC_5",
+                "KC_6",
+                "KC_DOT",
+                "KC_TRNS"
+            ],
+            [
+                "TD(4)",
+                "KC_1",
+                "KC_2",
+                "KC_3",
+                "KC_SLASH",
+                "KC_TRNS"
+            ],
+            [
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
                 -1,
                 -1,
                 -1
@@ -472,6 +538,7 @@
         [],
         [],
         [],
+        [],
         []
     ],
     "layout_options": -1,
@@ -749,22 +816,22 @@
         ],
         [
             "DF(0)",
-            "DF(4)",
             "DF(5)",
             "DF(6)",
+            "DF(7)",
             200
         ],
         [
             "DF(0)",
-            "DF(1)",
             "DF(2)",
             "DF(3)",
+            "DF(4)",
             200
         ],
         [
+            "U_CAPS_WORD_TOGGLE",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
+            "U_NUM_WORD_TOGGLE",
             "KC_NO",
             200
         ],
@@ -981,42 +1048,42 @@
             "TD(3)"
         ],
         [
-            "LT(1, KC_SPACE)",
-            "LT(3, KC_ESCAPE)",
+            "LT(2, KC_SPACE)",
+            "LT(4, KC_ESCAPE)",
             "KC_NO",
             "KC_NO",
             "KC_BSPACE"
         ],
         [
-            "LT(1, KC_SPACE)",
-            "LT(2, KC_TAB)",
+            "LT(2, KC_SPACE)",
+            "LT(3, KC_TAB)",
             "KC_NO",
             "KC_NO",
             "KC_ENTER"
         ],
         [
-            "LT(4, KC_BSPACE)",
-            "LT(5, KC_ENTER)",
+            "LT(5, KC_BSPACE)",
+            "LT(6, KC_ENTER)",
             "KC_NO",
             "KC_NO",
             "KC_SPACE"
         ],
         [
-            "LT(4, KC_BSPACE)",
-            "LT(6, KC_DELETE)",
+            "LT(5, KC_BSPACE)",
+            "LT(7, KC_DELETE)",
             "KC_NO",
             "KC_NO",
             "KC_TAB"
         ],
         [
-            "LT(4, KC_BSPACE)",
+            "LT(5, KC_BSPACE)",
             "KC_DOT",
             "KC_NO",
             "KC_NO",
             "U_REPEAT"
         ],
         [
-            "LT(4, KC_BSPACE)",
+            "LT(5, KC_BSPACE)",
             "RSFT_T(KC_COMMA)",
             "KC_NO",
             "KC_NO",
@@ -1076,7 +1143,7 @@
             "KC_DOT",
             "KC_NO",
             "KC_NO",
-            "U_DOT"
+            "U_THREE_DOTS"
         ],
         [
             "KC_SLASH",
@@ -1128,18 +1195,18 @@
             "U_EQUAL"
         ],
         [
-            "LT(5, KC_ENTER)",
-            "LT(6, KC_DELETE)",
+            "LT(6, KC_ENTER)",
+            "LT(7, KC_DELETE)",
             "KC_NO",
             "KC_NO",
             "DYN_REC_STOP"
         ],
         [
-            "LT(1, KC_SPACE)",
+            "U_REPEAT",
             "KC_QUOTE",
             "KC_NO",
             "KC_NO",
-            "KC_P"
+            "U_CM_TOGG"
         ],
         [
             "U_SEL_WORD",
@@ -1151,7 +1218,7 @@
     ],
     "key_override": [
         {
-            "trigger": "LT(4, KC_BSPACE)",
+            "trigger": "LT(5, KC_BSPACE)",
             "replacement": "KC_DELETE",
             "layers": 65519,
             "trigger_mods": 2,
