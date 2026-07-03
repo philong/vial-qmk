@@ -21,5 +21,6 @@ SRC += features/select_word.c
 SRC += features/sentence_case.c
 SRC += features/repeat_key.c
 SRC += features/autocorrection.c
-SRC += andrewjrae-features/casemodes.c
+SRC += features-andrewjrae/casemodes.c
+SRC += features-treeman/layermodes.c
 SRC += autocomplete.c
