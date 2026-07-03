@@ -2215,6 +2215,61 @@ bool num_layer_override(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+bool process_fix_ubuntu_dock_switch(uint16_t keycode, keyrecord_t *record) {
+    if (!record->event.pressed) {
+        return true;
+    }
+
+    static bool in_switch = false;
+    static deferred_token token = INVALID_DEFERRED_TOKEN;
+    uint16_t tap_keycode;
+
+    if (IS_QK_LAYER_TAP(keycode)) {
+        if (record->tap.count == 0) {
+            return true;
+        } // Key is being held.
+        tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_QK_MOD_TAP(keycode)) {
+        if (record->tap.count == 0) {
+            return true;
+        } // Key is being held.
+        tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else {
+        tap_keycode = keycode;
+    }
+
+    if (!in_switch) {
+        const uint8_t mods         = get_mods();
+        const uint8_t all_mods     = mods | get_weak_mods() | get_oneshot_mods();
+        const bool    is_guied     = all_mods & MOD_MASK_GUI;
+
+        if (is_guied && tap_keycode >= KC_1 && tap_keycode <= KC_0) {
+            in_switch = true;
+        }
+    } else if (token == INVALID_DEFERRED_TOKEN) {
+        if (tap_keycode == KC_ESCAPE) {
+            in_switch = false;
+        } else if (tap_keycode == KC_ENTER || tap_keycode == KC_KP_ENTER) {
+            in_switch = false;
+            const uint32_t ubuntu_dock_fix_callback(uint32_t trigger_time, void *cb_arg) {
+                tap_code(KC_ESCAPE);
+                if (token != INVALID_DEFERRED_TOKEN) {
+                    cancel_deferred_exec(token);
+                    token  = INVALID_DEFERRED_TOKEN;
+                }
+                return 100;
+            }
+
+            token = defer_exec(500, ubuntu_dock_fix_callback, NULL);
+        } else if (tap_keycode != KC_UP && tap_keycode != KC_DOWN
+                && tap_keycode != KC_LEFT && tap_keycode != KC_RIGHT) {
+            in_switch = false;
+        }
+    }
+
+    return true;
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 #if defined(MOUSEKEY_ENABLE) && defined(DEFERRED_EXEC_ENABLE)
     process_mouse_jiggler(keycode, record);
@@ -2288,6 +2343,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 #endif
+
+    if (!process_fix_ubuntu_dock_switch(keycode, record)) {
+        return false;
+    }
 
     return true;
 }
