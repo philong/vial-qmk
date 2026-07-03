@@ -866,6 +866,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
             return CM_EQL;
         case CM_COLN:
         case KC_F23:        // :
+        case TD(11):
             return CM_COLN; // "text",
         case CM_LCBR:
         case TD(2):
@@ -1160,10 +1161,10 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
                 break;
             case CM_HASH:
                 if (get_repeat_key_count() == -1) {
-                    SEND_STRING(" ");
+                    SEND_STRING("include ");
                     return false;
-                } else if (get_repeat_key_count() < -1) {
-                    SEND_STRING(SS_TAP(X_ENT) "# ");
+                } else if (get_repeat_key_count() == -2) {
+                    SEND_STRING("<stdio.h>");
                     return false;
                 }
                 break;
@@ -1184,7 +1185,7 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
                 break;
             case CM_AMPR:
                 if (get_repeat_key_count() == -1) {
-                    SEND_STRING("& ");
+                    SEND_STRING("nbsp;");
                     return false;
                 }
                 break;
