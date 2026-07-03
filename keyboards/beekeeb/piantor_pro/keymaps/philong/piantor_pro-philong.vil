@@ -427,7 +427,7 @@
                 -1,
                 -1,
                 -1,
-                "KC_APPLICATION",
+                "KC_ESCAPE",
                 "KC_SPACE",
                 "KC_TAB"
             ],
@@ -1808,7 +1808,7 @@
             "LT7(KC_DELETE)",
             "KC_NO",
             "KC_NO",
-            "USER40"
+            "KC_APPLICATION"
         ],
         [
             "LT5(KC_BSPACE)",
