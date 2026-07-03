@@ -10,9 +10,6 @@
 #include "via.h"
 #include "qmk_settings.h"
 
-#include "quantum/keymap_extras/keymap_colemak.h"
-#include "quantum/keymap_extras/sendstring_colemak.h"
-
 #include "features/achordion.h"
 #include "features/layer_lock.h"
 #include "features/select_word.h"
@@ -21,79 +18,105 @@
 #include "features/autocorrection.h"
 #include "features/mouse_turbo_click.h"
 
-// Left-hand home row mods
-#define MT_A LGUI_T(KC_A)
-#define MT_S LALT_T(KC_S)
-#define MT_D LSFT_T(KC_D)
-#define MT_F LCTL_T(KC_F)
-#define MT_X RALT_T(KC_X)
+// #include "layermodes.h"
+#include "keycodes.h"
 
-// Right-hand home row mods
-#define MT_J RCTL_T(KC_J)
-#define MT_K RSFT_T(KC_K)
-#define MT_L LALT_T(KC_L)
-#define MT_SCLN RGUI_T(KC_SCLN)
-#define MT_DOT RALT_T(KC_DOT)
 
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-     /*
-      * ┌───┬───┬───┬───┬───┬───┐       ┌───┬───┬───┬───┬───┬───┐
-      * │Tab│ Q │ W │ E │ R │ T │       │ Y │ U │ I │ O │ P │Bsp│
-      * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │Ctl│ A │ S │ D │ F │ G │       │ H │ J │ K │ L │ ; │ ' │
-      * ├───┼───┼───┼───┼───┼───┤       ├───┼───┼───┼───┼───┼───┤
-      * │Sft│ Z │ X │ C │ V │ B │       │ N │ M │ , │ . │ / │Sft│
-      * └───┴───┴───┴───┴───┴───┘       └───┴───┴───┴───┴───┴───┘
-      *               ┌───┐                   ┌───┐
-      *               │GUI├───┐           ┌───┤Alt│
-      *               └───┤   ├───┐   ┌───┤   ├───┘
-      *                   └───┤Bsp│   │Ent├───┘
-      *                       └───┘   └───┘
-      */
-    [0] = LAYOUT_split_3x6_3(
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                           KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC,
-        KC_LCTL, MT_A,    MT_S,    MT_D,    MT_F,    KC_G,                           KC_H,    MT_J,    MT_K,    MT_L,    MT_SCLN, KC_QUOT,
-        KC_LSFT, KC_Z,    MT_X,    KC_C,    KC_V,    KC_B,                           KC_N,    KC_M,    KC_COMM, MT_DOT,  KC_SLSH, KC_RSFT,
-                                            KC_LGUI, KC_SPC, KC_BSPC,       KC_ENT,  KC_SPC,  KC_RALT
-    ),
 
-    [1] = LAYOUT_split_3x6_3(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
-    ),
-    [2] = LAYOUT_split_3x6_3(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
-    ),
-    [3] = LAYOUT_split_3x6_3(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
-    ),
-    [4] = LAYOUT_split_3x6_3(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
-    ),
-    [5] = LAYOUT_split_3x6_3(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
-    ),
-    [6] = LAYOUT_split_3x6_3(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-                                            KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS, KC_TRNS, KC_TRNS
-    )
-};
+// https://github.com/treeman/qmk_firmware/blob/master/keyboards/ferris/keymaps/treeman/layermodes.c
+
+static uint16_t num_word_timer;
+static bool _num_word_enabled = false;
+
+void num_word_user(bool enabled);
+
+bool num_word_enabled(void) {
+    return _num_word_enabled;
+}
+
+void enable_num_word(void) {
+    _num_word_enabled = true;
+    layer_on(_NUM_WORD);
+    num_word_user(_num_word_enabled);
+}
+
+void disable_num_word(void) {
+    _num_word_enabled = false;
+    layer_off(_NUM_WORD);
+    num_word_user(_num_word_enabled);
+}
+
+void toggle_num_word(void) {
+    if (num_word_enabled()) {
+        disable_num_word();
+    } else {
+        enable_num_word();
+    }
+}
+
+void process_num_word_activation(const keyrecord_t *record) {
+    if (record->event.pressed) {
+        layer_on(_NUM_WORD);
+        num_word_timer = timer_read();
+    } else {
+        if (timer_elapsed(num_word_timer) < TAPPING_TERM) {
+            // Tapping enables NUMWORD
+            _num_word_enabled = true;
+            num_word_user(_num_word_enabled);
+        } else {
+            // Holding turns off NUM when released
+            layer_off(_NUM_WORD);
+        }
+    }
+}
+
+bool process_num_word(uint16_t keycode, const keyrecord_t *record) {
+    if (!_num_word_enabled) return true;
+
+    switch (keycode) {
+        case QK_MOD_TAP ... QK_MOD_TAP_MAX:
+        case QK_LAYER_TAP ... QK_LAYER_TAP_MAX:
+        case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+            if (record->tap.count == 0)
+                return true;
+            keycode = keycode & 0xFF;
+    }
+
+    switch (keycode) {
+        case CM_1 ... CM_0:
+        case CM_PERC:
+        case CM_COMM:
+        case CM_DOT:
+        case CM_SLSH:
+        case CM_MINS:
+        case CM_ASTR:
+        case CM_PLUS:
+        case CM_COLN:
+        case CM_EQL:
+        case CM_UNDS:
+        case KC_BSPC:
+        case CM_X:
+        case U_REPEAT:
+        case U_ALT_REPEAT:
+        // case KC_ENT:
+        // case xxxxxxx:
+            // Don't disable for above keycodes
+            break;
+        case KC_ESCAPE:
+            if (record->event.pressed) {
+                disable_num_word();
+            }
+            return false;
+        default:
+            if (record->event.pressed) {
+                disable_num_word();
+            }
+    }
+
+    return true;
+}
+
+
 
 void clear_all_mods(void) {
     clear_mods();
@@ -133,74 +156,32 @@ uint16_t qs_get_tapping_term(uint16_t keycode, keyrecord_t* record) {
     }
 }
 
-enum user_keycode {
-    U_LAYER_LOCK = USER00,
-    U_CAPS_WORD_TOGGLE,
-    U_SEL_WORD,
-    U_JOIN_LN,
-    U_REPEAT,
-    U_ALT_REPEAT,
-    U_TURBO_CLICK,
-    U_CURRENT_DIRECTORY,
-    U_UP_DIRECTORY,
-    U_DOT,
-    U_THREE_DOTS,
-    U_DOUBLE_COLON,
-    U_EQUAL,
-    U_STRICT_EQUAL,
-    U_NOT_EQUAL,
-    U_STRICT_NOT_EQUAL,
-    U_LOWER_THAN_OR_EQUAL,
-    U_GREATER_THAN_OR_EQUAL,
-    U_ARROW,
-    U_DOUBLE_ARROW,
-    U_AND_OPERATOR,
-    U_OR_OPERATOR,
-    U_DOUBLE_MINUS,
-    U_DOUBLE_PLUS,
-    U_DOUBLE_SLASH,
-    U_DOUBLE_QUESTION,
-    U_LEFT_SHIFT,
-    U_RIGHT_SHIFT,
-    U_USERNAME,
-    U_CG_TOGG,
-    U_CM_TOGG,
-    U_OS_LCTL,
-    U_OS_LSFT,
-    U_OS_LALT,
-    U_OS_LGUI,
-    U_OS_RCTL,
-    U_OS_RSFT,
-    U_OS_RALT,
-    U_OS_RGUI,
-};
-
 enum oneshot_states {
     ONESHOT_INITIAL,
     ONESHOT_CONSUMED,
     ONESHOT_DONE,
 };
 
-int oneshot_state = ONESHOT_INITIAL;
+static int oneshot_state = ONESHOT_INITIAL;
 fast_timer_t oneshot_timer = 0;
 
-bool oneshot_state_lctl = false;
-bool oneshot_state_lsft = false;
-bool oneshot_state_lalt = false;
-bool oneshot_state_lgui = false;
-bool oneshot_state_rctl = false;
-bool oneshot_state_rsft = false;
-bool oneshot_state_ralt = false;
-bool oneshot_state_rgui = false;
+static bool oneshot_state_lctl = false;
+static bool oneshot_state_lsft = false;
+static bool oneshot_state_lalt = false;
+static bool oneshot_state_lgui = false;
+static bool oneshot_state_rctl = false;
+static bool oneshot_state_rsft = false;
+static bool oneshot_state_ralt = false;
+static bool oneshot_state_rgui = false;
 
-bool oneshot_pressed_lctl = false;
-bool oneshot_pressed_lsft = false;
-bool oneshot_pressed_lalt = false;
-bool oneshot_pressed_lgui = false;
-bool oneshot_pressed_rctl = false;
-bool oneshot_pressed_rsft = false;
-bool oneshot_pressed_ralt = false;
-bool oneshot_pressed_rgui = false;
+static bool oneshot_pressed_lctl = false;
+static bool oneshot_pressed_lsft = false;
+static bool oneshot_pressed_lalt = false;
+static bool oneshot_pressed_lgui = false;
+static bool oneshot_pressed_rctl = false;
+static bool oneshot_pressed_rsft = false;
+static bool oneshot_pressed_ralt = false;
+static bool oneshot_pressed_rgui = false;
 
 bool oneshot_primed(void) {
     return oneshot_state_lctl || oneshot_state_lsft || oneshot_state_lalt || oneshot_state_lgui
@@ -256,7 +237,7 @@ bool sentence_primed = false;
 bool dynamic_macro_recording = false;
 
 bool led_enabled_user(void) {
-    return caps_word_active || in_high_layer || layer_locked || sentence_primed || dynamic_macro_recording || oneshot_active();
+    return caps_word_active || _num_word_enabled || in_high_layer || layer_locked || sentence_primed || dynamic_macro_recording || oneshot_active();
 }
 
 void update_led(void) {
@@ -792,10 +773,15 @@ bool is_outer_key(uint16_t keycode, keyrecord_t* record) {
 }
 
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
-  if (is_outer_key(tap_hold_keycode, tap_hold_record)) { return true; }
-  if (is_outer_key(other_keycode, other_record)) { return true; }
+    switch (other_keycode) {
+        case QK_TAP_DANCE...QK_TAP_DANCE_MAX:
+            return false;
+    }
 
-  return achordion_opposite_hands(tap_hold_record, other_record);
+    if (is_outer_key(tap_hold_keycode, tap_hold_record)) { return true; }
+    if (is_outer_key(other_keycode, other_record)) { return true; }
+
+    return achordion_opposite_hands(tap_hold_record, other_record);
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
@@ -893,16 +879,29 @@ const size_t NUM_USER_MACROS = sizeof (USER_MACROS) / sizeof (*USER_MACROS);
 bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
     if (!record->event.pressed) { return true; }
 
+    uint16_t tap_keycode;
+
+    if (IS_LT(keycode)) {
+        if (record->tap.count == 0) { return true; } // Key is being held.
+        tap_keycode = QK_LAYER_TAP_GET_TAP_KEYCODE(keycode);
+    } else if (IS_MT(keycode)) {
+        if (record->tap.count == 0) { return true; } // Key is being held.
+        tap_keycode = QK_MOD_TAP_GET_TAP_KEYCODE(keycode);
+    } else {
+        tap_keycode = keycode;
+    }
+
     const uint8_t mods = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
+    const bool is_shifted = all_mods & MOD_MASK_SHIFT;
+    const bool is_controlled = all_mods & MOD_MASK_CTRL;
+
     for (size_t i = 0; i < NUM_USER_MACROS; ++i) {
         const struct user_macro macro = USER_MACROS[i];
-        if (macro.keycode != keycode) {
+        if (macro.keycode != tap_keycode) {
             continue;
         }
-        const bool is_shifted = all_mods & MOD_MASK_SHIFT;
-        const bool is_controlled = all_mods & MOD_MASK_CTRL;
         if (macro.shifted_controlled_string && is_shifted && is_controlled) {
             clear_all_mods();
             send_string_P(macro.shifted_controlled_string);
@@ -921,15 +920,37 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-	switch (keycode) {
+	switch (tap_keycode) {
+        case KC_ESCAPE:
+            if (is_caps_word_on()) {
+                caps_word_off();
+                return false;
+            }
+            if (num_word_enabled()) {
+                disable_num_word();
+                return false;
+            }
+            break;
 		case U_CAPS_WORD_TOGGLE:
-            if (all_mods & MOD_MASK_SHIFT) {
+            if (all_mods & MOD_MASK_CTRL) {
+                caps_word_off();
+                clear_all_mods();
+                toggle_num_word();
+                set_mods(mods);
+            } else if (all_mods & MOD_MASK_SHIFT) {
+                caps_word_off();
+                disable_num_word();
                 clear_all_mods();
                 tap_code(KC_CAPSLOCK);
                 set_mods(mods);
             } else {
+                disable_num_word();
                 caps_word_toggle();
             }
+            return false;
+        case U_NUM_WORD_TOGGLE:
+            caps_word_off();
+            toggle_num_word();
             return false;
         case U_CG_TOGG:
             process_magic(CG_TOGG, record);
@@ -937,6 +958,10 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 	}
 
     return true;
+}
+
+void num_word_user(bool enabled) {
+    update_led();
 }
 
 bool process_select_word_user(uint16_t keycode, keyrecord_t* record, uint16_t sel_keycode) {
@@ -1150,6 +1175,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_macros_user(keycode, record)) { return false; }
     if (!process_autocorrection(keycode, record)) { return false; }
     if (!process_mouse_turbo_click(keycode, record, U_TURBO_CLICK)) { return false; }
+    if (!process_num_word(keycode, record)) {  return false; }
 
     return true;
 }
