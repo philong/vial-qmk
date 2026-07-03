@@ -1921,11 +1921,16 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
             timer = timer_read_fast();
             ++comma_count;
 
-            // ,, -> ,
+            if (dot_count > 0) {
+                dot_count = 0;
+            }
+
+            // ,, -> ,,
             if (last_keycode == CM_COMM && comma_count == 2 && dot_count == 0) {
                 last_keycode = KC_NO;
                 comma_count = 0;
                 dot_count = 0;
+                tap_code(KC_COMMA);
                 return false;
             }
             break;
