@@ -1848,10 +1848,10 @@ static uint8_t simple_rand(void) {
 }
 
 // Based on https://getreuer.info/posts/keyboards/macros3/index.html#random-emojis
-void send_approve(void) {
+void send_approve(bool random) {
     static const char *emojis[] = {
-        "🌞", // Sun with Face
         "👍", // Thumbs Up
+        "🌞", // Sun with Face
         "👏", // Clapping Hands
         "🙌", // Raising Hands
         "💪", // Flexed Biceps
@@ -1865,6 +1865,11 @@ void send_approve(void) {
     };
     const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
 
+    if (!random) {
+        send_unicode_string(emojis[0]);
+        return;
+    }
+
     // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
     uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
 
@@ -1879,8 +1884,13 @@ void send_approve(void) {
     send_unicode_string(emojis[index]);
 }
 
-void send_face(void) {
+void send_face(bool random) {
     static const char *emojis[] = {
+        "🙂", // Slightly Smiling Face
+        "😊", // Smiling Face with Smiling Eyes
+        "😇", // Smiling Face with Halo
+        "🥰", // Smiling Face with Hearts
+        "😍", // Smiling Face with Heart-Eyes
         "😀", // Grinning Face
         "😃", // Grinning Face with Big Eyes
         "😄", // Grinning Face with Smiling Eyes
@@ -1889,13 +1899,8 @@ void send_face(void) {
         "😅", // Grinning Face with Sweat
         "🤣", // Rolling on the Floor Laughing
         "😂", // Face with Tears of Joy
-        "🙂", // Slightly Smiling Face
         "🙃", // Upside-Down Face
         "😉", // Winking Face
-        "😊", // Smiling Face with Smiling Eyes
-        "😇", // Smiling Face with Halo
-        "🥰", // Smiling Face with Hearts
-        "😍", // Smiling Face with Heart-Eyes
         "🤩", // Star-Struck
         // "😘", // Face Blowing a Kiss
         // "😗", // Kissing Face
@@ -1904,6 +1909,11 @@ void send_face(void) {
     };
     const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
 
+    if (!random) {
+        send_unicode_string(emojis[0]);
+        return;
+    }
+
     // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
     uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
 
@@ -1918,7 +1928,7 @@ void send_face(void) {
     send_unicode_string(emojis[index]);
 }
 
-void send_please(void) {
+void send_please(bool random) {
     static const char *emojis[] = {
         "🙏", // Folded Hands
         "🙇", // Person Bowing
@@ -1926,11 +1936,17 @@ void send_please(void) {
         "😳", // Flushed Face
         "😭", // Loudly Crying Face
         "😱", // Face Screaming in Fear
-        "🙈", // See-No-Evil Monkey
-        "🙊", // Speak-No-Evil Monkey
+        "😢", // Crying Face
         "🤭", // Face with Hand Over Mouth
+        // "🙈", // See-No-Evil Monkey
+        // "🙊", // Speak-No-Evil Monkey
     };
     const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+
+    if (!random) {
+        send_unicode_string(emojis[0]);
+        return;
+    }
 
     // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
     uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
@@ -1946,7 +1962,7 @@ void send_please(void) {
     send_unicode_string(emojis[index]);
 }
 
-void send_food(void) {
+void send_food(bool random) {
     static const char *emojis[] = {
         "🍔", // Hamburger
         "🍟", // French Fries
@@ -1989,6 +2005,40 @@ void send_food(void) {
     };
     const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
 
+    if (!random) {
+        send_unicode_string(emojis[0]);
+        return;
+    }
+
+    // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
+    uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
+
+    // Don't pick the same emoji twice in a row.
+    static uint8_t last_index = 0;
+    if (index >= last_index) {
+        ++index;
+    }
+    last_index = index;
+
+    // Produce the emoji.
+    send_unicode_string(emojis[index]);
+}
+
+void send_monkey(bool random) {
+    static const char *emojis[] = {
+        "🐵", // Monkey Face
+        "🙈", // See-No-Evil Monkey
+        "🙉", // Hear-No-Evil Monkey
+        "🙊", // Speak-No-Evil Monkey
+        "🐒", // Monkey
+    };
+    const int NUM_EMOJIS = sizeof(emojis) / sizeof(*emojis);
+
+    if (!random) {
+        send_unicode_string(emojis[0]);
+        return;
+    }
+
     // Pseudorandomly pick an index between 0 and NUM_EMOJIS - 2.
     uint8_t index = ((NUM_EMOJIS - 1) * simple_rand()) >> 8;
 
@@ -2008,16 +2058,20 @@ void send_emoji(void) {
     const uint8_t all_mods     = mods | get_weak_mods() | get_oneshot_mods();
     const bool    is_shifted   = all_mods & MOD_MASK_SHIFT;
     const bool    is_controled = all_mods & MOD_MASK_CTRL;
+    const bool    is_alted     = all_mods & MOD_MASK_ALT;
+    const bool    is_guied     = all_mods & MOD_MASK_GUI;
 
     clear_all_mods();
-    if (is_controled && is_shifted) {
-        send_food();
+    if (is_guied) {
+        send_monkey(is_alted);
+    } else if (is_controled && is_shifted) {
+        send_food(is_alted);
     } else if (is_controled) {
-        send_please();
+        send_please(is_alted);
     } else if (is_shifted) {
-        send_face();
+        send_face(is_alted);
     } else {
-        send_approve();
+        send_approve(is_alted);
     }
     set_mods(mods);
 }
