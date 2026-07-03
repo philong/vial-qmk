@@ -1,0 +1,56 @@
+/* SPDX-License-Identifier: GPL-2.0-or-later */
+
+#pragma once
+
+#define VIAL_KEYBOARD_UID {0x72, 0xD1, 0xB2, 0x31, 0x83, 0x84, 0x13, 0xDE}
+
+#define VIAL_UNLOCK_COMBO_ROWS { 0, 4 }
+#define VIAL_UNLOCK_COMBO_COLS { 1, 1 }
+
+#define WEAR_LEVELING_LOGICAL_SIZE (8 * 1024)
+#define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
+
+#define DYNAMIC_KEYMAP_LAYER_COUNT 12
+#define DYNAMIC_KEYMAP_MACRO_COUNT 64
+#define VIAL_COMBO_ENTRIES DYNAMIC_KEYMAP_MACRO_COUNT
+
+#define COMBO_ONLY_FROM_LAYER 0
+
+// Defaults restored by qmk_settings_reset() after each flash (Vial
+// invalidates its EEPROM on every new build).
+#define TAPPING_TERM 240
+#define COMBO_TERM 50
+
+#define TAP_CODE_DELAY 5
+#define SS_TAP_CODE_DELAY SS_DELAY(TAP_CODE_DELAY)
+#define STRING_DELAY_INTERVAL TAP_CODE_DELAY
+
+#ifndef PERMISSIVE_HOLD_PER_KEY
+  #define PERMISSIVE_HOLD_PER_KEY
+#endif
+
+#ifndef HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+  #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+#endif
+
+#ifndef AUTOCORRECT_ENABLE
+  #define AUTOCORRECT_ENABLE
+#endif
+
+// Mouse
+#define MK_3_SPEED
+#define MK_MOMENTARY_ACCEL
+#define MOUSEKEY_DELAY 0
+
+#define MK_C_OFFSET_UNMOD 12
+#define MK_C_INTERVAL_UNMOD 16
+
+#define MK_C_OFFSET_0 4
+#define MK_C_INTERVAL_0 16
+
+#define MK_C_OFFSET_1 24
+#define MK_C_INTERVAL_1 16
+
+#define MK_C_OFFSET_2 32
+#define MK_C_INTERVAL_2 16
+// End Mouse
