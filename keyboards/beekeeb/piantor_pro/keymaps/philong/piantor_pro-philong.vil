@@ -31,7 +31,7 @@
                 -1,
                 -1,
                 -1,
-                "LT10(KC_ESCAPE)",
+                "LT4(KC_ESCAPE)",
                 "LT2(KC_SPACE)",
                 "LT3(KC_TAB)"
             ],
@@ -301,27 +301,27 @@
             ],
             [
                 "KC_TRNS",
-                "RALT(KC_LBRACKET)",
-                "RALT(KC_9)",
-                "RALT(KC_8)",
-                "RALT(KC_7)",
-                "RALT(KC_EQUAL)"
-            ],
-            [
-                "RALT(KC_GRAVE)",
-                "RALT(KC_RBRACKET)",
-                "RALT(KC_6)",
-                "RALT(KC_5)",
-                "RALT(KC_4)",
-                "RALT(KC_MINUS)"
+                "LCTL(KC_GRAVE)",
+                "LGUI(KC_9)",
+                "LGUI(KC_8)",
+                "LGUI(KC_7)",
+                "LCTL(KC_EQUAL)"
             ],
             [
                 "KC_TRNS",
-                "RALT(KC_BSLASH)",
-                "RALT(KC_3)",
-                "RALT(KC_2)",
-                "RALT(KC_1)",
-                "RALT(KC_0)"
+                "LALT(KC_RBRACKET)",
+                "LGUI(KC_6)",
+                "LGUI(KC_5)",
+                "LGUI(KC_4)",
+                "LCTL(KC_MINUS)"
+            ],
+            [
+                "KC_TRNS",
+                "LALT(KC_LBRACKET)",
+                "LGUI(KC_3)",
+                "LGUI(KC_2)",
+                "LGUI(KC_1)",
+                "LCTL(KC_0)"
             ],
             [
                 -1,
@@ -665,27 +665,27 @@
         [
             [
                 "USER00",
-                "KC_COMMA",
-                "KC_7",
-                "KC_8",
-                "KC_9",
-                "KC_EQUAL"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "TD(9)",
-                "LALT_T(KC_4)",
-                "LSFT_T(KC_5)",
-                "LCTL_T(KC_6)",
-                "KC_MINUS"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "KC_DOT",
-                "RALT_T(KC_1)",
-                "LSFT_T(KC_2)",
-                "RALT_T(KC_3)",
-                "TD(4)"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 -1,
@@ -697,27 +697,27 @@
             ],
             [
                 "KC_TRNS",
-                "LCTL(KC_GRAVE)",
-                "LGUI(KC_9)",
-                "LGUI(KC_8)",
-                "LGUI(KC_7)",
-                "LCTL(KC_EQUAL)"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "LALT(KC_RBRACKET)",
-                "LGUI(KC_6)",
-                "LGUI(KC_5)",
-                "LGUI(KC_4)",
-                "LCTL(KC_MINUS)"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "LALT(KC_LBRACKET)",
-                "LGUI(KC_3)",
-                "LGUI(KC_2)",
-                "LGUI(KC_1)",
-                "LCTL(KC_0)"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 -1,
@@ -1759,7 +1759,7 @@
         ],
         [
             "LT2(KC_SPACE)",
-            "LT10(KC_ESCAPE)",
+            "LT4(KC_ESCAPE)",
             "KC_NO",
             "KC_NO",
             "KC_BSPACE"
@@ -1899,7 +1899,7 @@
         ],
         [
             "RALT_T(KC_V)",
-            "LT10(KC_ESCAPE)",
+            "LT4(KC_ESCAPE)",
             "KC_NO",
             "KC_NO",
             "KC_LGUI"
