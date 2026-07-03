@@ -267,7 +267,7 @@ static uint16_t get_base_tapping_term(void) {
 #ifdef VIAL_KEYBOARD_UID
     return QS.tapping_term;
 #else
-    return TAPPING_TERM;
+    return g_tapping_term;
 #endif
 }
 
