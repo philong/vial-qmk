@@ -408,6 +408,11 @@
       "shortName": "Quop",
       "title": "Quopostrokey: ' within a word, otherwise \"\"",
       "name": "U_QUOPOSTROKEY"
+    },
+    {
+      "shortName": "Quop\ntoggle",
+      "title": "Toggle Quopostrokey on the semicolon key (persistent)",
+      "name": "U_QUOPOSTROKEY_TOGG"
     }
   ]
 }
