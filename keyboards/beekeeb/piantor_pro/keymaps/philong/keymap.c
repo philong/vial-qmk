@@ -1364,6 +1364,7 @@ uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next
     // No streak for some AltGr producing accented characters
     switch (tap_hold_keycode) {
         case RALT_T(CM_X):
+        case RALT_T(CM_V):
             switch (next_keycode) {
                 case CM_E:
                 case CM_I:
@@ -1376,6 +1377,7 @@ uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next
             }
             break;
         case RALT_T(CM_DOT):
+        case RALT_T(CM_M):
             switch (next_keycode) {
                 case CM_A:
                 case CM_Q:
