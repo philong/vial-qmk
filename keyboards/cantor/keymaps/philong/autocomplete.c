@@ -94,14 +94,14 @@ static int word_cmp(const char *word, const char *prefix_word, const size_t pref
     return strncasecmp(word, prefix_word, prefix_word_len);
 }
 
-static ssize_t autocomplete_search(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result) {
+static ssize_t autocomplete_search_min(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result, const size_t min_completion) {
     for (size_t index = start_index; index < max_size; ++index) {
         const char *word = words[index];
         if (word == NULL) {
             break;
         }
         const size_t word_len = strlen(word);
-        if (word_len > prefix_word_len && word_cmp(word, prefix_word, prefix_word_len) == 0) {
+        if (word_len > prefix_word_len + min_completion && word_cmp(word, prefix_word, prefix_word_len) == 0) {
             // Set remaining characters to complete the word
             const char  *remaining = word + prefix_word_len;
             const size_t len       = strlen(remaining);
@@ -111,6 +111,16 @@ static ssize_t autocomplete_search(const char **words, const size_t max_size, co
         }
     }
 
+    return -1;
+}
+
+static ssize_t autocomplete_search(const char **words, const size_t max_size, const size_t start_index, const char *prefix_word, const size_t prefix_word_len, char *result) {
+    for (ssize_t min_completion = 1; min_completion >= 0; --min_completion) {
+        const ssize_t index = autocomplete_search_min(words, max_size, start_index, prefix_word, prefix_word_len, result, min_completion);
+        if (index >= 0) {
+            return index;
+        }
+    }
     return -1;
 }
 
