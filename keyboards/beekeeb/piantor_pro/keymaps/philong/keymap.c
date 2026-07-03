@@ -1575,6 +1575,17 @@ bool process_achordion_user(uint16_t keycode, keyrecord_t *record) {
 }
 #endif  // ACHORDION_ENABLE
 
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    if (IS_QK_MOD_TAP(keycode)) {
+        const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(keycode));
+        if (mod & MOD_LGUI) {
+            return false;
+        }
+    }
+
+    return QS_tapping_permissive_hold;
+}
+
 void layer_lock_set_user(layer_state_t state) {
     locked_layers = state;
     update_led();

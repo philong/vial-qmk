@@ -190,6 +190,17 @@ uint16_t get_flow_tap_term(
     return 0;  // Disable Tap Flow.
 }
 
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    if (IS_QK_MOD_TAP(keycode)) {
+        const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(keycode));
+        if (mod & MOD_LGUI) {
+            return false;
+        }
+    }
+
+    return QS_tapping_permissive_hold;
+}
+
 bool caps_word_press_user(uint16_t keycode) {
     // Keycodes that continue Caps Word, with shift applied.
     if (is_alpha(keycode) || keycode == KC_MINS) {
