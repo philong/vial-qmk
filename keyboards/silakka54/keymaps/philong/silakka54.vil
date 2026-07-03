@@ -20,7 +20,7 @@
                 "KC_T"
             ],
             [
-                "OSM(MOD_LCTL)",
+                "USER27",
                 "LGUI_T(KC_A)",
                 "LALT_T(KC_S)",
                 "LSFT_T(KC_D)",
@@ -28,7 +28,7 @@
                 "LT11(KC_G)"
             ],
             [
-                "OSM(MOD_LSFT)",
+                "LSFT_T(KC_MINUS)",
                 "KC_Z",
                 "KC_X",
                 "LSFT_T(KC_C)",
@@ -52,7 +52,7 @@
                 "KC_LEFT"
             ],
             [
-                "TD(0)",
+                "USER34",
                 "KC_P",
                 "LT14(KC_O)",
                 "LT13(KC_I)",
@@ -68,7 +68,7 @@
                 "LT15(KC_H)"
             ],
             [
-                "OSM(MOD_RALT)",
+                "LT0(KC_MINUS)",
                 "KC_SLASH",
                 "KC_DOT",
                 "RSFT_T(KC_COMMA)",
@@ -2031,7 +2031,7 @@
             "RALT_T(KC_M)",
             "KC_NO",
             "KC_NO",
-            "KC_KP_0"
+            "KC_0"
         ],
         [
             "LT15(KC_H)",
@@ -2192,7 +2192,7 @@
             "RALT_T(KC_V)",
             "KC_NO",
             "KC_NO",
-            "OSM(MOD_LCTL)"
+            "OSM(MOD_RALT)"
         ],
         [
             "RCTL_T(KC_J)",
