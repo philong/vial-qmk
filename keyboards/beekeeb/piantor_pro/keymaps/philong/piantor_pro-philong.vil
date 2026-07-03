@@ -2036,18 +2036,18 @@
             "KC_NO"
         ],
         [
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "LCAG_T(KC_W)",
+            "LALT_T(KC_S)",
+            "SGUI_T(KC_E)",
+            "LSFT_T(KC_D)",
+            "M6"
         ],
         [
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "SGUI_T(KC_I)",
+            "RSFT_T(KC_K)",
+            "LCAG_T(KC_O)",
+            "LALT_T(KC_L)",
+            "M5"
         ],
         [
             "KC_NO",
