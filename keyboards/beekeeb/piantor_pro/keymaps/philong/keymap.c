@@ -771,7 +771,7 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
         case TD(4):
             return CM_1; // 00, 000
         case CM_MINS:
-            return U_DOUBLE_MINUS;
+            return CM_EQL;
         case CM_EQL:
             return U_EQUAL;
         case CM_SCLN:
