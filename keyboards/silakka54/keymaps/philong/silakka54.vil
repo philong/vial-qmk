@@ -86,12 +86,12 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "LSFT(KC_GRAVE)",
+                "LSFT(KC_1)",
+                "LSFT(KC_2)",
+                "LSFT(KC_3)",
+                "LSFT(KC_4)",
+                "LSFT(KC_5)"
             ],
             [
                 "KC_TRNS",
@@ -126,12 +126,12 @@
                 "M0"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "LSFT(KC_MINUS)",
+                "LSFT(KC_0)",
+                "LSFT(KC_9)",
+                "LSFT(KC_8)",
+                "LSFT(KC_7)",
+                "LSFT(KC_6)"
             ],
             [
                 "KC_KP_PLUS",
@@ -168,12 +168,12 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "LSFT(KC_GRAVE)",
+                "LSFT(KC_1)",
+                "LSFT(KC_2)",
+                "LSFT(KC_3)",
+                "LSFT(KC_4)",
+                "LSFT(KC_5)"
             ],
             [
                 "KC_TRNS",
@@ -208,12 +208,12 @@
                 "KC_SPACE"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "LSFT(KC_MINUS)",
+                "LSFT(KC_0)",
+                "LSFT(KC_9)",
+                "LSFT(KC_8)",
+                "LSFT(KC_7)",
+                "LSFT(KC_6)"
             ],
             [
                 "KC_TRNS",
@@ -250,12 +250,12 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "RALT(KC_GRAVE)",
+                "RALT(KC_1)",
+                "RALT(KC_2)",
+                "RALT(KC_3)",
+                "RALT(KC_4)",
+                "RALT(KC_5)"
             ],
             [
                 "KC_TRNS",
@@ -290,12 +290,12 @@
                 "KC_TRNS"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "RALT(KC_MINUS)",
+                "RALT(KC_0)",
+                "RALT(KC_9)",
+                "RALT(KC_8)",
+                "RALT(KC_7)",
+                "RALT(KC_6)"
             ],
             [
                 "KC_TRNS",
@@ -332,12 +332,12 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "RALT(KC_GRAVE)",
+                "RALT(KC_1)",
+                "RALT(KC_2)",
+                "RALT(KC_3)",
+                "RALT(KC_4)",
+                "RALT(KC_5)"
             ],
             [
                 "KC_TRNS",
@@ -372,12 +372,12 @@
                 "KC_TRNS"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "RALT(KC_MINUS)",
+                "RALT(KC_0)",
+                "RALT(KC_9)",
+                "RALT(KC_8)",
+                "RALT(KC_7)",
+                "LSFT(KC_6)"
             ],
             [
                 "KC_TRNS",
@@ -414,12 +414,12 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "0x1635",
+                "0x161e",
+                "0x161f",
+                "0x1620",
+                "0x1621",
+                "0x1622"
             ],
             [
                 "KC_TRNS",
@@ -454,12 +454,12 @@
                 "KC_TRNS"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "0x162d",
+                "0x1627",
+                "0x1626",
+                "0x1625",
+                "0x1624",
+                "0x1623"
             ],
             [
                 "KC_TRNS",
@@ -496,12 +496,12 @@
         ],
         [
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "0x1635",
+                "0x161e",
+                "0x161f",
+                "0x1620",
+                "0x1621",
+                "0x1622"
             ],
             [
                 "KC_TRNS",
@@ -536,12 +536,12 @@
                 "KC_TRNS"
             ],
             [
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS",
-                "KC_TRNS"
+                "0x162d",
+                "0x1627",
+                "0x1626",
+                "0x1625",
+                "0x1624",
+                "0x1623"
             ],
             [
                 "KC_TRNS",
