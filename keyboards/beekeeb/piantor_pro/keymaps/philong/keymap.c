@@ -787,9 +787,9 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
             return CM_SCLN; // Comment
         case CM_LBRC:
         case TD(0):
-            return CM_LBRC; // []
+            return shifted ? CM_LCBR : CM_LBRC; // []
         case CM_RBRC:
-            return KC_SPACE;
+            return shifted ? KC_ENTER : CM_RBRC;
         case CM_BSLS:
             return CM_BSLS;
         case CM_QUOT:
