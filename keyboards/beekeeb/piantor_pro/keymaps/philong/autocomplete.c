@@ -294,6 +294,10 @@ bool process_autocomplete(uint16_t keycode, keyrecord_t *record, uint16_t autoco
                 return true;
             }
             keycode = keycode & 0xFF;
+            break;
+        case U_QUOP:
+            keycode = CM_QUOT;
+            break;
     }
 
     if (keycode == KC_ESCAPE) {
