@@ -1,0 +1,393 @@
+{
+    "name": "piantor_pro",
+    "vendorId": "0xBEED",
+    "productId": "0x0002",
+    "lighting": "none",
+    "matrix": {
+        "rows": 8,
+        "cols": 6
+    },
+    "layouts": {
+        "keymap": [
+            [
+                {
+                    "x": 3
+                },
+                "0,3",
+                {
+                    "x": 7.5
+                },
+                "4,3"
+            ],
+            [
+                {
+                    "y": -0.75,
+                    "x": 2
+                },
+                "0,2",
+                {
+                    "x": 1
+                },
+                "0,4",
+                {
+                    "x": 5.5
+                },
+                "4,4",
+                {
+                    "x": 1
+                },
+                "4,2"
+            ],
+            [
+                {
+                    "y": -0.9,
+                    "x": 5
+                },
+                "0,5",
+                {
+                    "x": 3.5
+                },
+                "4,5"
+            ],
+            [
+                {
+                    "y": -0.35
+                },
+                "0,0",
+                "0,1",
+                {
+                    "x": 1
+                },
+                "1,3",
+                {
+                    "x": 7.5
+                },
+                "5,3",
+                {
+                    "x": 1
+                },
+                "4,1",
+                "4,0"
+            ],
+            [
+                {
+                    "y": -0.75,
+                    "x": 2
+                },
+                "1,2",
+                {
+                    "x": 1
+                },
+                "1,4",
+                {
+                    "x": 5.5
+                },
+                "5,4",
+                {
+                    "x": 1
+                },
+                "5,2"
+            ],
+            [
+                {
+                    "y": -0.9,
+                    "x": 5
+                },
+                "1,5",
+                {
+                    "x": 3.5
+                },
+                "5,5"
+            ],
+            [
+                {
+                    "y": -0.35
+                },
+                "1,0",
+                "1,1",
+                {
+                    "x": 1
+                },
+                "2,3",
+                {
+                    "x": 7.5
+                },
+                "6,3",
+                {
+                    "x": 1
+                },
+                "5,1",
+                "5,0"
+            ],
+            [
+                {
+                    "y": -0.75,
+                    "x": 2
+                },
+                "2,2",
+                {
+                    "x": 1
+                },
+                "2,4",
+                {
+                    "x": 5.5
+                },
+                "6,4",
+                {
+                    "x": 1
+                },
+                "6,2"
+            ],
+            [
+                {
+                    "y": -0.9,
+                    "x": 5
+                },
+                "2,5",
+                {
+                    "x": 3.5
+                },
+                "6,5"
+            ],
+            [
+                {
+                    "y": -0.35
+                },
+                "2,0",
+                "2,1",
+                {
+                    "x": 11.5
+                },
+                "6,1",
+                "6,0"
+            ],
+            [
+                {
+                    "r": 5,
+                    "rx": 5,
+                    "ry": 3.5,
+                    "x": 0.1
+                },
+                "3,4"
+            ],
+            [
+                {
+                    "rx": 10.75
+                },
+                "7,3"
+            ],
+            [
+                {
+                    "r": 15,
+                    "rx": 6.5,
+                    "y": 0.2,
+                    "x": -0.05
+                },
+                "3,5"
+            ],
+            [
+                {
+                    "r": -15,
+                    "rx": 8.25,
+                    "y": 0.39,
+                    "x": -0.15
+                },
+                "7,5"
+            ],
+            [
+                {
+                    "r": -5,
+                    "rx": 3.6,
+                    "y": 0.1,
+                    "x": 0.2
+                },
+                "3,3"
+            ],
+            [
+                {
+                    "rx": 9.5,
+                    "y": 0.1,
+                    "x": -0.05
+                },
+                "7,4"
+            ]
+        ]
+    },
+    "customKeycodes": [
+        {
+            "shortName": "Layer\nLock",
+            "title": "Layer Lock",
+            "name": "U_LAYER_LOCK"
+        },
+        {
+            "shortName": "Caps\nWord",
+            "title": "Caps Word",
+            "name": "U_CAPS_WORD_TOGGLE"
+        },
+        {
+            "shortName": "Num\nWord",
+            "title": "Num Word",
+            "name": "U_NUM_WORD_TOGGLE"
+        },
+        {
+            "shortName": "Select\nWord",
+            "title": "Select Word",
+            "name": "U_SEL_WORD"
+        },
+        {
+            "shortName": "Join\nLines",
+            "title": "Join Lines",
+            "name": "U_JOIN_LN"
+        },
+        { "shortName": "Repeat", "title": "Repeat", "name": "U_REPEAT" },
+        {
+            "shortName": "Alt\nRepeat",
+            "title": "Alternate Repeat",
+            "name": "U_ALT_REPEAT"
+        },
+        {
+            "shortName": "Turbo\nClick",
+            "title": "Mouse Turbo Click",
+            "name": "U_TURBO_CLICK"
+        },
+        {
+            "shortName": "./",
+            "title": "Current Directory",
+            "name": "U_CURRENT_DIRECTORY"
+        },
+        {
+            "shortName": "../",
+            "title": "Parent Directory",
+            "name": "U_UP_DIRECTORY"
+        },
+        { "shortName": ".", "title": "Dot", "name": "U_DOT" },
+        { "shortName": "...", "title": "Three Dots", "name": "U_THREE_DOTS" },
+        {
+            "shortName": "::",
+            "title": "Double Colon",
+            "name": "U_DOUBLE_COLON"
+        },
+        { "shortName": "==", "title": "Equal", "name": "U_EQUAL" },
+        {
+            "shortName": "===",
+            "title": "Strict Equal",
+            "name": "U_STRICT_EQUAL"
+        },
+        { "shortName": "!=", "title": "Not Equal", "name": "U_NOT_EQUAL" },
+        {
+            "shortName": "!==",
+            "title": "Strict Not Equal",
+            "name": "U_STRICT_NOT_EQUAL"
+        },
+        {
+            "shortName": "<=",
+            "title": "Lower Than Or Equal",
+            "name": "U_LOWER_THAN_OR_EQUAL"
+        },
+        {
+            "shortName": ">=",
+            "title": "Greater Than Or Equal",
+            "name": "U_GREATER_THAN_OR_EQUAL"
+        },
+        { "shortName": "->", "title": "Arrow", "name": "U_ARROW" },
+        {
+            "shortName": "=>",
+            "title": "Double Arrow",
+            "name": "U_DOUBLE_ARROW"
+        },
+        {
+            "shortName": "&&",
+            "title": "And Operator",
+            "name": "U_AND_OPERATOR"
+        },
+        { "shortName": "||", "title": "Or Operator", "name": "U_OR__OPERATOR" },
+        {
+            "shortName": "--",
+            "title": "Double Minus",
+            "name": "U_DOUBLE_MINUS"
+        },
+        { "shortName": "++", "title": "Double Plus", "name": "U_DOUBLE_PLUS" },
+        {
+            "shortName": "//",
+            "title": "Double Slash",
+            "name": "U_DOUBLE_SLASH"
+        },
+        {
+            "shortName": "??",
+            "title": "Double Question",
+            "name": "U_DOUBLE_QUESTION"
+        },
+        { "shortName": "<<", "title": "Left Shift", "name": "U_LEFT_SHIFT" },
+        { "shortName": ">>", "title": "Right Shift", "name": "U_RIGHT_SHIFT" },
+        {
+            "shortName": "\"\"",
+            "title": "Double Quote",
+            "name": "U_DOUBLE_QUOTE"
+        },
+        {
+            "shortName": "User\nName",
+            "title": "Username",
+            "name": "U_USERNAME"
+        },
+        {
+            "shortName": "Toggle\nCtl/GUI",
+            "title": "Toggle Ctl/GUI",
+            "name": "U_CG_TOGG"
+        },
+        {
+            "shortName": "Toggle\nCM FR",
+            "title": "Toggle Colemak FR",
+            "name": "U_CM_TOGG"
+        },
+        {
+            "shortName": "Auto\nComp",
+            "title": "Autocomplete",
+            "name": "U_AUTOCOMPLETE"
+        },
+        {
+            "shortName": "OS\nLCtl",
+            "title": "Oneshot LCtl",
+            "name": "U_OS_LCTL"
+        },
+        {
+            "shortName": "OS\nLSft",
+            "title": "Oneshot LSft",
+            "name": "U_OS_LSFT"
+        },
+        {
+            "shortName": "OS\nLAlt",
+            "title": "Oneshot LAlt",
+            "name": "U_OS_LALT"
+        },
+        {
+            "shortName": "OS\nLGui",
+            "title": "Oneshot LGui",
+            "name": "U_OS_LGUI"
+        },
+        {
+            "shortName": "OS\nRCtl",
+            "title": "Oneshot LRtl",
+            "name": "U_OS_RCTL"
+        },
+        {
+            "shortName": "OS\nRSft",
+            "title": "Oneshot RSft",
+            "name": "U_OS_RSFT"
+        },
+        {
+            "shortName": "OS\nRAlt",
+            "title": "Oneshot RAlt",
+            "name": "U_OS_RALT"
+        },
+        {
+            "shortName": "OS\nRGui",
+            "title": "Oneshot RGui",
+            "name": "U_OS_RGUI"
+        },
+        {
+            "shortName": "Toggle\nAC",
+            "title": "Toggle Autocorrect",
+            "name": "U_AC_TOGG"
+        }
+    ]
+}
