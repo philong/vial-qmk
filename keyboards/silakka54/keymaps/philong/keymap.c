@@ -708,6 +708,166 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+bool process_num_layer_override(uint16_t keycode, keyrecord_t *record) {
+    const uint8_t current_layer = get_highest_layer(layer_state);
+
+    if (current_layer == LAYER_NUM) {
+        // Zero
+        if (keycode == OSM(MOD_RALT)) {
+            if (record->event.pressed) {
+                register_code16(CM_0);
+            } else {
+                unregister_code16(CM_0);
+            }
+            return false;
+        }
+        // Comma
+        if (keycode == OSM(MOD_RSFT)) {
+            if (record->event.pressed) {
+                register_code16(CM_COMM);
+            } else {
+                unregister_code16(CM_COMM);
+            }
+            return false;
+        }
+        // Dot
+        if (keycode == U_THREE_DOTS) {
+            if (record->event.pressed) {
+                register_code16(CM_DOT);
+            } else {
+                unregister_code16(CM_DOT);
+            }
+            return false;
+        }
+        // Plus
+        if (keycode == U_DOUBLE_SLASH) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_PLUS);
+            } else {
+                unregister_code16(KC_KP_PLUS);
+            }
+            return false;
+        }
+        // Triple zero
+        if (keycode == CM_SCLN) {
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_0) SS_TAP(X_0) SS_TAP(X_0));
+            }
+            return false;
+        }
+        // Slash
+        if (keycode == CM_LBRC) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_SLASH);
+            } else {
+                unregister_code16(KC_KP_SLASH);
+            }
+            return false;
+        }
+        // Asterisk
+        if (keycode == CM_RBRC) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_ASTERISK);
+            } else {
+                unregister_code16(KC_KP_ASTERISK);
+            }
+            return false;
+        }
+        // // Minus
+        // if (keycode == CM_QUOT) {
+        //     if (record->event.pressed) {
+        //         register_code16(KC_KP_MINUS);
+        //     } else {
+        //         unregister_code16(KC_KP_MINUS);
+        //     }
+        //     return false;
+        // }
+    } else if (current_layer == LAYER_SYM2) {
+        // Zero
+        if (keycode == U_UP_DIRECTORY) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_0);
+            } else {
+                unregister_code16(KC_KP_0);
+            }
+            return false;
+        }
+        // Comma
+        if (keycode == OSM(MOD_LSFT)) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_COMMA);
+            } else {
+                unregister_code16(KC_KP_COMMA);
+            }
+            return false;
+        }
+        // Dot
+        if (keycode == OSM(MOD_RALT)) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_DOT);
+            } else {
+                unregister_code16(KC_KP_DOT);
+            }
+            return false;
+        }
+        // Plus
+        if (keycode == U_SELECT_WORD) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_PLUS);
+            } else {
+                unregister_code16(KC_KP_PLUS);
+            }
+            return false;
+        }
+        // Triple zero
+        if (keycode == CM_LPRN) {
+            if (record->event.pressed) {
+                SEND_STRING(SS_TAP(X_KP_0) SS_TAP(X_KP_0) SS_TAP(X_KP_0));
+            }
+            return false;
+        }
+        // Slash
+        if (keycode == CM_RPRN) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_SLASH);
+            } else {
+                unregister_code16(KC_KP_SLASH);
+            }
+            return false;
+        }
+        // Asterisk
+        if (keycode == CM_GRV) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_ASTERISK);
+            } else {
+                unregister_code16(KC_KP_ASTERISK);
+            }
+            return false;
+        }
+        // Minus
+        if (keycode == U_SELECT_WORD_BACK) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_MINUS);
+            } else {
+                unregister_code16(KC_KP_MINUS);
+            }
+            return false;
+        }
+
+        // Enter
+        if (keycode == U_JOIN_LN) {
+            if (record->event.pressed) {
+                register_code16(KC_KP_ENTER);
+            } else {
+                unregister_code16(KC_KP_ENTER);
+            }
+            return false;
+        }
+    }
+
+    return true;
+}
+
 // Allow mod after releasing nav layer while not releasing a nav key.
 bool process_nav_override(uint16_t keycode, keyrecord_t *record) {
     static bool right_pressed = false;
@@ -922,6 +1082,9 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!process_num_layer_override(keycode, record)) {
+        return false;
+    }
     if (!process_shift_backspace_delete(keycode, record)) {
         return false;
     }
