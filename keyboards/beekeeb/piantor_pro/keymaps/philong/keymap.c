@@ -439,11 +439,7 @@ size_t get_dynamic_macro_index(int8_t direction) {
     return -1;
 }
 
-#ifdef KEYCODES_V5
-void dynamic_macro_record_start_user(void) {
-#else
 void dynamic_macro_record_start_user(int8_t direction) {
-#endif
     dynamic_macro_recording = true;
     update_led();
 }
@@ -468,7 +464,6 @@ void dynamic_macro_play_user(int8_t direction) {
 
     switch (index) {
         case 0:
-            // tap_code16(MACRO14);
             SEND_STRING(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO1_TEXT1 SS_TAP(X_TAB));
             SEND_STRING(SS_TAP(X_END) SS_TAP_CODE_DELAY SS_LSFT(SS_TAP(X_HOME)) SS_TAP_CODE_DELAY DMACRO1_TEXT2 SS_TAP(X_ENTER));
             break;
