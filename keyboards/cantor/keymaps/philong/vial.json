@@ -124,6 +124,10 @@
          "title": "Toggle Ctl/GUI",
          "name": "U_CG_TOGG"
         },
+        {"shortName": "Toggle\nCM FR",
+         "title": "Toggle Colemak FR",
+         "name": "U_CM_TOGG"
+        },
         {"shortName": "OS\nLCtl",
          "title": "Oneshot LCtl",
          "name": "U_OS_LCTL"
