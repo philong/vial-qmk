@@ -993,34 +993,33 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
     }
 
     static short comma_count = 0;
-    static short dot_count = 0;
+    static short scln_count = 0;
     static uint16_t last_keycode = KC_NO;
     static fast_timer_t timer = 0;
 
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
-    if (!all_mods && (is_alpha(tap_keycode) || tap_keycode == CM_QUOT || tap_keycode == CM_SLSH || tap_keycode == CM_SCLN)) {
+    if (!all_mods && (is_alpha(tap_keycode) || tap_keycode == CM_QUOT || tap_keycode == CM_SLSH)) {
         last_keycode = KC_NO;
 
-        const bool shifted_ralted = (comma_count == 2 && dot_count == 1)
-            || (comma_count == 1 && dot_count == 2);
-        const bool shifted = (comma_count == 1 && dot_count == 0) || shifted_ralted;
-        const bool ralted = (comma_count == 1 && dot_count == 1) || shifted_ralted;
+        const bool shifted_ralted = (comma_count == 0 && scln_count == 2) || (comma_count == 1 && scln_count == 1);
+        const bool shifted = (comma_count == 1 && scln_count == 0) || shifted_ralted;
+        const bool ralted = (comma_count == 0 && scln_count == 1) || shifted_ralted;
 
         if ((!shifted && !ralted) || timer_elapsed_fast(timer) > ONESHOT_TIMEOUT) {
             comma_count = 0;
-            dot_count = 0;
+            scln_count = 0;
             return true;
         }
 
         char backspace_str[4];
-        const size_t total = comma_count + dot_count;
+        const size_t total = comma_count + scln_count;
         memset(backspace_str, '\b', total);
         backspace_str[total] = '\0';
         SEND_STRING(backspace_str);
         comma_count = 0;
-        dot_count = 0;
+        scln_count = 0;
 
         if (shifted) {
             set_oneshot_mods(get_oneshot_mods() | MOD_BIT(KC_LSFT));
@@ -1042,29 +1041,25 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
             timer = timer_read_fast();
             ++comma_count;
 
-            if (dot_count > 0) {
-                dot_count = 0;
-            }
-
             // ,, -> ,,
-            if (last_keycode == CM_COMM && comma_count == 2 && dot_count == 0) {
+            if (last_keycode == CM_COMM && comma_count == 2 && scln_count == 0) {
                 last_keycode = KC_NO;
                 comma_count = 0;
-                dot_count = 0;
+                scln_count = 0;
                 tap_code(KC_COMMA);
                 return false;
             }
             break;
-        case CM_DOT:
+        case CM_SCLN:
             timer = timer_read_fast();
-            ++dot_count;
+            ++scln_count;
             break;
         default:
             if (comma_count > 0) {
                 comma_count = 0;
             }
-            if (dot_count > 0) {
-                dot_count = 0;
+            if (scln_count > 0) {
+                scln_count = 0;
             }
     }
 
