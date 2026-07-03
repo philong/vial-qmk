@@ -162,10 +162,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [LAYER_ADJUST] = LAYOUT(
-        QK_BOOT,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         QK_REBOOT,
         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,
+        _______,         QK_BOOT,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         _______,         QK_REBOOT,       _______,
         _______,         _______,         _______,         _______,         _______,         _______,         _______,         CG_TOGG,         AC_TOGG,         _______,         _______,         _______,
-        QK_CLEAR_EEPROM, _______,         _______,         _______,         _______,         _______,         _______,         U_CM_TOGG,       U_PUNCTUATION_MOD_TOGG, _______,  _______,         _______,
+        _______,         QK_CLEAR_EEPROM, _______,         _______,         _______,         TG(LAYER_GAME),  _______,         U_CM_TOGG,       U_PUNCTUATION_MOD_TOGG, _______,  _______,         _______,
                                                            _______,         _______,         _______,         _______,         _______,         _______
     ),
 
@@ -248,7 +248,7 @@ static const vial_combo_entry_t default_combos[] = {
     {{KC_DOT, KC_SLSH, KC_NO, KC_NO}, U_CURRENT_DIRECTORY},
     {{LT(5, KC_ESC), LT(6, KC_DEL), KC_NO, KC_NO}, MO(LAYER_ADJUST)},
     {{LSFT_T(KC_D), LCTL_T(KC_F), LT(LAYER_GUI_NUM, KC_G), KC_NO}, U_SELECT_LINE},
-    {{KC_GRV, KC_MINS, KC_NO, KC_NO}, TG(LAYER_GAME)},
+    {{KC_ESC, KC_DEL, KC_NO, KC_NO}, TG(LAYER_GAME)},
 };
 
 static void write_vial_default_tap_dances(void) {

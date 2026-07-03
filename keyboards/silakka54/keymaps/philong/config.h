@@ -4,8 +4,14 @@
 
 #define VIAL_KEYBOARD_UID {0x97, 0xD0, 0xA5, 0x97, 0x57, 0x48, 0xD0, 0x4F}
 
-#define VIAL_UNLOCK_COMBO_ROWS { 0, 0 }
-#define VIAL_UNLOCK_COMBO_COLS { 0, 1 }
+// Q and P keys, so the same positions work on 36-key layouts too.
+#define VIAL_UNLOCK_COMBO_ROWS { 1, 6 }
+#define VIAL_UNLOCK_COMBO_COLS { 1, 1 }
+
+#define BOOTMAGIC_LITE_ROW 1
+#define BOOTMAGIC_LITE_COLUMN 1
+#define BOOTMAGIC_LITE_ROW_RIGHT 6
+#define BOOTMAGIC_LITE_COLUMN_RIGHT 1
 
 #define DYNAMIC_KEYMAP_LAYER_COUNT 12
 #define DYNAMIC_KEYMAP_MACRO_COUNT 64
