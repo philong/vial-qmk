@@ -1038,10 +1038,33 @@ bool process_repeat_key_with_alt_user(uint16_t keycode, keyrecord_t *record, uin
                 break;
             case CM_LBRC:
                 if (get_repeat_key_count() == -1) {
-                    SEND_STRING("]" SS_TAP(X_LEFT));
+                    SEND_STRING("0]");
                     return false;
-                } else if (get_repeat_key_count() < -1) {
-                    SEND_STRING("[]" SS_TAP(X_LEFT));
+                } else if (get_repeat_key_count() < -1 && get_repeat_key_count() >= -10) {
+                    char str[2];
+                    sprintf(str, "%d", -get_repeat_key_count() - 1);
+                    SEND_STRING(SS_TAP(X_BSPC) SS_TAP(X_BSPC));
+                    SEND_STRING(str);
+                    SEND_STRING("]");
+                    return false;
+                } else if (get_repeat_key_count() < -10) {
+                    SEND_STRING("[]");
+                    return false;
+                }
+                break;
+            case CM_RBRC:
+                if (get_repeat_key_count() == -1) {
+                    SEND_STRING(SS_TAP(X_BSPC) "[-1]");
+                    return false;
+                } else if (get_repeat_key_count() < -1 && get_repeat_key_count() >= -9) {
+                    char str[2];
+                    sprintf(str, "%d", -get_repeat_key_count());
+                    SEND_STRING(SS_TAP(X_BSPC) SS_TAP(X_BSPC));
+                    SEND_STRING(str);
+                    SEND_STRING("]");
+                    return false;
+                } else if (get_repeat_key_count() < -9) {
+                    SEND_STRING("[]");
                     return false;
                 }
                 break;
