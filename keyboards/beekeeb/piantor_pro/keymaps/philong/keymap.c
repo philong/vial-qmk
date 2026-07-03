@@ -1785,7 +1785,7 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
-    if (!all_mods && (is_alpha(tap_keycode) || tap_keycode == U_QUOP)) {
+    if (!all_mods && (is_alpha(tap_keycode) || tap_keycode == U_QUOP || tap_keycode == CM_SLSH)) {
         last_keycode = KC_NO;
 
         const bool shifted_ralted = (comma_count == 2 && dot_count == 1)
