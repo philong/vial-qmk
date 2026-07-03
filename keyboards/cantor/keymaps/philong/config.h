@@ -8,6 +8,11 @@
 /* default layer count */
 #define DYNAMIC_KEYMAP_LAYER_COUNT 8
 
+#define UNICODE_SELECTED_MODES UC_LNX
+
+// Colemak
+#define UNICODE_KEY_LNX LCTL(LSFT(KC_I))
+
 #ifdef CONSOLE_ENABLE
     #define VIAL_INSECURE
     #undef NKRO_ENABLE
