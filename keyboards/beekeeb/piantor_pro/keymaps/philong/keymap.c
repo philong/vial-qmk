@@ -1288,7 +1288,7 @@ bool is_tap_flow_key(uint16_t keycode) {
     }
 
     switch (keycode) {
-        case KC_SPC:
+        // case KC_SPC:
         case CM_DOT:
         case CM_COMM:
         case CM_SCLN:
@@ -1304,8 +1304,8 @@ uint16_t get_tap_flow_term(
 
     uint16_t prev_keycode_tap = get_tap_keycode(prev_keycode);
 
-    if (prev_keycode_tap == KC_BSPC) {
-        return 0;  // Disable filter when immediately following backspace.
+    if (prev_keycode_tap == KC_BSPC || prev_keycode_tap == KC_SPC) {
+        return 0;  // Disable filter when immediately following backspace or space.
     }
 
     uint16_t keycode_tap = get_tap_keycode(keycode);
