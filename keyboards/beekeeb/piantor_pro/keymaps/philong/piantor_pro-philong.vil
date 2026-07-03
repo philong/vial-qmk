@@ -368,9 +368,9 @@
             [
                 "KC_TRNS",
                 "KC_SLEP",
-                "LCAG_T(KC_MNXT)",
-                "SGUI_T(KC_MPRV)",
-                "RCG_T(KC_MPLY)",
+                "LCAG_T(KC_MPLY)",
+                "SGUI_T(KC_MNXT)",
+                "RCG_T(KC_MPRV)",
                 "KC_VOLU"
             ],
             [
@@ -434,9 +434,9 @@
             [
                 "KC_TRNS",
                 "KC_SLEP",
-                "LCAG_T(KC_MNXT)",
-                "SGUI_T(KC_MPRV)",
-                "RCG_T(KC_MPLY)",
+                "LCAG_T(KC_MPLY)",
+                "SGUI_T(KC_MNXT)",
+                "RCG_T(KC_MPRV)",
                 "KC_VOLU"
             ],
             [
@@ -1699,11 +1699,11 @@
             "USER30"
         ],
         [
+            "LT2(KC_SPACE)",
+            "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "KC_NO",
-            "KC_NO",
-            "KC_NO"
+            "LCTL(KC_N)"
         ],
         [
             "LCAG_T(KC_O)",
@@ -1773,14 +1773,14 @@
             "LT2(KC_SPACE)",
             "KC_NO",
             "KC_NO",
-            "USER35"
+            "TD(2)"
         ],
         [
             "KC_N",
             "LT5(KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "USER39"
+            "LSFT(KC_RBRACKET)"
         ],
         [
             "LCAG_T(KC_W)",
@@ -1801,7 +1801,7 @@
             "LT4(KC_ESCAPE)",
             "KC_NO",
             "KC_NO",
-            "USER34"
+            "KC_LGUI"
         ],
         [
             "RALT_T(KC_M)",
