@@ -22,3 +22,21 @@
 #endif
 
 #define EE_HANDS
+
+// Mouse
+#define MK_3_SPEED
+#define MK_MOMENTARY_ACCEL
+#define MOUSEKEY_DELAY 0
+
+#define MK_C_OFFSET_UNMOD 12
+#define MK_C_INTERVAL_UNMOD 16
+
+#define MK_C_OFFSET_0 4
+#define MK_C_INTERVAL_0 16
+
+#define MK_C_OFFSET_1 24
+#define MK_C_INTERVAL_1 16
+
+#define MK_C_OFFSET_2 32
+#define MK_C_INTERVAL_2 16
+// End Mouse
