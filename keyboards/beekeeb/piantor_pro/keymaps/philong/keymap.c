@@ -1502,6 +1502,41 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
+bool process_tap_or_hold_press_key(keyrecord_t* record, uint16_t tap_keycode, uint16_t hold_keycode) {
+    if (record->tap.count == 0) {  // Key is being held.
+        if (record->event.pressed) {
+            register_code16(hold_keycode);
+        } else {
+            unregister_code16(hold_keycode);
+        }
+    } else if (record->event.pressed) {
+        tap_code16(tap_keycode);
+    }
+    return false;
+}
+
+#define U_UNDO  LT(0, CM_Z)
+#define U_CUT   LT(0, CM_X)
+#define U_COPY  LT(0, CM_C)
+#define U_PASTE LT(0, CM_V)
+#define U_REDO  LT(0, CM_B)
+
+bool process_clipboard_shortcuts(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case U_UNDO:
+            return process_tap_or_hold_press_key(record, C(CM_Z), KC_LGUI);
+        case U_CUT:
+            return process_tap_or_hold_press_key(record, C(CM_X), KC_LALT);
+        case U_COPY:
+            return process_tap_or_hold_press_key(record, C(CM_C), KC_LSFT);
+        case U_PASTE:
+            return process_tap_or_hold_press_key(record, C(KC_V), KC_RALT);
+        case U_REDO:
+            return process_tap_or_hold_press_key(record, C(S(CM_Z)), KC_LCTL);
+    }
+    return true;
+}
+
 // static const uint16_t end_keycodes = {
 //     KC_SCLN,
 //     KC_COMMA,
@@ -2494,6 +2529,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_macros_user(keycode, record)) {
+        return false;
+    }
+    if (!process_clipboard_shortcuts(keycode, record)) {
         return false;
     }
     if (!process_end_keys(keycode, record)) {
