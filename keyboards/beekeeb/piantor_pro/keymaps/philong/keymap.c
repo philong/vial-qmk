@@ -734,11 +734,11 @@ static bool is_right_thumb_row(keypos_t pos) {
 }
 
 static bool is_left_outer_col(keypos_t pos) {
-    return pos.col == 0;
+    return pos.col == OUTER_COL_LEFT;
 }
 
 static bool is_right_outer_col(keypos_t pos) {
-    return pos.col == 0;
+    return pos.col == OUTER_COL_RIGHT;
 }
 
 static bool is_outer_key(keyrecord_t *record) {
