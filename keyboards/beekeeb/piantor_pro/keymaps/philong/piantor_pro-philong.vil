@@ -235,7 +235,7 @@
             ],
             [
                 "KC_TRNS",
-                "LSFT(KC_P)",
+                "LT0(KC_F23)",
                 "TD(1)",
                 "LSFT(KC_8)",
                 "LSFT(KC_7)",
@@ -1713,7 +1713,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_P)"
+            "LT0(KC_F23)"
         ],
         [
             "RSFT_T(KC_K)",
@@ -1818,7 +1818,7 @@
             "LCTL_T(KC_F)",
             "KC_NO",
             "KC_NO",
-            "KC_QUOTE"
+            "USER05"
         ],
         [
             "RCG_T(KC_U)",
@@ -1853,7 +1853,7 @@
             "LSFT_T(KC_D)",
             "KC_NO",
             "KC_NO",
-            "LSFT(KC_QUOTE)"
+            "USER06"
         ],
         [
             "SGUI_T(KC_I)",
@@ -1895,7 +1895,7 @@
             "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
-            "KC_P"
+            "LT0(KC_P)"
         ],
         [
             "LALT_T(KC_S)",
