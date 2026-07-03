@@ -28,6 +28,10 @@
          "title": "Alternate Repeat",
          "name": "U_ALT_REPEAT"
         },
+        {"shortName": "Turbo\nClick",
+         "title": "Mouse Turbo Click",
+         "name": "U_TURBO_CLICK"
+        },
         {"shortName": "./",
          "title": "Current Directory",
          "name": "U_CURRENT_DIRECTORY"
