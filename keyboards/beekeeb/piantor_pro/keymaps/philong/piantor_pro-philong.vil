@@ -383,7 +383,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_MYCM",
+                "KC_WSCH",
                 "USER05",
                 "USER06",
                 "KC_RALT",
@@ -449,7 +449,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_MYCM",
+                "KC_WSCH",
                 "USER05",
                 "USER06",
                 "KC_RALT",
@@ -493,17 +493,17 @@
                 -1,
                 -1,
                 -1,
-                "LT8(KC_BTN3)",
-                "KC_BTN1",
-                "KC_BTN2"
+                "LT8(KC_ESCAPE)",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
-                "KC_SLEP",
-                "LCAG_T(KC_MNXT)",
-                "SGUI_T(KC_MPRV)",
-                "RCG_T(KC_MPLY)",
-                "KC_VOLU"
+                "KC_ACL2",
+                "KC_ACL1",
+                "KC_ACL0",
+                "USER07",
+                "USER45"
             ],
             [
                 "KC_TRNS",
@@ -511,15 +511,15 @@
                 "KC_LALT",
                 "KC_RSHIFT",
                 "KC_RCTRL",
-                "ALL_T(KC_VOLD)"
+                "KC_ACL2"
             ],
             [
                 "KC_TRNS",
-                "KC_ACL2",
-                "KC_ACL1",
+                "KC_BTN3",
+                "KC_BTN2",
+                "KC_BTN1",
                 "KC_ACL0",
-                "KC_RALT",
-                "KC_MUTE"
+                "KC_ACL1"
             ],
             [
                 -1,
