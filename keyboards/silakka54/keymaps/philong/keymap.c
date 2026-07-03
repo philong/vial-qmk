@@ -1179,6 +1179,12 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
     }
 }
 
+#ifdef AUTOCORRECT_ENABLE
+bool autocorrect_is_alpha(uint16_t keycode) {
+    return is_alpha(keycode);
+}
+#endif
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_num_layer_override(keycode, record)) {
         return false;
