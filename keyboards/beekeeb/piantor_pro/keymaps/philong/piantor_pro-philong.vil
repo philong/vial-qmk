@@ -138,18 +138,18 @@
             [
                 "USER00",
                 "KC_INSERT",
-                "LCAG_T(KC_HOME)",
-                "SGUI_T(KC_UP)",
-                "LCG_T(KC_END)",
+                "KC_HOME",
+                "KC_UP",
+                "KC_END",
                 "KC_PGUP"
             ],
             [
                 "KC_TRNS",
-                "LGUI_T(KC_CAPSLOCK)",
-                "LALT_T(KC_LEFT)",
-                "LSFT_T(KC_DOWN)",
-                "LCTL_T(KC_RIGHT)",
-                "ALL_T(KC_PGDOWN)"
+                "KC_CAPSLOCK",
+                "KC_LEFT",
+                "KC_DOWN",
+                "KC_RIGHT",
+                "KC_PGDOWN"
             ],
             [
                 "KC_TRNS",
