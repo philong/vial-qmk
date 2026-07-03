@@ -114,7 +114,7 @@
                 "RCTL_T(KC_4)",
                 "RSFT_T(KC_5)",
                 "LALT_T(KC_6)",
-                "RGUI_T(KC_DOT)",
+                "TD(9)",
                 "KC_TRNS"
             ],
             [
@@ -360,7 +360,7 @@
             [
                 "KC_ESCAPE",
                 "KC_SPACE",
-                "KC_TAB",
+                "U_AUTOCOMPLETE",
                 -1,
                 -1,
                 -1
@@ -829,9 +829,9 @@
             200
         ],
         [
-            "U_CAPS_WORD_TOGGLE",
+            "KC_DOT",
+            "KC_COMMA",
             "KC_NO",
-            "U_NUM_WORD_TOGGLE",
             "KC_NO",
             200
         ],
@@ -1066,28 +1066,28 @@
             "LT(6, KC_ENTER)",
             "KC_NO",
             "KC_NO",
-            "KC_SPACE"
+            "U_REPEAT"
         ],
         [
             "LT(5, KC_BSPACE)",
             "LT(7, KC_DELETE)",
             "KC_NO",
             "KC_NO",
-            "KC_TAB"
-        ],
-        [
-            "LT(5, KC_BSPACE)",
-            "KC_DOT",
-            "KC_NO",
-            "KC_NO",
-            "U_REPEAT"
-        ],
-        [
-            "LT(5, KC_BSPACE)",
-            "RSFT_T(KC_COMMA)",
-            "KC_NO",
-            "KC_NO",
             "U_ALT_REPEAT"
+        ],
+        [
+            "KC_I",
+            "RSFT_T(KC_K)",
+            "KC_NO",
+            "KC_NO",
+            "U_DOUBLE_QUOTE"
+        ],
+        [
+            "LCTL_T(KC_F)",
+            "RALT_T(KC_V)",
+            "KC_NO",
+            "KC_NO",
+            "U_OS_RALT"
         ],
         [
             "KC_N",
@@ -1111,11 +1111,11 @@
             "U_ARROW"
         ],
         [
-            "KC_P",
-            "RGUI_T(KC_SCOLON)",
+            "RCTL_T(KC_J)",
+            "RALT_T(KC_M)",
             "KC_NO",
             "KC_NO",
-            "KC_SCOLON"
+            "U_OS_RALT"
         ],
         [
             "KC_W",
@@ -1153,11 +1153,11 @@
             "U_DOUBLE_SLASH"
         ],
         [
-            "KC_Q",
-            "KC_W",
+            "RSFT_T(KC_K)",
+            "RSFT_T(KC_COMMA)",
             "KC_NO",
             "KC_NO",
-            "KC_GRAVE"
+            "U_OS_RSFT"
         ],
         [
             "LSFT_T(KC_C)",
@@ -1167,11 +1167,11 @@
             "U_LOWER_THAN_OR_EQUAL"
         ],
         [
-            "KC_Q",
-            "LGUI_T(KC_A)",
+            "LSFT_T(KC_D)",
+            "LSFT_T(KC_C)",
             "KC_NO",
             "KC_NO",
-            "KC_A"
+            "U_OS_LSFT"
         ],
         [
             "KC_E",
@@ -1202,11 +1202,11 @@
             "DYN_REC_STOP"
         ],
         [
-            "U_REPEAT",
-            "KC_QUOTE",
+            "KC_N",
+            "LT(5, KC_BSPACE)",
             "KC_NO",
             "KC_NO",
-            "U_CM_TOGG"
+            "KC_GRAVE"
         ],
         [
             "U_SEL_WORD",
