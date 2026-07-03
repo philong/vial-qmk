@@ -1310,6 +1310,11 @@ uint16_t get_tap_flow_term(
 
     uint16_t keycode_tap = get_tap_keycode(keycode);
 
+    // LGui+L
+    if (prev_keycode == LGUI_T(CM_A) && keycode_tap == CM_L) {
+        return g_tap_flow_term;
+    }
+
     // home-row-mods
     switch (keycode_tap) {
         case CM_A:
