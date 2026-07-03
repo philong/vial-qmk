@@ -1339,6 +1339,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (!process_num_layer_override(keycode, record)) {
         return false;
     }
+    // Punctuation mode must run before the French Colemak processing: it
+    // turns a `;`/`,` prefix into oneshot Shift/AltGr mods, which
+    // process_colemak_fr() then picks up to produce the French accents
+    // (e.g. `;` then `a` -> à, not á).
+    if (!process_punctuation_mod(keycode, record, U_PUNCTUATION_MOD_TOGG)) {
+        return false;
+    }
     if (!process_colemak_fr(keycode, record, U_CM_TOGG)) {
         return false;
     }
@@ -1370,9 +1377,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
     if (!process_nav_override(keycode, record)) {
-        return false;
-    }
-    if (!process_punctuation_mod(keycode, record, U_PUNCTUATION_MOD_TOGG)) {
         return false;
     }
     if (!process_gui_layers(keycode, record)) {
