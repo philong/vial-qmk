@@ -196,8 +196,8 @@
                 -1,
                 -1,
                 "KC_0",
-                "KC_BSPACE",
-                "KC_KP_ENTER"
+                "KC_TRNS",
+                "KC_TRNS"
             ]
         ],
         [
@@ -329,7 +329,7 @@
                 -1,
                 "LT8(KC_DELETE)",
                 "KC_BSPACE",
-                "KC_ENTER"
+                "KC_KP_ENTER"
             ]
         ],
         [
@@ -361,9 +361,9 @@
                 -1,
                 -1,
                 -1,
-                "KC_ESCAPE",
-                "KC_SPACE",
-                "KC_TAB"
+                "KC_TRNS",
+                "KC_TRNS",
+                "KC_TRNS"
             ],
             [
                 "KC_TRNS",
