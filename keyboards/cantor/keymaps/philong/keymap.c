@@ -5,6 +5,7 @@
 
 #include "via.h"
 #include "qmk_settings.h"
+#include "process_magic.h"
 
 #include "quantum/keymap_extras/sendstring_colemak.h"
 
