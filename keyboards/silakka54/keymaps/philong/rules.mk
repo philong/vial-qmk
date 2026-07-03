@@ -3,7 +3,3 @@ VIAL_ENABLE = yes
 
 LTO_ENABLE = yes
 AUTOCORRECT_ENABLE = yes
-
-ifeq ($(MASTER_RIGHT), yes)
-    OPT_DEFS += -DMASTER_RIGHT
-endif

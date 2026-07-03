@@ -20,3 +20,5 @@
 #ifndef PERMISSIVE_HOLD_PER_KEY
   #define PERMISSIVE_HOLD_PER_KEY
 #endif
+
+#define EE_HANDS
