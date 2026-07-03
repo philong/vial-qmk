@@ -797,7 +797,9 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
 
     switch (tap_keycode) {
         case U_SEL_WORD:
-            return shifted ? S(KC_UP) : C(S(KC_LEFT));
+            return U_SEL_WORD_BACK;
+        case U_SEL_WORD_BACK:
+            return U_SEL_WORD;
         case U_JOIN_LN:
             return shifted ? U_JOIN_LN : S(U_JOIN_LN);
         case U_QUOP:
@@ -1697,36 +1699,56 @@ void num_word_user(bool enabled) {
 uint16_t SELECT_WORD_KEYCODE = U_SEL_WORD;
 
 bool process_select_word_user(uint16_t keycode, keyrecord_t *record) {
-    const int8_t repeat_key_count = get_repeat_key_count();
-
-    if (repeat_key_count == 0 && !process_select_word(keycode, record)) {
+    if (!process_select_word(keycode, record)) {
         return false;
-    }
-
-    if (keycode != U_SEL_WORD || !record->event.pressed) {
-        return true;
     }
 
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
     if (all_mods & MOD_MASK_SHIFT || all_mods & MOD_MASK_CTRL) {
-        clear_all_mods();
-        if (repeat_key_count > 0) {
-            SEND_STRING(SS_LSFT(SS_TAP(X_DOWN)));
-        } else {
-            SEND_STRING(SS_LSFT(SS_TAP(X_UP)));
+        switch (keycode) {
+            case U_SEL_WORD_BACK:
+            case U_SEL_WORD:
+            case U_SEL_LINE:
+            clear_all_mods();
+            if(record->event.pressed) {
+                select_word_register('L');
+            } else {
+                select_word_unregister();
+            }
+            set_mods(mods);
+            break;
         }
-        set_mods(mods);
     } else {
-        if (repeat_key_count > 0) {
-            SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_RGHT))));
-        } else {
-            SEND_STRING(SS_LCTL(SS_LSFT(SS_TAP(X_LEFT))));
+        switch (keycode) {
+            case U_SEL_WORD_BACK:  // Backward word selection.
+                if (record->event.pressed) {
+                    select_word_register('B');
+                } else {
+                    select_word_unregister();
+                }
+                break;
+
+            case U_SEL_WORD:  // Forward word selection.
+                if (record->event.pressed) {
+                    select_word_register('W');
+                } else {
+                    select_word_unregister();
+                }
+                break;
+
+            case U_SEL_LINE:  // Line selection.
+                if(record->event.pressed) {
+                    select_word_register('L');
+                } else {
+                    select_word_unregister();
+                }
+                break;
         }
     }
 
-    return false;
+    return true;
 }
 
 void send_char_shifted(char key) {

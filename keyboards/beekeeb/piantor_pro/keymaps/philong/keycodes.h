@@ -84,6 +84,8 @@ enum user_keycode {
     U_ADD_ASSIGN,
     U_SUB_ASSIGN,
     U_PUNCTUATION_MOD_TOGG,
+    U_SEL_WORD_BACK,
+    U_SEL_LINE,
 };
 
 #ifndef QK_REPEAT_KEY

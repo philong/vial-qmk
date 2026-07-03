@@ -484,6 +484,16 @@
             "shortName": "Toggle\n,. Mod",
             "title": "Toggle Punctuation Mod",
             "name": "U_PUNCTUATION_MOD_TOGG"
+        },
+        {
+            "shortName": "Select\nWord B",
+            "title": "Select Word Back",
+            "name": "U_SEL_WORD_BACK"
+        },
+        {
+            "shortName": "Select\nLine",
+            "title": "Select Line",
+            "name": "U_SEL_LINE"
         }
     ]
 }
