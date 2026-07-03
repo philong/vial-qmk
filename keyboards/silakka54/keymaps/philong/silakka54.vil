@@ -20,7 +20,7 @@
                 "KC_T"
             ],
             [
-                "USER27",
+                "TD(1)",
                 "LGUI_T(KC_A)",
                 "LALT_T(KC_S)",
                 "LSFT_T(KC_D)",
@@ -864,44 +864,44 @@
                 "M0"
             ],
             [
-                "0xc2d",
-                "0xc27",
-                "0xc26",
-                "0xc25",
-                "0xc24",
-                "0xc23"
+                "LAG(KC_MINUS)",
+                "LAG(KC_0)",
+                "LAG(KC_9)",
+                "LAG(KC_8)",
+                "LAG(KC_7)",
+                "LAG(KC_6)"
             ],
             [
-                "0xc57",
-                "0xc34",
-                "0xc26",
-                "0xc25",
-                "0xc24",
-                "0xc2e"
+                "LAG(KC_KP_PLUS)",
+                "LAG(KC_QUOTE)",
+                "LAG(KC_9)",
+                "LAG(KC_8)",
+                "LAG(KC_7)",
+                "LAG(KC_EQUAL)"
             ],
             [
                 "LSFT(KC_9)",
-                "0xc63",
-                "0xc23",
-                "0xc22",
-                "0xc21",
-                "0xc2d"
+                "LAG(KC_KP_DOT)",
+                "LAG(KC_6)",
+                "LAG(KC_5)",
+                "LAG(KC_4)",
+                "LAG(KC_MINUS)"
             ],
             [
                 "LSFT(KC_0)",
-                "0xc31",
-                "0xc20",
-                "0xc1f",
-                "0xc1e",
-                "0xc27"
+                "LAG(KC_BSLASH)",
+                "LAG(KC_3)",
+                "LAG(KC_2)",
+                "LAG(KC_1)",
+                "LAG(KC_0)"
             ],
             [
                 -1,
                 -1,
                 -1,
-                "0xc4c",
-                "0xc2a",
-                "0xc58"
+                "LAG(KC_DELETE)",
+                "LAG(KC_BSPACE)",
+                "LAG(KC_KP_ENTER)"
             ]
         ],
         [
@@ -1152,28 +1152,28 @@
         ],
         [
             [
-                "0xc35",
-                "0xc1e",
-                "0xc1f",
-                "0xc20",
-                "0xc21",
-                "0xc22"
+                "LAG(KC_GRAVE)",
+                "LAG(KC_1)",
+                "LAG(KC_2)",
+                "LAG(KC_3)",
+                "LAG(KC_4)",
+                "LAG(KC_5)"
             ],
             [
                 "KC_TRNS",
-                "0xc49",
-                "0xc4a",
-                "0xc52",
-                "0xc4d",
-                "0xc4b"
+                "LAG(KC_INSERT)",
+                "LAG(KC_HOME)",
+                "LAG(KC_UP)",
+                "LAG(KC_END)",
+                "LAG(KC_PGUP)"
             ],
             [
                 "KC_TRNS",
                 "QK_CAPS_WORD_TOGGLE",
-                "0xc50",
-                "0xc51",
-                "0xc4f",
-                "0xc4e"
+                "LAG(KC_LEFT)",
+                "LAG(KC_DOWN)",
+                "LAG(KC_RIGHT)",
+                "LAG(KC_PGDOWN)"
             ],
             [
                 "KC_TRNS",
@@ -1187,9 +1187,9 @@
                 -1,
                 -1,
                 -1,
-                "0xc29",
-                "0xc2c",
-                "0xc2b"
+                "LAG(KC_ESCAPE)",
+                "LAG(KC_SPACE)",
+                "LAG(KC_TAB)"
             ],
             [
                 "LSFT(KC_MINUS)",
@@ -1787,8 +1787,8 @@
             200
         ],
         [
-            "KC_NO",
-            "KC_NO",
+            "USER27",
+            "LCTL(KC_LALT)",
             "KC_NO",
             "KC_NO",
             200
