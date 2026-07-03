@@ -47,7 +47,6 @@
 
 #define CHORDAL_HOLD
 #ifdef ACHORDION_ENABLE
-    #pragma message("Achordion is enabled.")
     #define ACHORDION_STREAK
 #endif  // ACHORDION_ENABLE
 
