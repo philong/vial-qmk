@@ -68,7 +68,7 @@
                 "ALL_T(KC_H)"
             ],
             [
-                "KC_EQUAL",
+                "LSFT(KC_EQUAL)",
                 "KC_SLASH",
                 "KC_DOT",
                 "RSFT_T(KC_COMMA)",
@@ -143,7 +143,7 @@
             ],
             [
                 "LSFT(KC_9)",
-                "KC_KP_DOT",
+                "TD(1)",
                 "KC_6",
                 "KC_5",
                 "KC_4",
@@ -307,7 +307,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_KP_COMMA",
+                "TD(1)",
                 "LSFT(KC_6)",
                 "LSFT(KC_5)",
                 "LSFT(KC_4)",
@@ -731,8 +731,8 @@
             200
         ],
         [
-            "KC_NO",
-            "KC_NO",
+            "KC_DOT",
+            "KC_COMMA",
             "KC_NO",
             "KC_NO",
             200
