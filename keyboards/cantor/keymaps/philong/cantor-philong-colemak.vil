@@ -467,7 +467,7 @@
         [
             [
                 "USER00",
-                "LSFT(KC_INSERT)",
+                "KC_MYCM",
                 "KC_WH_L",
                 "KC_MS_U",
                 "KC_WH_R",
@@ -475,7 +475,7 @@
             ],
             [
                 "KC_TRNS",
-                "KC_CAPSLOCK",
+                "USER07",
                 "KC_MS_L",
                 "KC_MS_D",
                 "KC_MS_R",
@@ -483,11 +483,11 @@
             ],
             [
                 "KC_TRNS",
-                "KC_NO",
-                "KC_ACL0",
-                "KC_ACL1",
-                "KC_ACL2",
-                "USER07"
+                "M0",
+                "M1",
+                "M2",
+                "M3",
+                "M4"
             ],
             [
                 "KC_BTN3",
@@ -503,23 +503,23 @@
                 "KC_VOLU",
                 "KC_MUTE",
                 "KC_SLEP",
-                "KC_TRNS"
+                "KC_ACL2"
             ],
             [
-                "KC_NO",
+                "KC_MNXT",
                 "KC_RCTRL",
                 "KC_RSHIFT",
                 "KC_LALT",
                 "KC_RGUI",
-                "KC_TRNS"
+                "KC_ACL1"
             ],
             [
-                "KC_NO",
-                "KC_RALT",
-                "USER06",
-                "USER05",
-                "KC_NO",
-                "KC_TRNS"
+                "KC_MPRV",
+                "KC_WSCH",
+                "KC_WBAK",
+                "KC_WFWD",
+                "KC_WREF",
+                "KC_ACL0"
             ],
             [
                 "KC_TRNS",
@@ -1147,7 +1147,7 @@
         ],
         [
             "LT0(KC_SLASH)",
-            "RGUI_T(KC_SCLN)",
+            "RGUI_T(KC_SCOLON)",
             "KC_NO",
             "KC_NO",
             "USER25"
@@ -1515,15 +1515,6 @@
         "6": 2000,
         "7": 175,
         "8": 7,
-        "9": 10,
-        "10": 20,
-        "11": 8,
-        "12": 10,
-        "13": 30,
-        "14": 10,
-        "15": 80,
-        "16": 8,
-        "17": 40,
         "18": 0,
         "19": 80,
         "20": 5,

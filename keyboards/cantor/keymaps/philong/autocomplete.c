@@ -144,9 +144,6 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
     if (prefix_word_len <= 0 || is_end_of_sentence(prefix_word)) {
         strcpy(result, "The ");
         return 0;
-    } else if (prefix_word_len >= 1 && isspace((int)prefix_word[prefix_word_len - 1])) {
-        strcpy(result, "the ");
-        return 0;
     }
 
     char      start_letter = tolower(prefix_word[0]);
@@ -167,18 +164,26 @@ static ssize_t autocomplete(const char *prefix_word, const uint8_t *word_mods, c
             start_index = 0;
         }
 
-        // TODO: handle more special cases via a lookup table
+        const char **words;
+        size_t       words_len;
         if (start_letter == 'c' && (word_mods[0] & MOD_BIT(KC_RIGHT_ALT))) {
-            static const char  *words[] PROGMEM = {"ca va ?", "ca va, et toi ?", "ca va, merci.", NULL};
-            static const size_t words_size      = sizeof(words) / sizeof(words[0]);
-            found_index                         = autocomplete_search(words, words_size, start_index, prefix_word, prefix_word_len, result);
+            words     = c_cedilla_words;
+            words_len = c_cedilla_words_len;
         } else {
-            found_index = autocomplete_search(autocomplete_data[index], MAX_AUTOCOMPLETE, start_index, prefix_word, prefix_word_len, result);
+            words     = autocomplete_data[index];
+            words_len = MAX_AUTOCOMPLETE;
         }
+        found_index = autocomplete_search(words, words_len, start_index, prefix_word, prefix_word_len, result);
 
         if (found_index >= 0) {
-            break;
+            return found_index;
         }
+    }
+
+    // Fallback
+    if (isspace((int)prefix_word[prefix_word_len - 1])) {
+        strcpy(result, "the ");
+        return 0;
     }
 
     return found_index;
