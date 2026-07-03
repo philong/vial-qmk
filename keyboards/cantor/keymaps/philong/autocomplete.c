@@ -240,11 +240,18 @@ static bool autocomplete_search(const char **words, const char *prefix_word, con
 }
 
 static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char *result) {
-    result[0]                    = '\0';
     const size_t prefix_word_len = strlen(prefix_word);
 
     if (prefix_word_len <= 0) {
+        strcpy(result, "I ");
         return false;
+    }
+
+    const int index = prefix_word[0] - 'a';
+
+    if (index < 0 || index >= ALPHABET_SIZE) {
+        result[0] = '\0';
+        return false; // Invalid prefix
     }
 
     // TODO: handle more cases via a lookup table
@@ -254,16 +261,13 @@ static bool autocomplete(const char *prefix_word, const uint8_t *word_mods, char
         return true;
     }
 
-    const int index = prefix_word[0] - 'a';
-
-    if (index < 0 || index >= ALPHABET_SIZE) {
-        return false; // Invalid prefix
-    }
-
     bool found = autocomplete_search(autocomplete_list[index], prefix_word, prefix_word_len, result);
 
     if (!found) {
         found = autocomplete_search(extra_autocomplete_list[index], prefix_word, prefix_word_len, result);
+        if (!found) {
+            result[0] = '\0';
+        }
     }
 
     return found;
