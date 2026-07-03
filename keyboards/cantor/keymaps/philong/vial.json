@@ -104,6 +104,10 @@
          "title": "Username",
          "name": "U_USERNAME"
         },
+        {"shortName": "Toggle\nCtl/GUI",
+         "title": "Toggle Ctl/GUI",
+         "name": "U_CG_TOGG"
+        },
         {"shortName": "OS\nLCtl",
          "title": "Oneshot LCtl",
          "name": "U_OS_LCTL"
