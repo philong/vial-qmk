@@ -413,11 +413,6 @@ uint16_t get_flow_tap_term(
 
     const uint16_t tap_keycode = get_tap_keycode(keycode);
 
-    // LGui+L
-    if (prev_keycode == LGUI_T(CM_A) && tap_keycode == CM_L) {
-        return QS.flow_tap_term * 4;
-    }
-
     // home-row-mods
     switch (tap_keycode) {
         case CM_A:
@@ -479,6 +474,20 @@ uint16_t get_flow_tap_term(
 
     return 0;  // Disable Tap Flow.
 }
+
+#ifdef CHORDAL_HOLD
+bool get_chordal_hold(
+    uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record,
+    uint16_t other_keycode, keyrecord_t* other_record) {
+
+    // LGui+L screen lock protection: force LGUI_T(CM_A) to tap when CM_L is pressed
+    if (tap_hold_keycode == LGUI_T(CM_A) && get_tap_keycode(other_keycode) == CM_L) {
+        return false;
+    }
+    return get_chordal_hold_default(tap_hold_record, other_record);
+}
+#endif
+
 
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     if (IS_QK_MOD_TAP(keycode)) {
