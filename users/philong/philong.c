@@ -827,9 +827,11 @@ bool process_macros_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_caps_word_escape(uint16_t keycode, keyrecord_t *record) {
-    const uint16_t tap_keycode = get_tap_keycode(keycode);
+    if ((IS_QK_LAYER_TAP(keycode) || IS_QK_MOD_TAP(keycode)) && record->tap.count == 0) {
+        return true; // Key is being held.
+    }
 
-    if (tap_keycode == KC_ESCAPE && is_caps_word_on()) {
+    if (record->event.pressed && get_tap_keycode(keycode) == KC_ESCAPE && is_caps_word_on()) {
         caps_word_off();
         return false;
     }
