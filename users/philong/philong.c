@@ -343,7 +343,9 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
 typedef union {
     uint32_t raw;
     struct {
-        bool not_initialized : 1;
+        // Set by eeconfig_init_user(): distinguishes initialized defaults
+        // from a zeroed user datablock (raw == 0 must read as uninitialized).
+        bool initialized : 1;
         bool colemak_fr : 1;
         bool punctuation_mod: 1;
         bool quopostrokey : 1;
@@ -1373,7 +1375,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void keyboard_post_init_user(void) {
     user_config.raw = eeconfig_read_user();
 
-    if (user_config.not_initialized) {
+    if (!user_config.initialized) {
         eeconfig_init_user();
     }
 
@@ -1385,7 +1387,7 @@ void keyboard_post_init_user(void) {
 // EEPROM is getting reset.
 void eeconfig_init_user(void) {
     user_config.raw = 0;
-    user_config.not_initialized = false;
+    user_config.initialized = true;
     user_config.colemak_fr = true;
     user_config.punctuation_mod = true;
     user_config.quopostrokey = false;
