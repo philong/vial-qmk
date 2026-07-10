@@ -860,164 +860,78 @@ bool process_layer_lock_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-bool process_num_layer_override(uint16_t keycode, keyrecord_t *record) {
-    const uint8_t current_layer = get_highest_layer(layer_state);
-
-    if (current_layer == LAYER_NUM) {
-        // Zero
-        if (keycode == OSM(MOD_RALT)) {
-            if (record->event.pressed) {
-                register_code16(CM_0);
-            } else {
-                unregister_code16(CM_0);
-            }
-            return false;
+// Keycode sent instead of `keycode` while `layer` is the highest layer, or
+// KC_NO when there is no override.
+static uint16_t num_layer_override_keycode(uint8_t layer, uint16_t keycode) {
+    if (layer == LAYER_NUM) {
+        switch (keycode) {
+            case OSM(MOD_RALT):  return CM_0;           // Zero
+            case OSM(MOD_RSFT):  return CM_COMM;        // Comma
+            case U_THREE_DOTS:   return CM_DOT;         // Dot
+            case U_DOUBLE_SLASH: return KC_KP_PLUS;     // Plus
+            case CM_LBRC:        return KC_KP_SLASH;    // Slash
+            case CM_RBRC:        return KC_KP_ASTERISK; // Asterisk
+            // case CM_QUOT:        return KC_KP_MINUS;    // Minus
         }
-        // Comma
-        if (keycode == OSM(MOD_RSFT)) {
-            if (record->event.pressed) {
-                register_code16(CM_COMM);
-            } else {
-                unregister_code16(CM_COMM);
-            }
-            return false;
-        }
-        // Dot
-        if (keycode == U_THREE_DOTS) {
-            if (record->event.pressed) {
-                register_code16(CM_DOT);
-            } else {
-                unregister_code16(CM_DOT);
-            }
-            return false;
-        }
-        // Plus
-        if (keycode == U_DOUBLE_SLASH) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_PLUS);
-            } else {
-                unregister_code16(KC_KP_PLUS);
-            }
-            return false;
-        }
-        // Triple zero
-        if (keycode == CM_SCLN) {
-            if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_0) SS_TAP(X_0) SS_TAP(X_0));
-            }
-            return false;
-        }
-        // Slash
-        if (keycode == CM_LBRC) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_SLASH);
-            } else {
-                unregister_code16(KC_KP_SLASH);
-            }
-            return false;
-        }
-        // Asterisk
-        if (keycode == CM_RBRC) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_ASTERISK);
-            } else {
-                unregister_code16(KC_KP_ASTERISK);
-            }
-            return false;
-        }
-        // // Minus
-        // if (keycode == CM_QUOT) {
-        //     if (record->event.pressed) {
-        //         register_code16(KC_KP_MINUS);
-        //     } else {
-        //         unregister_code16(KC_KP_MINUS);
-        //     }
-        //     return false;
-        // }
-    } else if (current_layer == LAYER_SYM2) {
-        // Zero
-        if (keycode == U_UP_DIRECTORY) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_0);
-            } else {
-                unregister_code16(KC_KP_0);
-            }
-            return false;
-        }
-        // Comma
-        if (keycode == OSM(MOD_LSFT)) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_COMMA);
-            } else {
-                unregister_code16(KC_KP_COMMA);
-            }
-            return false;
-        }
-        // Dot
-        if (keycode == OSM(MOD_RALT)) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_DOT);
-            } else {
-                unregister_code16(KC_KP_DOT);
-            }
-            return false;
-        }
-        // Plus
-        if (keycode == U_SELECT_WORD) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_PLUS);
-            } else {
-                unregister_code16(KC_KP_PLUS);
-            }
-            return false;
-        }
-        // Triple zero
-        if (keycode == CM_LPRN) {
-            if (record->event.pressed) {
-                SEND_STRING(SS_TAP(X_KP_0) SS_TAP(X_KP_0) SS_TAP(X_KP_0));
-            }
-            return false;
-        }
-        // Slash
-        if (keycode == CM_RPRN) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_SLASH);
-            } else {
-                unregister_code16(KC_KP_SLASH);
-            }
-            return false;
-        }
-        // Asterisk
-        if (keycode == CM_GRV) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_ASTERISK);
-            } else {
-                unregister_code16(KC_KP_ASTERISK);
-            }
-            return false;
-        }
-        // Minus
-        if (keycode == U_SELECT_WORD_BACK) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_MINUS);
-            } else {
-                unregister_code16(KC_KP_MINUS);
-            }
-            return false;
-        }
-
-        // Enter
-        if (keycode == U_JOIN_LN) {
-            if (record->event.pressed) {
-                register_code16(KC_KP_ENTER);
-            } else {
-                unregister_code16(KC_KP_ENTER);
-            }
-            return false;
+    } else if (layer == LAYER_SYM2) {
+        switch (keycode) {
+            case U_UP_DIRECTORY:     return KC_KP_0;        // Zero
+            case OSM(MOD_LSFT):      return KC_KP_COMMA;    // Comma
+            case OSM(MOD_RALT):      return KC_KP_DOT;      // Dot
+            case U_SELECT_WORD:      return KC_KP_PLUS;     // Plus
+            case CM_RPRN:            return KC_KP_SLASH;    // Slash
+            case CM_GRV:             return KC_KP_ASTERISK; // Asterisk
+            case U_SELECT_WORD_BACK: return KC_KP_MINUS;    // Minus
+            case U_JOIN_LN:          return KC_KP_ENTER;    // Enter
         }
     }
+    return KC_NO;
+}
 
-    return true;
+bool process_num_layer_override(uint16_t keycode, keyrecord_t *record) {
+    // Overrides registered on press: their release must be matched even after
+    // the layer was left (e.g. layer key released first), otherwise the
+    // override keycode gets stuck.
+    static uint16_t held_inputs[4];
+    static uint16_t held_outputs[4];
+
+    if (!record->event.pressed) {
+        for (size_t i = 0; i < ARRAY_SIZE(held_inputs); ++i) {
+            if (held_inputs[i] == keycode) {
+                unregister_code16(held_outputs[i]);
+                held_inputs[i] = KC_NO;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const uint8_t current_layer = get_highest_layer(layer_state);
+
+    // Triple zero
+    if (current_layer == LAYER_NUM && keycode == CM_SCLN) {
+        SEND_STRING(SS_TAP(X_0) SS_TAP(X_0) SS_TAP(X_0));
+        return false;
+    }
+    if (current_layer == LAYER_SYM2 && keycode == CM_LPRN) {
+        SEND_STRING(SS_TAP(X_KP_0) SS_TAP(X_KP_0) SS_TAP(X_KP_0));
+        return false;
+    }
+
+    const uint16_t override = num_layer_override_keycode(current_layer, keycode);
+    if (override == KC_NO) {
+        return true;
+    }
+
+    register_code16(override);
+    for (size_t i = 0; i < ARRAY_SIZE(held_inputs); ++i) {
+        if (held_inputs[i] == KC_NO) {
+            held_inputs[i]  = keycode;
+            held_outputs[i] = override;
+            break;
+        }
+    }
+    return false;
 }
 
 // Allow mod after releasing nav layer while not releasing a nav key.
