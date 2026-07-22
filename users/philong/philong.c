@@ -387,7 +387,7 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
             return send_key_with_ralt('a', 'r', mods, shifted);
         case CM_P:
             return send_key_with_ralt('e', 'r', mods, shifted);
-        case CM_L:
+        case CM_U:
             return send_key_with_ralt('u', 'r', mods, shifted);
         // circonflexe
         case CM_Q:
@@ -398,7 +398,7 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
             return send_key_with_ralt('i', 'x', mods, shifted);
         case CM_O:
             return send_key_with_ralt('o', 'x', mods, shifted);
-        case CM_U:
+        case CM_L:
             return send_key_with_ralt('u', 'x', mods, shifted);
         // tréma
         case CM_W:
