@@ -1,5 +1,1 @@
-VIA_ENABLE = yes
-VIAL_ENABLE = yes
-
-LTO_ENABLE = yes
-AUTOCORRECT_ENABLE = yes
+include users/philong/rules.mk
