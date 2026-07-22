@@ -1295,12 +1295,21 @@ bool process_quopostrokey(uint16_t keycode, keyrecord_t *record, uint16_t toggle
     }
 
     if (keycode == U_QUOPOSTROKEY) {
+        static bool quot_registered = false;
+
         if (record->event.pressed) {
-            if (within_word) {
+            const uint8_t mods = get_mods() | get_oneshot_mods() | get_weak_mods();
+            if (mods != 0) {
+                register_code(KC_QUOT);
+                quot_registered = true;
+            } else if (within_word) {
                 tap_code(KC_QUOT);
             } else {
                 SEND_STRING("\"\"" SS_TAP(X_LEFT));
             }
+        } else if (quot_registered) {
+            unregister_code(KC_QUOT);
+            quot_registered = false;
         }
         return false;
     }
