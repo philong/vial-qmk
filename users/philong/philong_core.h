@@ -77,6 +77,19 @@ enum user_keycode {
 #define U_CM_TOGG U_FR_TOGG
 #define U_EURKEY_FR_TOGG U_FR_TOGG
 
+#ifndef CM_SCLN
+#    define CM_SCLN KC_SCLN
+#endif
+#ifndef CM_COMM
+#    define CM_COMM KC_COMM
+#endif
+#ifndef CM_QUOT
+#    define CM_QUOT KC_QUOT
+#endif
+#ifndef CM_SLSH
+#    define CM_SLSH KC_SLSH
+#endif
+
 #define _______ KC_TRNS
 
 typedef union {

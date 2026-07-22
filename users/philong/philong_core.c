@@ -501,7 +501,7 @@ bool process_num_layer_override(uint16_t keycode, keyrecord_t *record) {
     const uint8_t current_layer = get_highest_layer(layer_state);
 
     // Triple zero
-    if (current_layer == LAYER_NUM && keycode == KC_SCLN) {
+    if (current_layer == LAYER_NUM && keycode == CM_SCLN) {
         SEND_STRING(SS_TAP(X_0) SS_TAP(X_0) SS_TAP(X_0));
         return false;
     }
@@ -644,7 +644,7 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
     const uint8_t mods     = get_mods();
     const uint8_t all_mods = mods | get_weak_mods() | get_oneshot_mods();
 
-    if (!all_mods && (is_alpha(tap_keycode) || tap_keycode == KC_QUOT || tap_keycode == KC_SLSH)) {
+    if (!all_mods && (is_alpha(tap_keycode) || tap_keycode == CM_QUOT || tap_keycode == CM_SLSH)) {
         last_keycode = KC_NO;
 
         const bool shifted_ralted = (comma_count == 0 && scln_count == 2) || (comma_count == 1 && scln_count == 1);
@@ -681,12 +681,12 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
     }
 
     switch (tap_keycode) {
-        case KC_COMM:
+        case CM_COMM:
             timer = timer_read_fast();
             ++comma_count;
 
             // ,, -> ,,
-            if (last_keycode == KC_COMM && comma_count == 2 && scln_count == 0) {
+            if (last_keycode == CM_COMM && comma_count == 2 && scln_count == 0) {
                 last_keycode = KC_NO;
                 comma_count = 0;
                 scln_count = 0;
@@ -694,7 +694,7 @@ bool process_punctuation_mod(uint16_t keycode, keyrecord_t *record, uint16_t tog
                 return false;
             }
             break;
-        case KC_SCLN:
+        case CM_SCLN:
             timer = timer_read_fast();
             ++scln_count;
             break;
