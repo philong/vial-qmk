@@ -407,6 +407,9 @@ bool process_colemak_fr(uint16_t keycode, keyrecord_t *record, uint16_t toggle_k
             return send_key_with_ralt('i', 'd', mods, shifted);
         case CM_SCLN:
             return send_key_with_ralt('u', 'd', mods, shifted);
+        // aigu
+        case CM_S:
+            return send_key_with_ralt('e', 't', mods, shifted);
         default:
             return true;
     }
