@@ -196,7 +196,7 @@ static void write_vial_default_combos(void) {
 static void write_qmk_settings_defaults(void) {
     const uint8_t  enabled        = 1;
     const uint16_t quick_tap_term = 0;
-    const uint16_t flow_tap_term  = 10;
+    const uint16_t flow_tap_term  = 100;
     const uint32_t magic          = 1 << 7; // NKRO
 
     qmk_settings_set(22, &enabled, sizeof(enabled));               // permissive hold
